@@ -1,0 +1,19 @@
+Visual Studio Code
+Python Extension
+Current Version of Python install
+pip pylint
+pip virtualenv
+windows: env\Scripts\activate.bat
+pip install django
+https://automationpanda.com/2018/02/08/django-projects-in-visual-studio-code/ -- python syntax
+deactivate backend
+go to frontend 
+install Node.js
+create-react-app facebook github requires node
+	https://github.com/facebook/create-react-app
+backend -> env 
+		-> src -> djreact
+			   -> manage.py
+			   
+python manage.py runserver
+python manage.py migrate
