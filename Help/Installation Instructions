@@ -12,8 +12,8 @@ install Node.js
 create-react-app facebook github requires node
 	https://github.com/facebook/create-react-app
 backend -> env 
-		-> src -> djreact
-			   -> manage.py
+	-> src -> djreact
+	       -> manage.py
 			   
 python manage.py runserver
 python manage.py migrate
