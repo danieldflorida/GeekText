@@ -20,8 +20,11 @@ class HomePage extends React.Component {
     }
 
     render( ) {
-        return( 
-            <Login></Login>
+        return(
+            <div align="right">
+                <Login></Login>
+            </div> 
+            
         )
     } 
 

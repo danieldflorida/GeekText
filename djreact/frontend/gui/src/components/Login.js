@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import CustomLayout from '../containers/Layout' ;
+//import CustomLayout from '../containers/Layout' ;
 
 
 class Login extends Component {
