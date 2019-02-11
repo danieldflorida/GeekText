@@ -22,7 +22,14 @@ class BookDetail extends React.Component {
     render( ) {
         return( 
             <Card title = {this.state.book.title}>
-                <p>{this.state.book.content}</p>
+                <p>Price: ${this.state.book.price}</p>
+                <img src={ this.state.book.cover } alt="cover"/>
+                <div>
+                <p>Genre: {this.state.book.genre}</p>
+                <p>{this.state.book.description}</p>
+                <p>Publisher: {this.state.book.publisher}</p>
+                <p>Publication Date: {this.state.book.publicationDate}</p>
+                </div>
             </Card>
         )
     } 
