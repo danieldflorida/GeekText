@@ -8,10 +8,13 @@ class Login extends Component {
     super(props);
     this.state = { //Setting different state values here
       Username: '',
-      Password: ''
+      Password: '',
+      passwordStrength: '',
+      submission: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.loginClick = this.loginClick.bind(this);
   }
 
   handleInputChange(event) {
@@ -24,10 +27,40 @@ class Login extends Component {
     });
   }
 
+  loginClick(){
+    //verifies login credentials
+    this.setState({
+      submission : true
+    })
+  }
+
+  //Move this to account creation page
+  verifyPasswordStrength(){
+    //Include a minimum length of 8 characters, at least one uppercase, lowercase, and special character.
+    //These are the four preconditions
+    const prec = 3 //this would be a state variable
+
+    if(prec == 0)
+    {
+      this.setState({
+        passwordStrength: 'Very Strong'
+        
+      })//remove the error display for not passing the preconditions
+    }
+    else if(prec == 1)
+      this.setState({passwordStrength: 'Strong'})
+    else if(prec == 2)
+      this.setState({passwordStrength: 'OK'})
+    else if(prec == 3)
+      this.setState({passwordStrength: 'Weak'})
+
+  }
+  
   render() {
+    
     return (
       <form>
-        <br />
+        
         <label> 
           Username: &nbsp; {/*This is a space delimiter */}
           <input 
@@ -36,8 +69,7 @@ class Login extends Component {
             value={this.state.Username} 
             onChange={this.handleInputChange} />
         </label>
-        <br />
-        <br />
+        <br/>        
         <label>
           Password: &nbsp;
           <input
@@ -46,8 +78,10 @@ class Login extends Component {
             value={this.state.Password}
             onChange={this.handleInputChange} />
         </label>
-        <br />
-        <input type="Submit" value="Submit" />
+        <br/>
+        {/*<input type="Submit" value="Submit" />*/}
+        <button onClick = {this.loginClick}>Login</button>
+        <p>Debug: {this.state.submission === true ? "true":"false"}</p>
         {//Need a way to handle login submissions to verify
         //Needs to be able to communicate with Django backend
         }
