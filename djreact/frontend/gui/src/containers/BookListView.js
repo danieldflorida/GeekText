@@ -14,7 +14,7 @@ class BookList extends React.Component {
                 this.setState({
                     books: res.data
                 });
-                console.log( res.data ) ;
+               // console.log( res.data ) ;
             })
     }
 

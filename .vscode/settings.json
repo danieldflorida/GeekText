@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/Users/danielochoa/anaconda/bin/python",
+    "python.venvPath": "${workspaceFolder}/backend/env/bin/python3"
+}

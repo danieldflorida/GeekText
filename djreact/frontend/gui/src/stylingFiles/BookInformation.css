@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    width: 1000px;
+    margin: auto;
+    justify-content: space-around;
+}
+
+.left-container {
+    margin: 20px;
+    flex: 1px;
+    min-width: 450px;
+}
+
+.bkCover {
+    margin: 20px;
+    flex: 1px;
+    min-width: 80px;
+}
+
+
+.right-container {
+    margin: 20px;
+    flex: 1px;
+    min-width: 10px;
+}
+
+.price {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.overview{
+    font-size: 16px;
+    font-weight: bold;
+}
