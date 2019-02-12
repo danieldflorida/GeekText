@@ -11,10 +11,11 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         //use this method to display a user's profile in the corner perhaps?
-        axios.get( `http://127.0.0.1:8000/api/` )
+        const username = this.props.match.params.username;
+        axios.get( `http://127.0.0.1:8000/api/users/${username}` )
             .then( res => {
                 this.setState({
-                    
+                    //user: res.data
                 });
             })
     }

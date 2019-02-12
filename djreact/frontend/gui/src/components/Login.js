@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import axios from 'axios'
 //import CustomLayout from '../containers/Layout' ;
 
 
@@ -27,11 +27,25 @@ class Login extends Component {
     });
   }
 
-  loginClick(){
+  loginClick(user, pass){
     //verifies login credentials
+    //localStorage.getItem('users', users)
+    axios.get( `http://127.0.0.1:8000/api/users/1` )
+            .then( res => {
+              console.log("request success")
+                if(pass == res.data.pass)
+                  console.log("User exists with correct password")
+            }) 
+            .catch(function (error) {
+              console.log(error)
+              console.log("Username or password is incorrect")
+            })
+
+            console.log('login')
+       /*   
     this.setState({
       submission : true
-    })
+    })*/
   }
 
   //Move this to account creation page
@@ -57,7 +71,6 @@ class Login extends Component {
   }
   
   render() {
-    
     return (
       <form>
         
@@ -80,7 +93,7 @@ class Login extends Component {
         </label>
         <br/>
         {/*<input type="Submit" value="Submit" />*/}
-        <button onClick = {this.loginClick}>Login</button>
+        <button onClick = {this.loginClick(this.state.Username, this.state.Password)}>Login</button>
         <p>Debug: {this.state.submission === true ? "true":"false"}</p>
         {//Need a way to handle login submissions to verify
         //Needs to be able to communicate with Django backend

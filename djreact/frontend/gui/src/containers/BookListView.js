@@ -9,7 +9,7 @@ class BookList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get( 'http://127.0.0.1:8000/api/')
+        axios.get( 'http://127.0.0.1:8000/api/books')
             .then( res => {
                 this.setState({
                     books: res.data
