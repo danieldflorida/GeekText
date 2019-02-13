@@ -2,6 +2,8 @@ import React from 'react'
 import axios from 'axios'
 
 import Login from '../components/Login'
+import { Tabs } from 'antd'
+import AccountCreation from '../components/AccountCreation';
 
 class HomePage extends React.Component {
 
@@ -22,8 +24,25 @@ class HomePage extends React.Component {
 
     render( ) {
         return(
-            <div align="right">
-                <Login></Login>
+            <div className="loginBlock" align="middle">
+                <Tabs
+                    id="loginBlock"
+                    type="card" 
+                    tabPosition="top"
+                    defaultActiveKey="login">
+                    <Tabs.TabPane
+                    key="login" 
+                    tab="Login">
+                        <Login/>
+                    </Tabs.TabPane>
+                    <Tabs.TabPane
+                    key="createAccount"
+                    tab="Create Account">
+                        <AccountCreation/>
+                    </Tabs.TabPane>
+                </Tabs>;
+                
+                
             </div> 
             
         )

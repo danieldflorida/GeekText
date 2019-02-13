@@ -9,8 +9,7 @@ class Login extends Component {
     this.state = { //Setting different state values here
       Username: '',
       Password: '',
-      passwordStrength: '',
-      submission: false
+      loggedIn: false
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -30,52 +29,31 @@ class Login extends Component {
   loginClick(user, pass){
     //verifies login credentials
     //localStorage.getItem('users', users)
-    axios.get( `http://127.0.0.1:8000/api/users/1` )
+    axios.get( `http://127.0.0.1:8000/api/users/${user}` )
             .then( res => {
               console.log("request success")
-                if(pass == res.data.pass)
+                if(pass == res.data.password)
+                {
                   console.log("User exists with correct password")
+                  this.setState({
+                    loggedIn: true
+                  })
+                }
+                  
             }) 
             .catch(function (error) {
               console.log(error)
               console.log("Username or password is incorrect")
             })
 
-            console.log('login')
-       /*   
-    this.setState({
-      submission : true
-    })*/
   }
 
-  //Move this to account creation page
-  verifyPasswordStrength(){
-    //Include a minimum length of 8 characters, at least one uppercase, lowercase, and special character.
-    //These are the four preconditions
-    const prec = 3 //this would be a state variable
-
-    if(prec == 0)
-    {
-      this.setState({
-        passwordStrength: 'Very Strong'
-        
-      })//remove the error display for not passing the preconditions
-    }
-    else if(prec == 1)
-      this.setState({passwordStrength: 'Strong'})
-    else if(prec == 2)
-      this.setState({passwordStrength: 'OK'})
-    else if(prec == 3)
-      this.setState({passwordStrength: 'Weak'})
-
-  }
   
   render() {
     return (
       <form>
-        
         <label> 
-          Username: &nbsp; {/*This is a space delimiter */}
+          Username: &nbsp;
           <input 
             name="Username"
             type="text"
@@ -93,13 +71,11 @@ class Login extends Component {
         </label>
         <br/>
         {/*<input type="Submit" value="Submit" />*/}
-        <button onClick = {this.loginClick(this.state.Username, this.state.Password)}>Login</button>
-        <p>Debug: {this.state.submission === true ? "true":"false"}</p>
-        {//Need a way to handle login submissions to verify
-        //Needs to be able to communicate with Django backend
-        }
+        <button 
+          onClick = {
+            function(event){this.loginClick.bind(this, this.state.Username, this.state.Password)}}>Login</button>
       </form>
-    );
+    )
   }
 }
 
