@@ -10,8 +10,18 @@ class Book(models.Model):
     description = models.TextField(null=True)
     publisher = models.CharField(max_length=120, null=True)
     publicationDate = models.DateField(null=True)
-
-
+    ISBNThirteen = models.CharField(max_length=14, null=True)
+    ISBNTen = models.CharField(max_length=11, null=True)
+    pages = models.IntegerField(null=True)
+    authors = models.ManyToManyField('Author', blank=False)
 
     def __str__(self):
         return self.title
+
+
+class Author(models.Model):
+    name = models.CharField(max_length=120, null=False)
+    biography = models.TextField(null=True)
+
+    def __str__(self):
+        return self.name

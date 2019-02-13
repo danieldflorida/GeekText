@@ -3,7 +3,7 @@ import axios from 'axios'
 
 //import { Card } from 'antd'
 
-import  BookInfo  from '../components/BookInformation'
+import  BookInfo  from '../components/BookDetail'
 
 class BookDetail extends React.Component {
 
