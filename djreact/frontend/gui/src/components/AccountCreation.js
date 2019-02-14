@@ -16,29 +16,24 @@ constructor (props)
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.verifyPassword = this.verifyPassword.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.createAccount = this.createAccount.bind(this);
 }
 
-handleChange(event) {
-    const name = event.target.name;
-    this.setState({[name]: event.target.value});
-  }
-
 handleInputChange(event) {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value; //checks if the state is not a checkbox
+    const value = target.value;
     const name = target.name;
     
     this.setState({
       [name]: value
     });
+    
   }
 
   verifyPassword(){
     const pass = this.state.password;
     //console.log(pass)
-    console.log(pass.includes("p"));
+    
     if(pass != this.state.passwordCheck)
     {
         console.log('Passwords are not the same!')
@@ -80,13 +75,13 @@ handleInputChange(event) {
     while(i < pass.length)
     {
         
-        if(pass.CharAt(i) === pass.CharAt(i).toUpperCase() && upper === false)
+        if(pass.charAt(i) === pass.charAt(i).toUpperCase() && upper === false)
         {
             upper = true;
             prec--;
         }
         
-        if(pass.CharAt(i) === pass.CharAt(i).toLowerCase() && lower === false)
+        if(pass.charAt(i) === pass.charAt(i).toLowerCase() && lower === false)
         {
             lower = true;
             prec--;
@@ -119,8 +114,8 @@ handleInputChange(event) {
 
   }
 //Used in onClick
-  createAccount(e)
-    {
+createAccount(e)
+{
         e.preventDefault();
         //Check if user or email exists
         /*Axios.get( `http://127.0.0.1:8000/api/users/${this.state.username}` )
@@ -143,47 +138,51 @@ handleInputChange(event) {
 
         }
 
-    }
+}
 
-  
+componentDidUpdate()
+{
+    
+}
 
-render() {
+render() 
+{
     return(
         <form>
             <label>
                 E-mail &nbsp;
                 <input 
-                    name="E-mail"
+                    name="email"
                     type="text"
                     value={this.state.email}
-                    onChange={this.handleChange}
+                    onChange={this.handleInputChange}
                      />
             </label>
             <br/>
             <label>
                 Username &nbsp;
                 <input 
-                name="Username"
+                name="username"
                 type="text"
-                //value={this.state.username}
+                value={this.state.username}
                 onChange={this.handleInputChange} />
             </label>
             <br/>
             <label>
                 Password &nbsp;
                 <input 
-                name="Password"
+                name="password"
                 type="text"
-                //value={this.state.password}
+                value={this.state.password}
                 onChange={this.handleInputChange} />
             </label>
             <br/>
             <label>
                 Re-enter Password &nbsp;
                 <input 
-                name="PasswordCheck"
+                name="passwordCheck"
                 type="text"
-                //value={this.state.passwordCheck}
+                value={this.state.passwordCheck}
                 onChange={this.handleInputChange} /> 
             </label>
             <br/>
