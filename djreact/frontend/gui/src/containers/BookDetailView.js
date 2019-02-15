@@ -1,7 +1,9 @@
 import React from 'react' 
 import axios from 'axios'
 
-import { Card } from 'antd'
+//import { Card } from 'antd'
+
+import  BookInfo  from '../components/BookDetail'
 
 class BookDetail extends React.Component {
 
@@ -21,9 +23,9 @@ class BookDetail extends React.Component {
 
     render( ) {
         return( 
-            <Card title = {this.state.book.title}>
-                <p>{this.state.book.content}</p>
-            </Card>
+            <BookInfo data = {this.state.book}/>
+
+           
         )
     } 
 

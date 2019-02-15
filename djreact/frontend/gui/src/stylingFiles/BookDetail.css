@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    width: 1000px;
+    margin: auto;
+    justify-content: space-around;
+}
+
+.left-container {
+    margin: 20px;
+    flex: 1px;
+    min-width: 450px;
+}
+
+.bkCover {
+    margin: 20px;
+    flex: 1px;
+    min-width: 80px;
+}
+
+
+.right-container {
+    margin: 20px;
+    flex: 1px;
+    min-width: 10px;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.overview-header{
+    text-align: center
+}
+
+.overview{
+    margin: 20px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding:20px;
+    text-align: center;
+    
+}
