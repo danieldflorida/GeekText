@@ -3,6 +3,9 @@ import axios from 'axios'
 
 import { Card } from 'antd'
 
+import { Link } from 'react-router-dom'
+
+
 class BookDetail extends React.Component {
 
     state = { 
@@ -23,6 +26,9 @@ class BookDetail extends React.Component {
         return( 
             <Card title = {this.state.book.title}>
                 <p>{this.state.book.content}</p>
+
+                <p><Link to="/cart">Add Book to Cart</Link></p>
+
             </Card>
         )
     } 

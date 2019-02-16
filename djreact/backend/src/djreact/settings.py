@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'books',
-    'corsheaders'
+    'corsheaders',
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -128,8 +129,10 @@ MEDIA_ROOT = os.path.join( os.path.dirname( BASE_DIR ), 'src' )
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny'
     ]
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CART_SES_ID = 'cart'

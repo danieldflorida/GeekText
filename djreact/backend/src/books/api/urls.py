@@ -7,6 +7,7 @@ from .views import BookListView, BookDetailView
 
 urlpatterns = [
     path('', BookListView.as_view()),
-    path('<pk>', BookDetailView.as_view())
+    path('<pk>', BookDetailView.as_view()),
+    path('<pk>/add_to_cart', BookDetailView.as_view())
 ] + static( settings.MEDIA_URL )
 
