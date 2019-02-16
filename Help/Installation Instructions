@@ -1,3 +1,5 @@
+https://youtu.be/uZgRbnIsgrA
+
 Visual Studio Code
 Python Extension
 Current Version of Python install
@@ -17,3 +19,5 @@ backend -> env
 			   
 python manage.py runserver
 python manage.py migrate
+
+only abouy half way through tutorial, does not include front end work.
