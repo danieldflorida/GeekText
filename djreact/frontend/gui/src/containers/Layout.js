@@ -17,7 +17,7 @@ const CustomLayout = ( props ) => {
             >
                 <Menu.Item key="1"><Link to="/">Home</Link></Menu.Item>
                 <Menu.Item key="2">nav 2</Menu.Item>
-                <Menu.Item key="3"><Link to="/cart">Shopping Cart</Link></Menu.Item>
+                <Menu.Item key="3"><Link to="/carts">Shopping Cart</Link></Menu.Item>
             </Menu>
             </Header>
             <Content style={{ padding: '0 50px' }}>
