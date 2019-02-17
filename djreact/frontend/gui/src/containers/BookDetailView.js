@@ -1,10 +1,9 @@
 import React from 'react' 
 import axios from 'axios'
 
-import { Card, Button } from 'antd'
+import { Card } from 'antd'
 
-import { Link } from 'react-router-dom'
-import Axios from 'axios';
+import { Link } from 'react'
 
 
 class BookDetail extends React.Component {
@@ -23,15 +22,20 @@ class BookDetail extends React.Component {
             })
     }
 
-    handleClick(){ 
-        axios.put('http://127.0.0.1:8000/carts/3/add_to_cart' `"book_id":${this.state.book.bookID}` )
+    handleClick() { 
+        axios.put("http://127.0.0.1:8000/carts/3/add_to_cart/", `{"book_id":${this.state.book.bookID}}`,{headers: {"Content-Type": "application/json"}}  )
     }
 
+    
+
     render( ) {
+        
         return( 
             <Card title = {this.state.book.title}>
-                <p>{this.state.book.content}</p>
-                <Link to="carts" onClick={ this.handleClick }>Add this Book To Your Cart</Link>
+                <p>
+                {this.state.book.content} <br/>
+                <a to="/carts" onClick={ () => this.handleClick() }>Add this Book To Your Cart</a>
+                </p>
             </Card>
         )
     } 

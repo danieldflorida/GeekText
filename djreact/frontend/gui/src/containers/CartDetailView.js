@@ -1,6 +1,5 @@
 import React from 'react' 
 import axios from 'axios'
-import Cart from '../components/Cart'
 
 import { List } from 'antd'
 
