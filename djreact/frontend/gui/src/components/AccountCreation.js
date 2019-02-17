@@ -34,11 +34,7 @@ handleInputChange(event) {
     const pass = this.state.password;
     //console.log(pass)
     
-    if(pass != this.state.passwordCheck)
-    {
-        console.log('Passwords are not the same!')
-        return false
-    }
+   
     //Make sure that it cannot have spaces or certain chars
     if(pass.includes(' ') || pass.includes('/')
     || pass.includes('\\') || pass.includes('<')
@@ -54,13 +50,17 @@ handleInputChange(event) {
      //Include a minimum length of 8 characters, at least one uppercase, lowercase, and special character.
     //These are the four preconditions
     
-    var prec = 3 //this would be a state variable
+    var prec = 4 //this would be a state variable
     if(pass.length >= 8)
     {
         prec--
         console.log('Password greater than 8')
     }
-        
+    else
+    {
+        console.log('Password not greater than 8 characters')
+    }
+
     if(pass.includes('!') || pass.includes('@') 
     || pass.includes('#') || pass.includes('$') 
     || pass.includes('%') || pass.includes('^')
@@ -71,6 +71,11 @@ handleInputChange(event) {
         prec--
         console.log('Password includes special character.')
     }
+    else
+    {
+        console.log('Password needs at least one special character')
+    }
+
     var i = 0, upper = false, lower = false;
     while(i < pass.length)
     {
@@ -86,13 +91,26 @@ handleInputChange(event) {
             lower = true;
             prec--;
         }
+        i++
     }
 
+    if(!lower || !upper)
+    {
+        console.log('Password needs upper and lowercase letters.')
+    }
+    //console.log('Preconditions: ' + prec)
+
+    if(pass !== this.state.passwordCheck)
+    {
+        console.log('Passwords are not the same!')
+        return false
+    }
+
+    //PRINT PASSWORD STRENGTH HERE
+    
     if(prec === 0)
     {
-      this.setState({
-        passwordStrength: 'Very Strong'
-      })//remove the error display for not passing the preconditions
+      this.setState({ passwordStrength: 'Very Strong'})
       return true
     }
     else if(prec === 1)
@@ -110,45 +128,70 @@ handleInputChange(event) {
         this.setState({passwordStrength: 'Weak'})
         return false
     }
-    console.log(this.state.passwordStrength)
 
+    return false
+  }
+
+  printPasswordStrength(event)
+  {
+    
   }
 //Used in onClick
 createAccount(e)
 {
         e.preventDefault();
         //Check if user or email exists
-        /*Axios.get( `http://127.0.0.1:8000/api/users/${this.state.username}` )
+        /*
+        Axios.get( `http://127.0.0.1:8000/api/users/${this.state.username}` )
         .then( res => {
             console.log('Username already exists')
             return
-        })*/
-        console.log(this.verifyPassword())
+        })
+        */
+        console.log('Password verified: ' + this.verifyPassword())
         if(this.verifyPassword() === true)
         {
-            Axios.post(`http://127.0.0.1:8000/api/users/`, {
+            Axios.post('http://127.0.0.1:8000/api/users/', {
                 username: this.state.username,
                 password: this.state.password,
                 email: this.state.email
             })
-            .catch(function(error){
-                console.log(error)
-                console.log('Could not post')
+            .then(res => {
+                console.log(res)
             })
-
+            .catch(error => {
+                console.error(error)
+            })
+            //PUT used to update api
+            /*
+            Axios.put(`http://127.0.0.1:8000/api/users/${this.state.username}/`, {
+                username: this.state.username,
+                password: this.state.password,
+                email: this.state.email
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(error => {
+                console.error(error)
+            })*/
         }
-
+        else
+        {
+            
+        }
 }
 
-componentDidUpdate()
-{
-    
-}
+
 
 render() 
 {
     return(
         <form>
+            <font color="red">
+                <strong></strong>
+            </font>
+            <br/>
             <label>
                 E-mail &nbsp;
                 <input 
@@ -175,6 +218,7 @@ render()
                 type="text"
                 value={this.state.password}
                 onChange={this.handleInputChange} />
+                
             </label>
             <br/>
             <label>
@@ -187,6 +231,7 @@ render()
             </label>
             <br/>
             <button 
+            type="button"
             onClick={e => {this.createAccount(e)}}>Create</button>
         </form>  
     )

@@ -26,13 +26,14 @@ class Login extends Component {
     });
   }
 
-  loginClick(user, pass){
+  loginClick(e, user, pass){
+    e.preventDefault();
     //verifies login credentials
     //localStorage.getItem('users', users)
     axios.get( `http://127.0.0.1:8000/api/users/${user}` )
             .then( res => {
               console.log("request success")
-                if(pass == res.data.password)
+                if(pass === res.data.password)
                 {
                   console.log("User exists with correct password")
                   this.setState({
@@ -45,36 +46,39 @@ class Login extends Component {
               console.log(error)
               console.log("Username or password is incorrect")
             })
-
+            
   }
 
   
   render() {
     return (
-      <form>
-        <label> 
-          Username: &nbsp;
-          <input 
-            name="Username"
-            type="text"
-            value={this.state.Username} 
-            onChange={this.handleInputChange} />
-        </label>
-        <br/>        
-        <label>
-          Password: &nbsp;
-          <input
-            name="Password"
-            type="text"
-            value={this.state.Password}
-            onChange={this.handleInputChange} />
-        </label>
-        <br/>
-        {/*<input type="Submit" value="Submit" />*/}
-        <button 
-          onClick = {
-            function(event){this.loginClick.bind(this, this.state.Username, this.state.Password)}}>Login</button>
-      </form>
+      <div>
+        <form>
+          <label> 
+            Username: &nbsp;
+            <input 
+              name="Username"
+              type="text"
+              value={this.state.Username} 
+              onChange={this.handleInputChange} />
+          </label>
+          <br/>        
+          <label>
+            Password: &nbsp;
+            <input
+              name="Password"
+              type="text" 
+              value={this.state.Password}
+              onChange={this.handleInputChange} />
+          </label>
+          <br/>
+          {/*<input type="Submit" value="Submit" />*/}
+          <button 
+            onClick = {
+              e => {this.loginClick(e, this.state.Username, this.state.Password)}}>Login</button>
+        </form>
+        <strong>Logged In: {(this.state.loggedIn).toString()}</strong>
+      </div>
     )
   }
 }
