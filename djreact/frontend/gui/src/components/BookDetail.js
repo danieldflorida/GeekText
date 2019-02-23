@@ -1,4 +1,5 @@
 import React from 'react' 
+import BookCover from './EnlargeCover'
 
 
 import '../stylingFiles/BookDetail.css'
@@ -13,7 +14,8 @@ import '../stylingFiles/BookDetail.css'
             <div className="container">
         
                 <div className="left-container">
-                    <img src={ this.props.data.cover } className="bkCover" alt="cover" height="550" width="406"/>
+                    {/*<img src={ this.props.data.cover } className="bkCover" alt="cover" height="550" width="406"/>*/}
+                    <BookCover data = {this.props.data.cover}/>
                     <span>{this.props.data.pages} pages</span><br></br>
                     <span>ISBN-10: {this.props.data.ISBNTen} </span><br></br>
                     <span>ISBN-13: {this.props.data.ISBNThirteen} </span><br></br>
