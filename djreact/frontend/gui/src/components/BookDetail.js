@@ -1,20 +1,52 @@
 import React from 'react' 
 import BookCover from './EnlargeCover'
+import MyVerticallyCenteredModal from './EnlargeCover'
+
+import Button from 'react-bootstrap/Button'
+import ButtonToolbar from 'react-bootstrap/Button'
 
 
-import '../stylingFiles/BookDetail.css'
+
 
  class BookInfo extends React.Component {
-  
+    constructor(...args) {
+        super(...args);
+    
+        this.state = { modalShow: false };
+      }
     
    render (){
+    let modalClose = () => this.setState({ modalShow: false });
        return(
         
         <div>
+
+    
             <div className="container">
         
                 <div className="left-container">
-                    {/*<img src={ this.props.data.cover } className="bkCover" alt="cover" height="550" width="406"/>*/}
+                    <img src={ this.props.data.cover } onClick={() => this.setState({ modalShow: true })} className="bkCover" alt="cover" height="406" width="300"/>
+
+                    <MyVerticallyCenteredModal
+                        show={this.state.modalShow}
+                        onHide={modalClose}
+                        data = {this.props.data.cover}
+                    />
+         {/*           
+        <ButtonToolbar>
+        <Button
+          variant="primary"
+          onClick={() => this.setState({ modalShow: true })}
+        >
+          Launch vertically centered modal
+        </Button>
+
+        <MyVerticallyCenteredModal
+          show={this.state.modalShow}
+          onHide={modalClose}
+        />
+      </ButtonToolbar>
+         */}
                     <BookCover data = {this.props.data.cover}/>
                     <span>{this.props.data.pages} pages</span><br></br>
                     <span>ISBN-10: {this.props.data.ISBNTen} </span><br></br>
