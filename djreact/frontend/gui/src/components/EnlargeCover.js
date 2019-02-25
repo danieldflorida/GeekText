@@ -52,32 +52,30 @@ export default BookCover;
 class MyVerticallyCenteredModal extends React.Component {
     render() {
       return (
+        <div className="modal-container">
         <Modal
         {...this.props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
          >
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h4>Centered Modal</h4>
-          <img src={ this.props.data } className="bkCover" alt="cover" height="550" width="406"/>
-          {/*
-          <p>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </p>
-          */}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.props.onHide}>Close</Button>
-        </Modal.Footer>
+        <div className="header-container">
+          <div className="header-button">
+            <Modal.Header closeButton>            
+            </Modal.Header>
+          </div>
+        </div>
+        
+        
+          <Modal.Body>         
+            <div className="coverContainer">
+            <img src={ this.props.data } className="bkCoverLarge" alt="cover" height="550" width="406"/>
+            </div> 
+          </Modal.Body>
+      
+
       </Modal>
+      </div>
       );
     }
   }

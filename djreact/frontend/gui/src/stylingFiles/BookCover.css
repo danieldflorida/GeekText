@@ -1,12 +1,34 @@
-.modal-dialog {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: unquote("calc(100vh - 20px)");
+.modal-container {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
     
 }
 
-.modal-content {
-        width: 100%;
+.header-container {
+    text-align: right;
+    
+}
+
+.header-button {
+    display: inline-block;
+    padding-top: 10px;
+    padding-right: 350px; 
+}
+
+
+.coverContainer {
+    text-align: center;
+    padding: 10px;
+}
+
+.bkCoverLarge {
+    display: inline-block
+}
+
+.footer-container {
+    text-align: right
+}
+
+.modal-footer-button {
+    display: inline-block;
 }

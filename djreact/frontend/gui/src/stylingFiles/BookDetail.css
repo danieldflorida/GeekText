@@ -5,23 +5,28 @@
     justify-content: space-around;
 }
 
-.left-container {
+.left-column-container {
     margin: 20px;
     flex: 1px;
     min-width: 450px;
 }
 
-.bkCover {
-    margin: 20px;
+.small-bkCover {
+    margin: 30px;
     flex: 1px;
     min-width: 80px;
 }
 
 
-.right-container {
+.right-column-container {
     margin: 20px;
     flex: 1px;
     min-width: 10px;
+}
+
+.price-money-symbol {
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .price {
