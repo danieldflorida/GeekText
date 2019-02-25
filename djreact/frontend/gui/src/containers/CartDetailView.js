@@ -1,38 +1,44 @@
 import React from 'react' 
 import axios from 'axios'
-
-import { List } from 'antd'
+import {Card} from 'antd'
 
 class CartDetail extends React.Component {
 
     state = { 
-        cart: {},
-        ordering: []
+        cart:{}
     }
 
     componentDidMount() {
-        axios.get( 'http://127.0.0.1:8000/carts/3' )
+        axios.get( 'http://127.0.0.1:8000/carts/7' )
             .then( res => {
                 this.setState({
-                    cart: res.data,
-                    ordering: res.data.items
+                    cart: res.data
                 });
+                console.log( "Res.Data: ")
                 console.log( res.data ) ;
 
             })
     }
 
     render( ) {
+
+        var itemList = String( this.state.cart.items ).split(",")
+
         const items = []
 
-        for( const [index, value] of this.state.ordering.entries() ) {
+        for( const [index, value] of itemList.entries() ) {
             items.push( <li key={index}>{value}</li>)
         }
+
         return( 
-            <List title = {this.state.cart.id} >
-                <p>{ this.state.cart.updated_at }</p>
-                <p>{items}</p>
-            </List> 
+            <Card>
+                <h3>Cart Number ID: { this.state.cart.id }</h3><br/>
+                <li>
+                {items}<br/><br/>
+                <b>Price: ${this.state.cart.price}</b>
+                </li>
+                <h6>Last Updated At: { this.state.cart.updated_at }</h6>
+            </Card>
         )
     } 
 

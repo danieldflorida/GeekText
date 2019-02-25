@@ -6,6 +6,7 @@ from books.models import Book
 # Create your models here.
 class ShoppingCart( models.Model ):
     updated_at = models.DateTimeField(auto_now=True)
+    price = models.DecimalField( max_digits = 6, decimal_places = 2, default = 0.0 )
 
 class CartItem( models.Model ):
     cart = models.ForeignKey( 
@@ -20,6 +21,7 @@ class CartItem( models.Model ):
         related_name='items',
         on_delete=models.CASCADE,
     )
+    quantity = models.IntegerField( default = 1 )
 
     def __str__( self ):
-        return '%s' % (self.itemsInCart.title)
+       return "Book Title: %s | Quantity: %s | Price: $%s" % ( self.itemsInCart.title, self.quantity,self.itemsInCart.price )

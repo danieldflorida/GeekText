@@ -18,8 +18,17 @@ class CartListView( viewsets.ModelViewSet ):
             pk = request.data[ 'book_id' ]
         )
 
-        new_cart_item = CartItem( cart = cart, itemsInCart = bookChoice )
-        new_cart_item.save() 
+        cart.price = cart.price + bookChoice.price 
+        cart.save()
+
+        alreadyInCart = CartItem.objects.filter( cart = cart, itemsInCart = bookChoice ).first()
+
+        if alreadyInCart:
+            alreadyInCart.quantity += 1
+            alreadyInCart.save()
+        else: 
+            new_cart_item = CartItem( cart = cart, itemsInCart = bookChoice )
+            new_cart_item.save() 
 
         serializer = CartSerializer(cart)
         return Response(serializer.data)

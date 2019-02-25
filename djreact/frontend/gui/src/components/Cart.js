@@ -3,7 +3,7 @@ import { List } from 'antd' ;
 
 
 
-const Cart = ( props ) => {
+const Carts = ( props ) => {
     return (
         <List
             itemLayout="horizontal"
@@ -36,4 +36,4 @@ const Cart = ( props ) => {
     )
 }
 
-export default Cart ;
+export default Carts ;

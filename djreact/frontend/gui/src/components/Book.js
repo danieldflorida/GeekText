@@ -32,6 +32,7 @@ const Books = ( props ) => {
                     avatar={<Avatar src={"https://image.shutterstock.com/image-photo/kherson-ukraine-august-27-2016-260nw-474817798.jpg"} />}
                     title={<a href={`/${item.bookID}`}>{item.title}</a>}
                     description={item.description}
+                    price={item.price}
                     />
                     {item.content}
                 </List.Item>
