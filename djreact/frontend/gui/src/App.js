@@ -13,11 +13,9 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          
-            <Navbar>
+            <CustomLayout>
               <BaseRouter />
-            </Navbar>
-
+            </CustomLayout>
         </Router>
       </div>
     );

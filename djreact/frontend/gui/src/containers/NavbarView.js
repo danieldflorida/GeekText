@@ -9,25 +9,24 @@ const NavbarView = (props) =>
     return(
         <Navbar bg="dark" variant="dark" fixed="top">
             
-            <Navbar.Brand href="#home">
+            <Navbar.Brand href="/home">
                 GeekText
             </Navbar.Brand>  
             <Nav className="justify-content-center">
-                <Nav.Item color="white">
-                    Categories
+                <Nav.Item>
+                    <Nav.Link href="/">Books</Nav.Link>
                 </Nav.Item>
 
                 <Nav.Item>
-                    Featured
+                <Nav.Link href="#">Categories</Nav.Link>
                 </Nav.Item>
-
                 <Nav.Item>
-                    Contact
+                <Nav.Link href="#">Contact</Nav.Link>
                 </Nav.Item>
                         
             </Nav>
             
-            <Form inline>
+            <Form inline alignRight>
                 <FormControl 
                 type="text" 
                 placeholder="Search" 
@@ -36,13 +35,13 @@ const NavbarView = (props) =>
                 <Button variant="outline-info">Search</Button>
             </Form>
 
-            <div class="ml-auto p-2">
+            <div class="ml-auto p-2" >
             <SplitButton
             alignRight
             title="Account"
             id="dropdown-menu-align-left"
             >
-                <Dropdown.Item>
+                <Dropdown.Item href={"/" + props.username}>
                     Account Settings
                 </Dropdown.Item>
                 <Dropdown.Divider/>

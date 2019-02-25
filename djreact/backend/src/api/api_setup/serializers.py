@@ -1,8 +1,10 @@
 from rest_framework import serializers
 
-from api.models import (Book, Author, User, Category, ShippingInformation, 
-CreditCard, Publishing, Comment, Rating, Cart, WishList, WishListDetails,
-Order, OrderDetails)
+from api.models import (Author, Book, Cart, Category, Comment, CreditCard,
+Order, OrderDetails, Publishing, Rating,
+ShippingInformation, User, WishList, WishListDetails)
+
+
 """
 class BookSerializer(serializers.ModelSerializer):
     class Meta:

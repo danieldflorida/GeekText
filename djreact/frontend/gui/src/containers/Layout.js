@@ -1,9 +1,13 @@
 import React from 'react' ;
-import { Layout, Menu, Breadcrumb } from 'antd';
+//import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom'
+import NavbarView from './NavbarView';
 
-const { Header, Content, Footer } = Layout;
+import {Container, Breadcrumb} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
 
+//const { Header, Content, Footer } = Layout;
+/*
 const CustomLayout = ( props ) => {
     return (
         <Layout className="layout">
@@ -36,7 +40,26 @@ const CustomLayout = ( props ) => {
         </Layout>
     )
 }
+*/
+const CustomLayout = (props) =>
+{ 
+    return(
+        <Container>
+            <NavbarView />
+            
+            <Breadcrumb style={{ margin: '16px 0' }}>
+                <Breadcrumb.Item><Link to="/home">Home</Link></Breadcrumb.Item>
+                <Breadcrumb.Item><Link to="/">List</Link></Breadcrumb.Item>
+            </Breadcrumb>
+            <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+                {props.children}
+            </div>
+            
+        </Container>
 
+)
+
+}
 export default CustomLayout ;
 
   
