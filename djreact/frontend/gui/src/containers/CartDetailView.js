@@ -37,9 +37,9 @@ class CartDetail extends React.Component {
         const quantity = []
         const prices = []
         for( let [i, value] of itemList.entries() ) {
-            if( i == 0 || i%3 == 0 )
+            if( i === 0 || i%3 === 0 )
                 items.push( <li key={i}>{value}</li>) ; 
-            else if( i == 1 || ( i - 1 ) % 3 == 0 )
+            else if( i === 1 || ( i - 1 ) % 3 === 0 )
                 quantity.push( <li key={i}>{value}</li>) ;
             else
                 prices.push( <li key={i}>{value}</li>) ;
@@ -53,7 +53,7 @@ class CartDetail extends React.Component {
         console.log( finalList )
 
         return( 
-            <Card style = {{ whiteSpace: 'pre-wrap' }}>
+            <Card>
                 <h3>Cart Number ID: { this.state.cart.id }</h3><br/>
                 <div>
                 <table>
