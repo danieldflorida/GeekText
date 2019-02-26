@@ -1,6 +1,6 @@
 import React from 'react' 
 import MyVerticallyCenteredModal from './EnlargedCover'
-
+import '../stylingFiles/BookDetail.css'
 
 
 

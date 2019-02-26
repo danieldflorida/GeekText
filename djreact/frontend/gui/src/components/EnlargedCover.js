@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from 'react-bootstrap/Modal';
 
 import '../stylingFiles/EnlargedCover.css'
-import '../stylingFiles/BookDetail.css'
+
 
 
 
