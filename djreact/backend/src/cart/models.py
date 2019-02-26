@@ -24,4 +24,11 @@ class CartItem( models.Model ):
     quantity = models.IntegerField( default = 1 )
 
     def __str__( self ):
-       return "Book Title: %s | Quantity: %s | Price: $%s" % ( self.itemsInCart.title, self.quantity,self.itemsInCart.price )
+        
+        a = '"{}" | '.format( self.itemsInCart.title )
+        b = '{} | '.format( self.quantity )
+        c = '${}'.format( self.itemsInCart.price )
+
+        ret = a + b + c    
+
+        return ret
