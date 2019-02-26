@@ -1,6 +1,5 @@
 import React from 'react' 
-import BookCover from './EnlargeCover'
-import MyVerticallyCenteredModal from './EnlargeCover'
+import MyVerticallyCenteredModal from './EnlargedCover'
 
 
 
@@ -34,8 +33,6 @@ import MyVerticallyCenteredModal from './EnlargeCover'
                       <img src={ this.props.data.cover } onClick={() => this.setState({ modalShow: true })} className="small-bkCover" alt="cover" height="406" width="300"/>
                     </div>
                     
-      
-                    {/*<BookCover data = {this.props.data.cover}/>*/}
 
                     <div className="publisher-info-container">
                       <span>{this.props.data.pages} pages</span><br></br>
@@ -51,7 +48,7 @@ import MyVerticallyCenteredModal from './EnlargeCover'
 
 
                  <div className="right-column-container">
-                    <h2>{this.props.data.title}</h2>
+                    <h3>{this.props.data.title}</h3>
                     <span>Genre: {this.props.data.genre}</span>
                     <br></br>
                     <br></br>
