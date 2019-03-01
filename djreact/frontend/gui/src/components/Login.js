@@ -27,24 +27,40 @@ class Login extends Component {
   }
 
   loginClick(e, user, pass){
-    e.preventDefault();
-    //verifies login credentials
-    //localStorage.getItem('users', users)
-    axios.get( `http://127.0.0.1:8000/api/users/${user}` )
+      e.preventDefault();
+      //verifies login credentials
+    
+      axios.get( `http://127.0.0.1:8000/api/users/` )
             .then( res => {
               console.log("request success")
-                if(pass === res.data.password)
+              
+              var users = res.data;
+              //console.log(users[1]);
+
+              var incorrect = true;
+              //console.log(users)
+
+              users.forEach(elem => {
+                
+                if(pass === elem.password && user === elem.username)
                 {
-                  console.log("User exists with correct password")
+                  console.log("User exists with correct user and password")
                   this.setState({
                     loggedIn: true
                   })
-                }
                   
+                  incorrect = false;
+                  this.props.onLoggedIn(this.state.Username);
+                }
+                
+              });
+                
+                if(incorrect == true)
+                  console.log("Username or password is incorrect");
+                
             }) 
             .catch(function (error) {
               console.log(error)
-              console.log("Username or password is incorrect")
             })
             
   }
@@ -54,7 +70,7 @@ class Login extends Component {
     return (
       <div>
         <form>
-          <label> 
+          <label style={{margin: '15px 0'}}> 
             Username: &nbsp;
             <input 
               name="Username"
@@ -63,7 +79,7 @@ class Login extends Component {
               onChange={this.handleInputChange} />
           </label>
           <br/>        
-          <label>
+          <label style={{margin: '15px 0'}}>
             Password: &nbsp;
             <input
               name="Password"
@@ -72,7 +88,6 @@ class Login extends Component {
               onChange={this.handleInputChange} />
           </label>
           <br/>
-          {/*<input type="Submit" value="Submit" />*/}
           <button 
             onClick = {
               e => {this.loginClick(e, this.state.Username, this.state.Password)}}>Login</button>

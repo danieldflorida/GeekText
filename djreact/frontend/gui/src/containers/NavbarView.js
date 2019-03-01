@@ -1,6 +1,6 @@
 import React from 'react';
 import {Navbar, Button, Dropdown, SplitButton,
-     DropdownButton, FormControl, Form, Nav} from 'react-bootstrap';
+    FormControl, Form, Nav} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
 //can use props to display account name on Navbar
@@ -26,7 +26,7 @@ const NavbarView = (props) =>
                         
             </Nav>
             
-            <Form inline alignRight>
+            <Form inline>
                 <FormControl 
                 type="text" 
                 placeholder="Search" 
@@ -35,18 +35,24 @@ const NavbarView = (props) =>
                 <Button variant="outline-info">Search</Button>
             </Form>
 
-            <div class="ml-auto p-2" >
+            <div className="ml-auto p-2" >
             <SplitButton
             alignRight
-            title="Account"
+            title={props.username}
             id="dropdown-menu-align-left"
             >
                 <Dropdown.Item href={"/" + props.username}>
-                    Account Settings
+                    Profile
+                </Dropdown.Item>
+                <Dropdown.Item>
+                    Settings
                 </Dropdown.Item>
                 <Dropdown.Divider/>
                 <Dropdown.Item>
                     Shopping Cart
+                </Dropdown.Item>
+                <Dropdown.Item>
+                    Orders
                 </Dropdown.Item>
             </SplitButton>
             </div>

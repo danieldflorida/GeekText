@@ -1,50 +1,51 @@
 import React from 'react' 
 import axios from 'axios'
-
 import Login from '../components/Login'
-import { Tabs } from 'antd'
+//import { Tabs } from 'antd'
+
+import {Tabs, Tab, Container} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+import '../styling/HomePageView.css'
 import AccountCreation from '../components/AccountCreation';
+
 
 class HomePage extends React.Component {
 
-    state = { 
-        
+    constructor(props)
+    {
+        super(props);
+        this.state = { 
+            username: ''
+        }
+        this.handleUser = this.handleUser.bind(this);
     }
+    
 
-    componentDidMount() {
-        //use this method to display a user's profile in the corner perhaps?
-        const username = this.props.match.params.username;
-        axios.get( `http://127.0.0.1:8000/api/users/${username}` )
-            .then( res => {
-                this.setState({
-                    //user: res.data
-                });
-            })
+    handleUser = (user) => {
+        this.setState({username: user});
+        this.props.user(this.state.username);
     }
+    
 
     render( ) {
         return(
-            <div className="loginBlock" align="middle">
-                <Tabs
-                    id="loginBlock"
-                    type="card" 
-                    tabPosition="top"
-                    defaultActiveKey="login">
-                    <Tabs.TabPane
-                    key="login" 
-                    tab="Login">
-                        <Login/>
-                    </Tabs.TabPane>
-                    <Tabs.TabPane
-                    key="createAccount"
-                    tab="Create Account">
+            <Container align ="center">
+                <div>
+                <Tabs   
+                    defaultActiveKey="login"
+                    position="center"
+                    align="center"
+                    //tabwidth={10}
+                    >
+                    <Tab eventKey="login" title="Login" align="center">
+                        <Login onLoggedIn={this.handleUser}/>
+                    </Tab>
+                    <Tab eventKey="createAccount" title="Sign Up" align="center">
                         <AccountCreation/>
-                    </Tabs.TabPane>
-                </Tabs>;
-                
-                
-            </div> 
-            
+                    </Tab>
+                </Tabs>
+                </div>
+            </Container>
         )
     } 
 

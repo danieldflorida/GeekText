@@ -9,6 +9,7 @@ constructor (props)
     super(props);
     this.state = {
         email: '',
+        name: '',
         username: '',
         password: '',
         passwordCheck: '',
@@ -139,7 +140,7 @@ handleInputChange(event) {
 //Used in onClick
 createAccount(e)
 {
-        e.preventDefault();
+        //e.preventDefault();
         //Check if user or email exists
         /*
         Axios.get( `http://127.0.0.1:8000/api/users/${this.state.username}` )
@@ -151,30 +152,22 @@ createAccount(e)
         console.log('Password verified: ' + this.verifyPassword())
         if(this.verifyPassword() === true)
         {
-            Axios.post('http://127.0.0.1:8000/api/users/', {
+            Axios.post('http://127.0.0.1:8000/api/users/add-user/', 
+            {
                 username: this.state.username,
                 password: this.state.password,
-                email: this.state.email
-            })
-            .then(res => {
+                name: this.state.name,
+                email: this.state.email,
+                home_address: '',
+            },
+            {headers: {"Content-Type": "application/json"}})
+            .then(res => {  
                 console.log(res)
             })
             .catch(error => {
                 console.error(error)
             })
-            //PUT used to update api
-            /*
-            Axios.put(`http://127.0.0.1:8000/api/users/${this.state.username}/`, {
-                username: this.state.username,
-                password: this.state.password,
-                email: this.state.email
-            })
-            .then(res => {
-                console.log(res)
-            })
-            .catch(error => {
-                console.error(error)
-            })*/
+           
         }
         else
         {
@@ -198,6 +191,16 @@ render()
                     name="email"
                     type="text"
                     value={this.state.email}
+                    onChange={this.handleInputChange}
+                     />
+            </label>
+            <br/>
+            <label>
+                Name &nbsp;
+                <input 
+                    name="name"
+                    type="text"
+                    value={this.state.name}
                     onChange={this.handleInputChange}
                      />
             </label>

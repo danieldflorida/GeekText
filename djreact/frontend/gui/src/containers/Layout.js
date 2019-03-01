@@ -41,17 +41,20 @@ const CustomLayout = ( props ) => {
     )
 }
 */
+
+
 const CustomLayout = (props) =>
-{ 
+{
+
     return(
         <Container>
-            <NavbarView />
+            <NavbarView username={props.username}/>
             
-            <Breadcrumb style={{ margin: '16px 0' }}>
-                <Breadcrumb.Item><Link to="/home">Home</Link></Breadcrumb.Item>
-                <Breadcrumb.Item><Link to="/">List</Link></Breadcrumb.Item>
+            <Breadcrumb style={{marginTop: 100}}>
+                <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
+                <Breadcrumb.Item href="/">Books</Breadcrumb.Item>
             </Breadcrumb>
-            <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
+            <div style={{ background: '#fff', padding: 24, minHeight: 100 }}>
                 {props.children}
             </div>
             
