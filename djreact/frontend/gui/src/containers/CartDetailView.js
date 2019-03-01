@@ -77,14 +77,16 @@ class CartDetail extends React.Component {
                 <div>
                 <table>
                     <tr>
-                        <th><b>Cover</b></th>
-                        <th><b>Title</b></th>
-                        <th><b>Quantity</b></th>
-                        <th><b>Unit Price</b></th>
-                        <th><b>Remove?</b></th>
-                        <th><b>Save for Later?</b></th>
+                        
+                        <th><h6><b>Cover</b></h6></th>
+                        <th><h6><b>Title</b></h6></th>
+                        <th><h6><b>Quantity</b></h6></th>
+                        <th><h6><b>Unit Price</b></h6></th>
+                        <th><h6><b>Remove?</b></h6></th>
+                        <th><h6><b>Save For Later?</b></h6></th>
                     </tr>
 
+                    
                     {finalList.map( (value, index, finalList ) => ( [ <tr>
                         <th><img width={75} height = {100} alt="cover" src={ finalList[index][0] } /></th>
                         <th>{finalList[index][1]}</th>
@@ -107,9 +109,9 @@ class CartDetail extends React.Component {
                 <div>
                 <table>
                     <tr>
-                        <th><b>Title</b></th>
-                        <th><b>Price</b></th>
-                        <th><b>Return to Cart?</b></th>
+                        <th><h6><b>Title</b></h6></th>
+                        <th><h6><b>Price</b></h6></th>
+                        <th><h6><b>Return Item To Cart?</b></h6></th>
                     </tr>
                     <tr>
                         <th>Sprint 3</th>
@@ -122,7 +124,7 @@ class CartDetail extends React.Component {
 
                 <br/><br/>
                 
-                <h6>Last Updated At: { this.state.cart.updated_at }</h6>
+                <h7>Last Updated At: { this.state.cart.updated_at }</h7>
             </Card>
         )
     } 
