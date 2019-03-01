@@ -27,19 +27,16 @@ class Login extends Component {
   }
 
   loginClick(e, user, pass){
-      e.preventDefault();
+
       //verifies login credentials
-    
       axios.get( `http://127.0.0.1:8000/api/users/` )
             .then( res => {
               console.log("request success")
               
               var users = res.data;
-              //console.log(users[1]);
 
               var incorrect = true;
-              //console.log(users)
-
+              
               users.forEach(elem => {
                 
                 if(pass === elem.password && user === elem.username)
@@ -92,7 +89,6 @@ class Login extends Component {
             onClick = {
               e => {this.loginClick(e, this.state.Username, this.state.Password)}}>Login</button>
         </form>
-        <strong>Logged In: {(this.state.loggedIn).toString()}</strong>
       </div>
     )
   }

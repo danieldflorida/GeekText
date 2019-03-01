@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom' ;
 import BaseRouter from './routes' ;
 import 'antd/dist/antd.css';
@@ -29,7 +30,7 @@ class App extends Component {
     
     if(user === '')
     {
-      return 'Username';
+      return '';
     }
     else
     {
@@ -38,11 +39,16 @@ class App extends Component {
       
   }
 
-  render() {
+componentDidUpdate()
+{
+  sessionStorage.setItem("username", this.state.username);
+}
+
+render() {
     return (
       <div className="App">
         <Router>
-            <CustomLayout username={this.returnUser(this.state.username)}>
+            <CustomLayout username={this.returnUser(sessionStorage.getItem("username"))}>
               <BaseRouter data={this.handleData}/>
             </CustomLayout>
         </Router>

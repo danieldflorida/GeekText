@@ -45,7 +45,7 @@ const CustomLayout = ( props ) => {
 
 const CustomLayout = (props) =>
 {
-
+   
     return(
         <Container>
             <NavbarView username={props.username}/>
