@@ -27,8 +27,10 @@ class CartItem( models.Model ):
         
         a = '"{}" | '.format( self.itemsInCart.title )
         b = '{} | '.format( self.quantity )
-        c = '${}'.format( self.itemsInCart.price )
+        c = '${} | '.format( self.itemsInCart.price )
+        d = '{}'.format( self.itemsInCart.bookID )
+        
 
-        ret = a + b + c    
+        ret = a + b + c + d
 
         return ret
