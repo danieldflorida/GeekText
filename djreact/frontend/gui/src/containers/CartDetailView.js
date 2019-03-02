@@ -16,8 +16,8 @@ class CartDetail extends React.Component {
                 this.setState({
                     cart: res.data
                 });
-                console.log( "Res.Data: ")
-                console.log( res.data ) ;
+                //console.log( "Res.Data: ")
+                //console.log( res.data ) ;
 
             })
 
@@ -32,8 +32,8 @@ class CartDetail extends React.Component {
             this.setState({
                 books: toSave
             });
-            console.log( "Book List: ")
-            console.log( this.state.books ) ;
+            //console.log( "Book List: ")
+            //console.log( this.state.books ) ;
         })
     }
 
@@ -44,7 +44,7 @@ class CartDetail extends React.Component {
         itemList = String( itemList ).split(",")
 
         //console.log( "Split',' -> Split'|' -> Split','")
-        console.log( itemList )
+        //console.log( itemList )
 
         //--> Code can break the string up into multiple lists when it is uncommented 
         //    Currently can't get display tables to work so it has been commented out and the strings are just being displayed.
@@ -61,15 +61,15 @@ class CartDetail extends React.Component {
             else if( i === 2 || ( i - 2 ) % 4 === 0 ) 
                 prices.push( <li key={i}>{value}</li>) ;
             else 
-                covers.push(  this.state.books[ itemList[i] - 1 ] )
+                covers.push( this.state.books[ itemList[i] - 1 ] )
         }
 
         var finalList = [] 
         for( var i = 0 ; i < items.length ; i++ ) {
             finalList.push( [ covers[i], items[i], quantity[i], prices[i] ] ) ; 
         }
-        console.log( "Final List")
-        console.log( finalList )
+        //console.log( "Final List")
+        //console.log( finalList )
 
         return( 
             <Card>
@@ -86,7 +86,6 @@ class CartDetail extends React.Component {
                         <th><h6><b>Save For Later?</b></h6></th>
                     </tr>
 
-                    
                     {finalList.map( (value, index, finalList ) => ( [ <tr>
                         <th><img width={75} height = {100} alt="cover" src={ finalList[index][0] } /></th>
                         <th>{finalList[index][1]}</th>
@@ -128,7 +127,6 @@ class CartDetail extends React.Component {
             </Card>
         )
     } 
-
 }
 
 export default CartDetail ;
