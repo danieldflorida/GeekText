@@ -194,7 +194,6 @@ render()
                     onChange={this.handleInputChange}
                      />
             </label>
-            <br/>
             <label>
                 Name &nbsp;
                 <input 
@@ -204,7 +203,6 @@ render()
                     onChange={this.handleInputChange}
                      />
             </label>
-            <br/>
             <label>
                 Username &nbsp;
                 <input 
@@ -213,7 +211,6 @@ render()
                 value={this.state.username}
                 onChange={this.handleInputChange} />
             </label>
-            <br/>
             <label>
                 Password &nbsp;
                 <input 
@@ -223,7 +220,6 @@ render()
                 onChange={this.handleInputChange} />
                 
             </label>
-            <br/>
             <label>
                 Re-enter Password &nbsp;
                 <input 
@@ -232,7 +228,6 @@ render()
                 value={this.state.passwordCheck}
                 onChange={this.handleInputChange} /> 
             </label>
-            <br/>
             <button 
             type="button"
             onClick={e => {this.createAccount(e)}}>Create</button>

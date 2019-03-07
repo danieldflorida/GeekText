@@ -1,5 +1,6 @@
 .loginBlock {
-    text-align: right;
+    width: 350px;
+    height: 350px;  
     padding: 10px;
-    color: black;
+    box-shadow: 2px 2px 3px 4px #ccc;
 }

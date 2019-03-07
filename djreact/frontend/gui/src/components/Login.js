@@ -74,8 +74,7 @@ class Login extends Component {
               type="text"
               value={this.state.Username} 
               onChange={this.handleInputChange} />
-          </label>
-          <br/>        
+          </label>      
           <label style={{margin: '15px 0'}}>
             Password: &nbsp;
             <input

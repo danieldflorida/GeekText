@@ -15,7 +15,7 @@ const BaseRouter = (props) => {
     
     <div>
         <Route exact path='/' component = {BookList} />
-        <Route exact path='/:bookID' component = {BookDetail} />
+        <Route exact path='/bookID' component = {BookDetail} />
         <Route exact path='/home' 
         render = {(props) => <HomePage {...props} user={handleUser}/>}/>
     </div>
