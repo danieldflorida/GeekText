@@ -10,6 +10,8 @@ db.sqlite3
 media
 
 #json
+package-lock.json
+package.json
 .json
 
 # dependencies
