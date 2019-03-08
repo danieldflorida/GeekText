@@ -6,8 +6,8 @@ import 'antd/dist/antd.css';
 import 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css'
 
-import CustomLayout from './containers/Layout' ;
-import HomePage from './containers/HomePageView';
+import CustomLayout from './Layout' ;
+
 
 class App extends Component {
   

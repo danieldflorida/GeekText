@@ -1,9 +1,9 @@
 import React from 'react' ;
 import { Route } from 'react-router-dom' ;
 
-import BookList from './containers/BookListView' ;
-import BookDetail from './containers/BookDetailView' ;
 import HomePage from './containers/HomePageView'
+import BookList from './book-browsing-and-sorting/containers/BookListView' ;
+import BookDetail from './book-details/containers/BookDetailView' ;
 
 
 const BaseRouter = (props) => {
