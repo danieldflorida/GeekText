@@ -1,7 +1,7 @@
 import React from 'react' ;
 import { Route } from 'react-router-dom' ;
 
-import HomePage from './containers/HomePageView'
+import HomePage from './HomePageView'
 import BookList from './book-browsing-and-sorting/containers/BookListView' ;
 import BookDetail from './book-details/containers/BookDetailView' ;
 

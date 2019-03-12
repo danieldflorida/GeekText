@@ -185,7 +185,7 @@ render()
                 <strong></strong>
             </font>
             <br/>
-            <label>
+            <label style={{margin: '15px 0'}}>
                 E-mail &nbsp;
                 <input 
                     name="email"
@@ -194,7 +194,8 @@ render()
                     onChange={this.handleInputChange}
                      />
             </label>
-            <label>
+            <br/>
+            <label style={{margin: '15px 0'}}>
                 Name &nbsp;
                 <input 
                     name="name"
@@ -203,7 +204,8 @@ render()
                     onChange={this.handleInputChange}
                      />
             </label>
-            <label>
+            <br/>
+            <label style={{margin: '15px 0'}}>
                 Username &nbsp;
                 <input 
                 name="username"
@@ -211,7 +213,8 @@ render()
                 value={this.state.username}
                 onChange={this.handleInputChange} />
             </label>
-            <label>
+            <br/>
+            <label style={{margin: '15px 0'}}>
                 Password &nbsp;
                 <input 
                 name="password"
@@ -220,7 +223,8 @@ render()
                 onChange={this.handleInputChange} />
                 
             </label>
-            <label>
+            <br/>
+            <label style={{margin: '15px 0'}}>
                 Re-enter Password &nbsp;
                 <input 
                 name="passwordCheck"
@@ -228,6 +232,7 @@ render()
                 value={this.state.passwordCheck}
                 onChange={this.handleInputChange} /> 
             </label>
+            <br/>
             <button 
             type="button"
             onClick={e => {this.createAccount(e)}}>Create</button>

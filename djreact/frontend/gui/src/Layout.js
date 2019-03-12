@@ -3,7 +3,7 @@ import React from 'react' ;
 import { Link } from 'react-router-dom'
 import NavbarView from './NavbarView';
 
-import {Container, Breadcrumb} from 'react-bootstrap';
+import {Breadcrumb, Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
 //const { Header, Content, Footer } = Layout;
@@ -49,11 +49,11 @@ const CustomLayout = (props) =>
     return(
         <Container>
             <NavbarView username={props.username}/>
-            
+            {/*
             <Breadcrumb style={{marginTop: 100}}>
                 <Breadcrumb.Item href="/home">Home</Breadcrumb.Item>
                 <Breadcrumb.Item href="/">Books</Breadcrumb.Item>
-            </Breadcrumb>
+            </Breadcrumb>*/}
             <div style={{ background: '#fff', padding: 24, minHeight: 100 }}>
                 {props.children}
             </div>
