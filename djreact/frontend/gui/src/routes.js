@@ -7,7 +7,7 @@ import BookDetail from './book-details/containers/BookDetailView' ;
 const BaseRouter = () => (
     <div>
         <Route exact path='/' component = {BookList} />
-        <Route exact path='/:bookID' component = {BookDetail} />
+        <Route exact path='/:id' component = {BookDetail} />
     </div>
 ) ;
 

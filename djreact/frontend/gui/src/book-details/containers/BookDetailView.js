@@ -12,8 +12,8 @@ class BookDetail extends React.Component {
     }
 
     componentDidMount() {
-        const bookID = this.props.match.params.bookID ;
-        axios.get( `http://127.0.0.1:8000/api/${bookID}` )
+        const id = this.props.match.params.id ;
+        axios.get( `http://127.0.0.1:8000/api/${id}` )
             .then( res => {
                 this.setState({
                     book: res.data
