@@ -2,12 +2,13 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
+from rest_framework.decorators import list_route
 
 from api.models import (Book, Author, User, Category, ShippingInformation, 
 CreditCard, Publishing, Comment, Rating, Cart, WishList, WishListDetails,
 Order, OrderDetails)
 
-from .serializers import (BookSerializer, AuthorSerializer, 
+from api.api_setup.serializers import (BookSerializer, AuthorSerializer, 
 UserSerializer, CategorySerializer, ShippingInformationSerializer,
 CreditCardSerializer, PublishingSerializer, CommentSerializer,
 RatingSerializer, WishListSerializer, WishListDetailsSerializer,
@@ -27,8 +28,8 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
-    @detail_route(methods=['post', 'put'])
-    def add_user(self, request, pk = None, url_path = 'add-user', url_name = 'add-user'):
+    @list_route(methods=['post', 'put'])
+    def add_user(self, request, pk = None):
         user = User(
             username = request.data['username'],
             password = request.data['password'],
@@ -36,7 +37,7 @@ class UserViewSet(viewsets.ModelViewSet):
             email = request.data['email'],
             home_address = request.data['home_address']
             )
-        
+        #user = self.get_object()
         #Search for existing user
         userExists = User.objects.filter(username = request.data['username']).first()
 

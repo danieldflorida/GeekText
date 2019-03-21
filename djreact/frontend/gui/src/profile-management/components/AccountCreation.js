@@ -99,8 +99,7 @@ handleInputChange(event) {
     {
         console.log('Password needs upper and lowercase letters.')
     }
-    //console.log('Preconditions: ' + prec)
-
+    
     if(pass !== this.state.passwordCheck)
     {
         console.log('Passwords are not the same!')
@@ -152,7 +151,7 @@ createAccount(e)
         console.log('Password verified: ' + this.verifyPassword())
         if(this.verifyPassword() === true)
         {
-            Axios.post('http://127.0.0.1:8000/api/users/add-user/', 
+            Axios.post("http://127.0.0.1:8000/api/users/add_user/", 
             {
                 username: this.state.username,
                 password: this.state.password,

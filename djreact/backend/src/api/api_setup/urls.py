@@ -11,6 +11,11 @@ urlpatterns = [
     path('<pk>', BookDetailView.as_view())
 ] + static( settings.MEDIA_URL )
 """
+from django.urls import path
+
+from django.conf.urls.static import static 
+from django.conf import settings 
+
 from api.api_setup.views import (UserViewSet, BookViewSet, AuthorViewSet,
  CategoryViewSet, ShippingInformationViewSet, CreditCardViewSet,
 PublishingViewSet, CommentViewSet, RatingViewSet, CartViewSet, WishListViewSet,

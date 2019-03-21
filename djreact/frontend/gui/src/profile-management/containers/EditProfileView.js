@@ -3,12 +3,17 @@ import axios from 'axios'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import Profile from '../components/Profile'
-import {FormText, FormControl} from 'react-bootstrap'
+import {FormText, FormControl, Navbar, Nav, InputGroup} from 'react-bootstrap'
+import FormCheckInput from 'react-bootstrap/FormCheckInput';
 class EditProfileView extends React.Component 
 {
     constructor(props)
     {
-        state = {
+        super(props);
+        this.state = {
+            //personal info
+            profilePic: '',
+            bio: '',
             //users table
             username: '',
             password: '',
@@ -22,7 +27,8 @@ class EditProfileView extends React.Component
             holderName: '',
             securityCode: '',
             billingAddress: ''
-        }
+        };
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     //Returns profile data
@@ -61,11 +67,141 @@ class EditProfileView extends React.Component
                     })
                 })
     }
+
+    handleInputChange = (e) =>
+    {
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({
+            [name]: value
+        })
+    }
+
+    componentDidMount()
+    {
+        //Update the values inside the text boxes
+        this.fetchProfileData();
+    }
+
     render()
     {
         return(
-            <div>
-                <FormText></FormText>
+            <div style={{marginTop:150}}>
+                <form>
+                    <label style={{margin: '15px 0'}}> 
+                        Bio &nbsp;
+                        <textarea
+                        rows = '8'
+                        cols = '50'
+                        value = {this.state.bio}
+                        onChange={this.handleInputChange}
+                        />
+                    </label>
+                    <br/>  
+                    <label style={{margin: '15px 0'}}>
+                        Username &nbsp;
+                        <input
+                        name="username"
+                        type="text" 
+                        value={this.state.username}
+                        readOnly
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        Password &nbsp;
+                        <input
+                        name="password"
+                        type="password" 
+                        value={this.state.password}
+                        readOnly
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        E-mail &nbsp;
+                        <input
+                        name="email"
+                        type="text" 
+                        value={this.state.email}
+                        onChange={this.handleInputChange}
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        Home Address &nbsp;
+                        <input
+                        name="homeAddress"
+                        type="text" 
+                        value={this.state.homeAddress}
+                        onChange={this.handleInputChange}
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        Mailing Address &nbsp;
+                        <input
+                        name="mailingAddress"
+                        type="text" 
+                        value={this.state.mailingAddress}
+                        onChange={this.handleInputChange}
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        Credit Card Number &nbsp;
+                        <input
+                        name="creditCardNum"
+                        type="text" 
+                        value={this.state.creditCardNum}
+                        onChange={this.handleInputChange}
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        Expiration Date &nbsp;
+                        <input
+                        name="expDate"
+                        type="text" 
+                        value={this.state.expDate}
+                        onChange={this.handleInputChange}
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        Cardholder Name &nbsp;
+                        <input
+                        name="holderName"
+                        type="text" 
+                        value={this.state.holderName}
+                        onChange={this.handleInputChange}
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        CCV &nbsp;
+                        <input
+                        name="securityCode"
+                        type="text" 
+                        value={this.state.securityCode}
+                        onChange={this.handleInputChange}
+                            />
+                    </label>
+                    <br/>
+                    <label style={{margin: '15px 0'}}>
+                        Billing Address &nbsp;
+                        <input
+                        name="billingAddress"
+                        type="text" 
+                        value={this.state.billingAddress}
+                        onChange={this.handleInputChange}
+                            />
+                    </label>
+                    <br/>
+                    <br/>
+                    <button>Save Changes</button>
+                </form>
+            
             </div>
         )
     }

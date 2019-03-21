@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom' ;
 import HomePage from './HomePageView'
 import BookList from './book-browsing-and-sorting/containers/BookListView' ;
 import BookDetail from './book-details/containers/BookDetailView' ;
+import EditProfileView from './profile-management/containers/EditProfileView';
 
 
 const BaseRouter = (props) => {
@@ -18,6 +19,7 @@ const BaseRouter = (props) => {
         <Route exact path='/bookID' component = {BookDetail} />
         <Route exact path='/home' 
         render = {(props) => <HomePage {...props} user={handleUser}/>}/>
+        <Route exact path='/settings' component = {EditProfileView} />
     </div>
 )} ;
 
