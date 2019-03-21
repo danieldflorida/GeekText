@@ -34,3 +34,22 @@ class CartItem( models.Model ):
         ret = a + b + c + d
 
         return ret
+
+class SavedItem( models.Model ):
+    cart = models.ForeignKey( 
+        ShoppingCart,
+        related_name= 'saved', 
+        on_delete = models.CASCADE,
+        null = True,
+        blank = True
+    )
+
+    itemsSaved = models.ForeignKey(
+        Book, 
+        related_name='saved',
+        on_delete=models.CASCADE,
+    )
+
+    def __str__( self ):
+
+        return '"%s" | $%d | %d' % ( self.itemsSaved.title, self.itemsSaved.price, self.itemsSaved.bookID )

@@ -17,9 +17,14 @@ class BookDetail extends React.Component {
             })
     }
 
-    handleClick() { 
+    handleClickCart() { 
         axios.put("http://127.0.0.1:8000/carts/7/add_to_cart/", `{"book_id":${this.state.book.bookID}}`,{headers: {"Content-Type": "application/json"}}  )
         alert( "Item had been added to your cart." )
+    }
+
+    handleClickSave() { 
+        axios.put("http://127.0.0.1:8000/carts/7/save_later/", `{"book_id":${this.state.book.bookID}}`,{headers: {"Content-Type": "application/json"}}  )
+        alert( "Item had been saved for later. View it in your cart." )
     }
 
     render( ) {
@@ -35,7 +40,9 @@ class BookDetail extends React.Component {
                 <b>Price</b>:<br/>{this.state.book.price} 
                 </p>
                 <br/><br/>
-                <button onClick={ () => this.handleClick() }>Add this Book To Your Cart</button>
+                <button onClick={ () => this.handleClickCart() }>Add this Book To Your Cart</button>
+                <br/><br/>
+                <button onClick={ () => this.handleClickSave() }>Save this Book for Later</button>
             </div>
         )
     } 

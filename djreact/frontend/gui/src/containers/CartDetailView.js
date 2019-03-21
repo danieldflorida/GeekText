@@ -32,9 +32,15 @@ class CartDetail extends React.Component {
             this.setState({
                 books: toSave
             });
-            //console.log( "Book List: ")
-            //console.log( this.state.books ) ;
+
         })
+    }
+    
+    handleClickMove( value ) { 
+        axios.put("http://127.0.0.1:8000/carts/7/add_to_cart/", `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
+        alert( "Item has been moved to your cart." )
+        axios.put("http://127.0.0.1:8000/carts/7/rem_later/", `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
+        window.location.reload() 
     }
 
     render( ) {
@@ -42,9 +48,6 @@ class CartDetail extends React.Component {
         var itemList = String( this.state.cart.items ).split(",")
         itemList = String( itemList ).split(" | ")
         itemList = String( itemList ).split(",")
-
-        //console.log( "Split',' -> Split'|' -> Split','")
-        //console.log( itemList )
 
         //--> Code can break the string up into multiple lists when it is uncommented 
         //    Currently can't get display tables to work so it has been commented out and the strings are just being displayed.
@@ -68,11 +71,33 @@ class CartDetail extends React.Component {
         for( var i = 0 ; i < items.length ; i++ ) {
             finalList.push( [ covers[i], items[i], quantity[i], prices[i] ] ) ; 
         }
-        //console.log( "Final List")
-        //console.log( finalList )
+
+        var savedList = String( this.state.cart.saved ).split( "," )
+        savedList = String( savedList ).split( " | " )
+        savedList = String( savedList ).split( "," )
+
+        const sitems = [] 
+        const sprices = [] 
+        const sbooks = [] 
+        
+        for( let [i, value] of savedList.entries() ) {
+            if( i === 0 || i%3 === 0 )
+                sitems.push( value ) ;
+            else if( i === 1 || ( i - 1 ) % 3 === 0 )
+                sprices.push( value ) ;
+            else 
+                sbooks.push( value ) ;
+        }
+
+        var finalSaved = [] 
+        for( var i = 0 ; i < sitems.length ; i++ ) {
+            finalSaved.push( [ sitems[i], sprices[i], sbooks[i] ] ) ; 
+        }
+
+        console.log( "Books", finalSaved[0][2] ) ;
 
         return( 
-            <Card>
+            <div>
                 <h3>Cart Number ID (will eventually show current logged in usersname): { this.state.cart.id }</h3><br/>
                 <div>
                 <table>
@@ -82,17 +107,15 @@ class CartDetail extends React.Component {
                         <th><h6><b>Title</b></h6></th>
                         <th><h6><b>Quantity</b></h6></th>
                         <th><h6><b>Unit Price</b></h6></th>
-                        <th><h6><b>Remove?</b></h6></th>
-                        <th><h6><b>Save For Later?</b></h6></th>
+                        <th><h6><b>Remove Units</b></h6></th>
                     </tr>
 
                     {finalList.map( (value, index, finalList ) => ( [ <tr>
                         <th><img width={75} height = {100} alt="cover" src={ finalList[index][0] } /></th>
-                        <th>{finalList[index][1]}</th>
-                        <th>{finalList[index][2]}</th>
-                        <th>{finalList[index][3]}</th>
-                        <th>Sprint 3</th>
-                        <th>Sprint 3</th>
+                        <th><body>{finalList[index][1]}</body></th>
+                        <th><body>{finalList[index][2]}</body></th>
+                        <th><body>{finalList[index][3]}</body></th>
+                        <th><body>tbd</body></th>
                     </tr> ] ) ) }
 
                     <tr>
@@ -110,21 +133,20 @@ class CartDetail extends React.Component {
                     <tr>
                         <th><h6><b>Title</b></h6></th>
                         <th><h6><b>Price</b></h6></th>
-                        <th><h6><b>Return Item To Cart?</b></h6></th>
+                        <th><h6><b>Add Item To Cart</b></h6></th>
                     </tr>
-                    <tr>
-                        <th>Sprint 3</th>
-                        <th>Sprint 3</th>
-                        <th>Sprint 3</th>
-                    </tr>
+                    {finalSaved.map( (value, index, finalSaved ) => ( [ <tr>
+                        <th><body>{finalSaved[index][0]}</body></th>
+                        <th><body>{finalSaved[index][1]}</body></th>
+                        <th><button value = {String(finalSaved[index][2])} onClick = { () => this.handleClickMove( finalSaved[index][2] )}>Move Item to Cart</button></th>
+                    </tr> ] ) ) }
                 </table>
                 </div>
                 
-
                 <br/><br/>
                 
                 <h7>Last Updated At: { this.state.cart.updated_at }</h7>
-            </Card>
+            </div>
         )
     } 
 }
