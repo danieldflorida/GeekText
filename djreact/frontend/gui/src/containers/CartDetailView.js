@@ -43,6 +43,12 @@ class CartDetail extends React.Component {
         window.location.reload() 
     }
 
+    handleClickRemove( value ) { 
+        axios.put("http://127.0.0.1:8000/carts/7/rem_later/", `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
+        alert( "Item has been removed." )
+        window.location.reload() 
+    }
+
     render( ) {
         
         var itemList = String( this.state.cart.items ).split(",")
@@ -133,12 +139,14 @@ class CartDetail extends React.Component {
                     <tr>
                         <th><h6><b>Title</b></h6></th>
                         <th><h6><b>Price</b></h6></th>
-                        <th><h6><b>Add Item To Cart</b></h6></th>
+                        <th><h6><b>Move To Cart</b></h6></th>
+                        <th><h6><b>Remove From List</b></h6></th>
                     </tr>
                     {finalSaved.map( (value, index, finalSaved ) => ( [ <tr>
                         <th><body>{finalSaved[index][0]}</body></th>
                         <th><body>{finalSaved[index][1]}</body></th>
                         <th><button value = {String(finalSaved[index][2])} onClick = { () => this.handleClickMove( finalSaved[index][2] )}>Move Item to Cart</button></th>
+                        <th><button value = {String(finalSaved[index][2])} onClick = { () => this.handleClickRemove( finalSaved[index][2] )}>Remove Item from List</button></th>
                     </tr> ] ) ) }
                 </table>
                 </div>

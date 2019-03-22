@@ -52,4 +52,4 @@ class SavedItem( models.Model ):
 
     def __str__( self ):
 
-        return '"%s" | $%d | %d' % ( self.itemsSaved.title, self.itemsSaved.price, self.itemsSaved.bookID )
+        return '"%s" | $%.2f | %d' % ( self.itemsSaved.title, self.itemsSaved.price, self.itemsSaved.bookID )
