@@ -20,6 +20,7 @@ class Book(models.Model):
 
 
 class Author(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=120, null=False)
     biography = models.TextField(null=True)
 
