@@ -15,7 +15,7 @@ class HomePage extends React.Component {
     {
         super(props);
         this.state = { 
-            username: '',
+            username: null,
             displayLoginBox: true
         }
         this.handleUser = this.handleUser.bind(this);
@@ -25,13 +25,14 @@ class HomePage extends React.Component {
     handleUser = (user) => {
         this.setState({username: user});
         this.props.user(this.state.username);
+        
     }
     
     displayLogin ()
     {
         const user = sessionStorage.getItem("username");
     
-        if(user === '')
+        if(user === '' || user === null)
         {
             return 'block'
         }
@@ -43,7 +44,8 @@ class HomePage extends React.Component {
   
 
     render( ) {
-        console.log(this.displayLogin());
+        //console.log(this.displayLogin());
+        console.log("Home Page View: " + this.state.username);
         return(
             <Container 
             align ="center" 

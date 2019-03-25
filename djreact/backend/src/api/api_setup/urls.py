@@ -16,7 +16,7 @@ from django.urls import path
 from django.conf.urls.static import static 
 from django.conf import settings 
 
-from api.api_setup.views import (UserViewSet, BookViewSet, AuthorViewSet,
+from api.api_setup.views import (UserViewSet, ProfileViewSet, BookViewSet, AuthorViewSet,
  CategoryViewSet, ShippingInformationViewSet, CreditCardViewSet,
 PublishingViewSet, CommentViewSet, RatingViewSet, CartViewSet, WishListViewSet,
 WishListDetailsViewSet, OrderViewSet, OrderDetailsViewSet)
@@ -25,6 +25,7 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet, base_name='user')
+router.register(r'profiles', ProfileViewSet, base_name='profile')
 router.register(r'books', BookViewSet, base_name='book')
 router.register(r'authors', AuthorViewSet, base_name='author')
 router.register(r'categories', CategoryViewSet, base_name='category')

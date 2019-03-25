@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from api.models import (Author, Book, Cart, Category, Comment, CreditCard,
 Order, OrderDetails, Publishing, Rating,
-ShippingInformation, User, WishList, WishListDetails)
+ShippingInformation, User, Profile, WishList, WishListDetails)
 
 
 """
@@ -25,6 +25,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'password', 'name', 'email', 'home_address', 'date_added')
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('user', 'picture', 'bio')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:

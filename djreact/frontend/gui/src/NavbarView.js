@@ -1,5 +1,4 @@
 import React from 'react';
-import Redirect from 'react-router-dom'
 import {Navbar, Button, Dropdown, SplitButton,
     FormControl, Form, Nav} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -12,18 +11,18 @@ function resetUsername()
 //can use props to display account name on Navbar
 const NavbarView = (props) => 
 {
-    
+    const user = sessionStorage.getItem("username")
     const ButtonDisplay = 
     <div className="ml-auto py-2 pl-1 pr-5" align="right">
         <SplitButton
-        title={sessionStorage.getItem("username")}
+        title={user}
         id="dropdown-menu dropdown-menu-left"
         //id="dropdown-menu-pull-right"
         >
-            <Dropdown.Item href={"/" + props.username}>
+            <Dropdown.Item href={"/profile/" + user}>
                 Profile
             </Dropdown.Item>
-            <Dropdown.Item href={"/" + props.username + "/settings"}>
+            <Dropdown.Item href={"/" + user + "/settings"}>
                 Settings
             </Dropdown.Item>
             <Dropdown.Divider/>
@@ -79,7 +78,7 @@ const NavbarView = (props) =>
             </div>
             
             
-            {sessionStorage.getItem("username") === '' ? signInLink : ButtonDisplay}
+            {user === '' ? signInLink : ButtonDisplay}
             
         </Navbar>
     )

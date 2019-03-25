@@ -4,12 +4,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from rest_framework.decorators import list_route
 
-from api.models import (Book, Author, User, Category, ShippingInformation, 
+from api.models import (Book, Author, User, Profile, Category, ShippingInformation, 
 CreditCard, Publishing, Comment, Rating, Cart, WishList, WishListDetails,
 Order, OrderDetails)
 
 from api.api_setup.serializers import (BookSerializer, AuthorSerializer, 
-UserSerializer, CategorySerializer, ShippingInformationSerializer,
+UserSerializer, ProfileSerializer, CategorySerializer, ShippingInformationSerializer,
 CreditCardSerializer, PublishingSerializer, CommentSerializer,
 RatingSerializer, WishListSerializer, WishListDetailsSerializer,
 OrderSerializer, OrderDetailsSerializer)
@@ -49,6 +49,26 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
+    @list_route(methods=['get', 'post'])
+    def find_user(self, request):
+        user = User.objects.filter(username = request.data['username']).first()
+        
+        #print(user.id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
+
+    @list_route(methods=['get', 'post'])
+    def find_profile(self, request):
+        user = User.objects.filter(username = request.data['username']).first()
+        profile = Profile.objects.filter(user = user).first()
+
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+
 
 class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
@@ -78,9 +98,16 @@ class PublishingViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    serializer_class = CreditCardSerializer
+    serializer_class = CommentSerializer
     queryset = Comment.objects.all()
 
+    @list_route(methods=['get', 'post'])
+    def find_comments(self, request):
+        user = User.objects.filter(username = request.data['username']).first()
+        comments = Comment.objects.filter(user = user)
+        
+        
+        return Response(data=comments)
 
 class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = CreditCardSerializer

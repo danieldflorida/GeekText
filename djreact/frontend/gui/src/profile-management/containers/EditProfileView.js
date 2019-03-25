@@ -3,8 +3,6 @@ import axios from 'axios'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import Profile from '../components/Profile'
-import {FormText, FormControl, Navbar, Nav, InputGroup} from 'react-bootstrap'
-import FormCheckInput from 'react-bootstrap/FormCheckInput';
 class EditProfileView extends React.Component 
 {
     constructor(props)

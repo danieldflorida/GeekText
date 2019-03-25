@@ -10,6 +10,13 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    picture = models.ImageField(default = 'src/images/DefaultProfile.png')
+    bio = models.CharField(max_length=300)
+    def __str__(self):
+        return self.user
+
 class Author(models.Model):
     name = models.CharField(max_length=200)
     bio = models.TextField()
