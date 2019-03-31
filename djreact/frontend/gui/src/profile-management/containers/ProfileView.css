@@ -1,10 +1,58 @@
 .outer-div {
-    display: flex;
-    width: 1000px;
+    display: block;
+    width:1200px;
+    margin:30px;
+}
+.middle-div {
+    display: inline-block;
+    align-self: auto;
+    width: 800px;
     margin-top: 100px;
-    justify-content: flex-start;
+}
+.right-div {
+    display:inline-block;
+    align-self: top;
+    width: 300px;
+    margin-right: 0px;
+    margin-left:20px;
+    padding:10px;
+}
+.profile-pic {
+    display: inline-block;
+    padding: 10px;
 }
 
-.profile-pic {
-    
+.header {
+    display: inline-block;
+    padding: 10px;
+    margin: 0px;
+}
+
+.bio {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    width: 800px;
+    padding: 15px;
+    border: 1px solid grey;
+}
+.comment-block {
+    display: block;
+    justify-content: center;
+    margin: 10px;
+    width: 800px;
+    padding: 15px;
+}
+.comment {
+    display: block;
+    justify-content: left;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.book-cover{
+    padding: 10px;
+    margin: 5px;
 }

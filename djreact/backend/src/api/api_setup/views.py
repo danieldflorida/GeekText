@@ -104,10 +104,15 @@ class CommentViewSet(viewsets.ModelViewSet):
     @list_route(methods=['get', 'post'])
     def find_comments(self, request):
         user = User.objects.filter(username = request.data['username']).first()
-        comments = Comment.objects.filter(user = user)
+        userComments=Comment.objects.filter(user = user)
+        comments = list(userComments)
+        data = []
+        for i in range(len(comments)):
+            serializer = CommentSerializer(comments[i])
+            data.append(serializer.data)
         
         
-        return Response(data=comments)
+        return Response(data=data)
 
 class RatingViewSet(viewsets.ModelViewSet):
     serializer_class = CreditCardSerializer

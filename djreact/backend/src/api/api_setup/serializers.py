@@ -14,7 +14,8 @@ class BookSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ('author', 'category', 'name', 'cover', 'description', 'date_added')
+        fields = ('bookID', 'title', 'price', 'cover', 'genre', 'description', 'publisher', 'publicationDate', 'ISBNThirteen', 'ISBNTen', 'pages', 'authors')
+
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,7 +53,7 @@ class CreditCardSerializer(serializers.ModelSerializer):
 class PublishingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publishing
-        fields = ('book', 'publisher', 'release_date', 'date_added')
+        fields = ('publisher', 'release_date', 'date_added')
 
 
 class CommentSerializer(serializers.ModelSerializer):

@@ -1,6 +1,6 @@
 import React from 'react' 
 import Axios from 'axios'
-import Modal from 'react-bootstrap/Modal'
+import { Image, ListGroup } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 import './ProfileView.css'
 
@@ -17,15 +17,62 @@ class ProfileView extends React.Component
             bio: '',
             name: null,
             userId: null,
-            comments: []
+            comments: [], //used to hold comments table from API
+            renderComments: null //used to render comments in a profie
         }
+    }
+    getBook(id)
+    {
+        return Axios.get(`http://127.0.0.1:8000/api/books/${id}`);
+        
+    }
+
+    renderComments()
+    {
+        const array = this.state.comments;
+        //const thing = this.getBook(array[0].book)
+        //.then(res => res.data.title);
+        
+        function cover(id) {
+            var cover;
+            Axios.get(`http://127.0.0.1:8000/api/books/${id}`)
+            .then((res) => {
+                console.log(res.data.cover);
+                cover = res.data.cover;
+            })
+            return cover;
+        }
+        function title(id) {
+            var title = 'title';
+            Axios.get(`http://127.0.0.1:8000/api/books/${id}`)
+            .then((res) => {
+                console.log(res.data.title);
+                title = res.data.title;
+            })
+            return title;
+        }
+        const comments = array.map(elem  => 
+            <ListGroup.Item key={elem.comment}>
+                <Image 
+                className="inline book-cover"
+                src={cover(elem.book)}
+                width='75' 
+                height ='100' />
+                <h5 className="inline">{title(elem.book)}</h5>
+                <div className="comment">{elem.comment}</div>
+            </ListGroup.Item>
+        );
+  
+        return (
+            <ListGroup className="comment-block">
+                {comments}
+            </ListGroup>
+        )
     }
 
     componentDidMount () 
     {
         const user = this.props.match.params.username;
-
-        var pk;
         //Access user data
         Axios.post(`http://127.0.0.1:8000/api/users/find_user/`, 
         {username : user},
@@ -43,9 +90,10 @@ class ProfileView extends React.Component
             username: user
         })
         .then((res) => {
-            console.log(res.data);
+            //console.log(res.data);
             this.setState({
-                profilePic: res.data.picture
+                profilePic: res.data.picture,
+                bio: res.data.bio
             })
         })
         //Access comments data
@@ -54,44 +102,50 @@ class ProfileView extends React.Component
             username: user
         })
         .then((res) => {
-            console.log(res.data);
+            var list = [] 
+            list = res.data;
+            this.setState({
+                comments: list
+            })
             
+            this.setState({
+                renderComments: this.renderComments()
+            })
+        
         })
         
-
+        
     }
+    
 
     render()
     {
         return(
             <div className="outer-div">
-                {/*Profile Picture Area */}
-                <img src={this.state.profilePic} className="img-circle" alt="profile" height="406" width="300"/>
+                <div className="middle-div">
+                    {/*Profile Picture Area */}
+                    <div className='profile-pic'>
+                        <Image src={'http://127.0.0.1:8000' + this.state.profilePic} roundedCircle height="100" width="100"/>
+                        <h2 className='header'>{this.state.name}</h2>
+                    </div>
+     
+                    {/* Bio */}
+                    <div className="bio">
+                        <h3>Bio</h3>
+                        {this.state.bio}
+                    </div>
+
+                    {/* Comments Area */}
+                    <h4 className="header">Comments</h4>
+                    {this.state.renderComments}
+                    
+                    
+                </div>
                 
-                {/*<Modal
-                    show = {false}
-                    size="lg"
-                    aria-labelledby="contained-modal-title-vcenter"
-                    centered
-                    >
-
-                    <Modal.Header closeButton>            
-                    </Modal.Header>
-                
-
-                    <Modal.Body>         
-                        <div style={{padding: '10px'}}>
-                        <img src={ this.props.data } style={{display: 'inline-block'}} alt="cover" height="550" width="406"/>
-                        </div> 
-                    </Modal.Body>
-
-                </Modal>*/}
-                <h1>{this.state.name}</h1>
-                {/* Bio */}
-
-                {/* Comments Area */}
-
                 {/* Owned Books */}
+                <div className="right-div">
+                    <h5 className="header">Owned Books</h5>
+                </div>
             </div>
         )
     }

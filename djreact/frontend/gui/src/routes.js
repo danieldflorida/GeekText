@@ -6,7 +6,7 @@ import BookList from './book-browsing-and-sorting/containers/BookListView' ;
 import BookDetail from './book-details/containers/BookDetailView' ;
 import EditProfileView from './profile-management/containers/EditProfileView';
 import ProfileView from './profile-management/containers/ProfileView';
-import Profile from './profile-management/components/Profile';
+
 const BaseRouter = (props) => {
     var handleUser = (user) =>
     {

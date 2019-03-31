@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 
 import 'bootstrap/dist/css/bootstrap.css';
-import Profile from '../components/Profile'
+
 class EditProfileView extends React.Component 
 {
     constructor(props)
