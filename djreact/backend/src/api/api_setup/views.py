@@ -5,13 +5,13 @@ from rest_framework.decorators import detail_route
 from rest_framework.decorators import list_route
 
 from api.models import (Book, Author, User, Profile, Category, ShippingInformation, 
-CreditCard, Publishing, Comment, Rating, Cart, WishList, WishListDetails,
-Order, OrderDetails)
+CreditCard, Publishing, Comment, Rating, Cart, WishList, WishListDetails, CartItem, 
+Order, OrderDetails, SavedItem)
 
-from api.api_setup.serializers import (BookSerializer, AuthorSerializer, 
+from api.api_setup.serializers import (BookSerializer, AuthorSerializer, CartSerializer,
 UserSerializer, ProfileSerializer, CategorySerializer, ShippingInformationSerializer,
-CreditCardSerializer, PublishingSerializer, CommentSerializer,
-RatingSerializer, WishListSerializer, WishListDetailsSerializer,
+CreditCardSerializer, PublishingSerializer, CommentSerializer, CartItemSerializer,
+RatingSerializer, WishListSerializer, WishListDetailsSerializer, SavedItemSerializer,
 OrderSerializer, OrderDetailsSerializer)
   
 """
@@ -61,12 +61,44 @@ class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
 
+    @list_route(methods=['post'])
+    def create_profile(self, request):
+        
+        user = User.objects.get(username=request.data['username'])
+
+        profile = Profile(
+            user = user,
+            bio = ''
+        )
+        profile.save()
+
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+
     @list_route(methods=['get', 'post'])
     def find_profile(self, request):
         user = User.objects.filter(username = request.data['username']).first()
         profile = Profile.objects.filter(user = user).first()
 
         serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+
+    @list_route(methods=['post'])
+    def find_pk(self, request):
+        user = User.objects.filter(username = request.data['username']).first()
+        profile = Profile.objects.get(user = user)
+        return Response(profile.pk)
+
+    @detail_route(methods=['put'])
+    def update_profile(self, request, pk=None):
+        user = User.objects.filter(username=request.data['username']).first()
+
+        obj, created = Profile.objects.update_or_create(user=user.id, 
+        defaults={'picture': request.data['picture'], 'bio': request.data['bio']})
+        print(created)
+        #oldProfile.pk
+
+        serializer = ProfileSerializer(obj)
         return Response(serializer.data)
 
 
@@ -88,9 +120,66 @@ class ShippingInformationViewSet(viewsets.ModelViewSet):
     serializer_class = ShippingInformationSerializer
     queryset = ShippingInformation.objects.all()
 
+    @list_route(methods=['get','post'])
+    def find_shippinginformation(self, request):
+        user = User.objects.filter(username = request.data['username'].first())
+        shippinginfo = ShippingInformation.objects.filter(user = user)
+
+        serializer = ShippingInformationSerializer(shippinginfo)
+        return Response(serializer.data)
+
 class CreditCardViewSet(viewsets.ModelViewSet):
     serializer_class = CreditCardSerializer
     queryset = CreditCard.objects.all()
+
+    @list_route(methods=['get','post'])
+    def find_creditcard(self, request):
+        user = User.objects.filter(username = request.data['username'].first())
+        creditcard = CreditCard.objects.filter(user = user)
+
+        serializer = CreditCardSerializer(creditcard)
+        return Response(serializer.data)
+
+    @list_route(methods=['post'])
+    def find_pk(self, request):
+        user = User.objects.filter(username = request.data['username']).first()
+        creditcard = CreditCard.objects.get(user = user)
+        return Response(creditcard.pk)
+
+    @detail_route(methods=['put'])
+    def update_creditcard(self, request, pk=None):
+        user = User.objects.filter(username=request.data['username']).first()
+
+        obj, created = CreditCard.objects.update_or_create(user=user.id, 
+        defaults=
+        {'user' : user,
+         'number': request.data['number'],
+         'expdate': request.data['expdate'],
+         'holdername': request.data['holdername'],
+         'seccode': request.data['seccode'],
+         'billing_address': request.data['billing_address']})
+        print(created)
+
+        serializer = CreditCardSerializer(obj)
+        return Response(serializer.data)
+
+    @list_route(methods=['post'])
+    def create_creditcard(self, request):
+        user = User.objects.filter(username=request.data['username']).first()
+
+        obj, created = CreditCard.objects.update_or_create(user=user.id, 
+        defaults=
+        {'user' : user,
+         'number': request.data['number'],
+         'expdate': request.data['expdate'],
+         'holdername': request.data['holdername'],
+         'seccode': request.data['seccode'],
+         'billing_address': request.data['billing_address']})
+        print(created)
+
+        serializer = CreditCardSerializer(obj)
+        return Response(serializer.data)
+
 
 class PublishingViewSet(viewsets.ModelViewSet):
     serializer_class = PublishingSerializer
@@ -115,30 +204,128 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Response(data=data)
 
 class RatingViewSet(viewsets.ModelViewSet):
-    serializer_class = CreditCardSerializer
+    serializer_class = RatingSerializer
     queryset = Rating.objects.all()
 
+class CartListView( viewsets.ModelViewSet ):
+    queryset = Cart.objects.all() 
+    serializer_class = CartSerializer
 
+    @list_route(methods=['post', 'put'])
+    def create_cart(self, request):
+        
+        user = User.objects.get(username=request.data['username'])
+
+        cart = Cart(
+            user = user,
+            price = 0
+            )
+        cart.save()
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+
+    @detail_route(methods=['put'])
+    def add_to_cart( self, request, pk = None ):
+        cart = self.get_object() 
+        
+        bookChoice = Book.objects.get( 
+            pk = request.data[ 'book_id' ]
+        )
+
+        cart.price = cart.price + bookChoice.price 
+        cart.save()
+
+        alreadyInCart = CartItem.objects.filter( cart = cart, itemsInCart = bookChoice ).first()
+
+        if alreadyInCart:
+            alreadyInCart.quantity += 1
+            alreadyInCart.save()
+        else: 
+            new_cart_item = CartItem( cart = cart, itemsInCart = bookChoice )
+            new_cart_item.save() 
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+    
+    @detail_route( methods = [ 'put' ] )
+    def save_later( self, request, pk = None ):
+        cart = self.get_object() 
+
+        bookChoice = Book.objects.get( 
+            pk = request.data[ 'book_id' ]
+        )
+
+        alreadySaved = SavedItem.objects.filter( cart = cart, itemsSaved = bookChoice ).first()
+
+        if alreadySaved:
+            return Response( CartSerializer(cart).data )
+        else: 
+            new_saved_item = SavedItem( cart = cart, itemsSaved = bookChoice )
+            new_saved_item.save()
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+    
+    @detail_route( methods = [ 'put' ] )
+    def rem_later( self, request, pk = None ):
+        cart = self.get_object() 
+
+        bookChoice = Book.objects.get( 
+            pk = request.data[ 'book_id' ]
+        )
+
+        saved = SavedItem.objects.filter( cart = cart, itemsSaved = bookChoice )
+
+        if saved:
+            saved.delete() 
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+
+class CartItemsView( viewsets.ModelViewSet ):
+    queryset = CartItem.objects.all() 
+    serializer_class = CartSerializer
+
+class SavedItemsView( viewsets.ModelViewSet ):
+    queryset = SavedItem.objects.all() 
+    serializer_class = CartSerializer
+"""
 class CartViewSet(viewsets.ModelViewSet):
-    serializer_class = CreditCardSerializer
+    serializer_class = CartSerializer
     queryset = Cart.objects.all()
-
+"""
 
 class WishListViewSet(viewsets.ModelViewSet):
-    serializer_class = CreditCardSerializer
+    serializer_class = WishListSerializer
     queryset = WishList.objects.all()
 
+    @list_route(methods=['post'])
+    def create_wishlist(self, request):
+        
+        user = User.objects.get(username=request.data['username'])
+
+        wishlist = WishList(
+            user = user,
+            name = '',
+            description=''
+        )
+
+        wishlist.save()
+
+        serializer = WishListSerializer(wishlist)
+        return Response(serializer.data)
 
 class WishListDetailsViewSet(viewsets.ModelViewSet):
-    serializer_class = CreditCardSerializer
+    serializer_class = WishListDetailsSerializer
     queryset = WishListDetails.objects.all()
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    serializer_class = CreditCardSerializer
+    serializer_class = OrderSerializer
     queryset = Order.objects.all()
 
 
 class OrderDetailsViewSet(viewsets.ModelViewSet):
-    serializer_class = CreditCardSerializer
+    serializer_class = OrderDetailsSerializer
     queryset = OrderDetails.objects.all()

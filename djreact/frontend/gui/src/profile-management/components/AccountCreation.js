@@ -20,16 +20,17 @@ constructor (props)
     this.createAccount = this.createAccount.bind(this);
 }
 
-handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    
-    this.setState({
-      [name]: value
-    });
-    
-  }
+    handleInputChange(event) 
+    {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        
+        this.setState({
+        [name]: value
+        });
+        
+    }
 
   verifyPassword(){
     const pass = this.state.password;
@@ -67,7 +68,8 @@ handleInputChange(event) {
     || pass.includes('%') || pass.includes('^')
     || pass.includes('&') || pass.includes('*')
     || pass.includes('-') || pass.includes('_')
-    || pass.includes('+') || pass.includes('='))
+    || pass.includes('+') || pass.includes('=')
+    || pass.includes('?'))
     {
         prec--
         console.log('Password includes special character.')
@@ -132,25 +134,60 @@ handleInputChange(event) {
     return false
   }
 
-  printPasswordStrength(event)
-  {
-    
-  }
-//Used in onClick
-createAccount(e)
-{
-        //e.preventDefault();
-        //Check if user or email exists
-        /*
-        Axios.get( `http://127.0.0.1:8000/api/users/${this.state.username}` )
-        .then( res => {
-            console.log('Username already exists')
-            return
+    printPasswordStrength(event)
+    {
+
+    }
+
+    createRelatedTables(user)
+    {
+        //Initialize a profile
+        Axios.post("http://127.0.0.1:8000/api/profiles/create_profile/", 
+        {
+            username: user
+        },
+        {headers: {"Content-Type": "application/json"}})
+        .then(res => {  
+            console.log(res)
         })
-        */
+        .catch(error => {
+            console.error(error)
+        })
+        
+        //Initialize an empty cart
+        Axios.post("http://127.0.0.1:8000/api/carts/create_cart/", 
+        {
+            username: user
+        },
+        {headers: {"Content-Type": "application/json"}})
+        .then(res => {  
+            console.log(res)
+        })
+        .catch(error => {
+            console.error(error)
+        })
+
+        //Initialize an empty wishlist
+        Axios.post("http://127.0.0.1:8000/api/wishlists/create_wishlist/",
+        {
+            username: user
+        },
+        {headers: {"Content-Type": "application/json"}})
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+  
+    //Used in onClick
+    createAccount(e)
+    {
         console.log('Password verified: ' + this.verifyPassword())
         if(this.verifyPassword() === true)
         {
+            //Creates the user
             Axios.post("http://127.0.0.1:8000/api/users/add_user/", 
             {
                 username: this.state.username,
@@ -162,17 +199,21 @@ createAccount(e)
             {headers: {"Content-Type": "application/json"}})
             .then(res => {  
                 console.log(res)
+                this.createRelatedTables(this.state.username);
             })
             .catch(error => {
                 console.error(error)
             })
-           
+            
+
         }
         else
         {
-            
+            e.preventDefault();
+            alert('Incorrect input');
         }
-}
+    }
+
 
 
 

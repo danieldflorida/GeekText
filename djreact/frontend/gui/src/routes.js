@@ -20,7 +20,7 @@ const BaseRouter = (props) => {
         <Route exact path='/home' 
         render = {(props) => <HomePage {...props} user={handleUser}/>}/>
         <Route exact path='/profile/:username' component = {ProfileView} />
-        <Route exact path='/:username/editprofile' component={EditProfileView} />
+        <Route exact path='/settings/:username' component={EditProfileView} />
     
     </div>
 )} ;

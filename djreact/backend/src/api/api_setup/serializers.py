@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from api.models import (Author, Book, Cart, Category, Comment, CreditCard,
-Order, OrderDetails, Publishing, Rating,
+Order, OrderDetails, Publishing, Rating, CartItem, SavedItem,
 ShippingInformation, User, Profile, WishList, WishListDetails)
 
 
@@ -66,11 +66,37 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = ('user', 'book', 'shownick', 'stars', 'date_added')
 
+class CartSerializer( serializers.ModelSerializer ):
+    items = serializers.StringRelatedField( many = True ) 
+    saved = serializers.StringRelatedField( many = True ) 
+
+    class Meta:
+        model = Cart
+        fields = ( 'id', 'user', 'updated_at', 'items', 'price', 'saved' )
+
+class CartItemSerializer( serializers.ModelSerializer ):
+
+    cart = CartSerializer( read_only = True )
+    itemsInCart = BookSerializer( read_only = True ) 
+
+    class Meta:
+        model = CartItem
+        fields = ( 'id', 'cart', 'itemsInCart', 'quantity' )
+
+
+class SavedItemSerializer( serializers.ModelSerializer ):
+    cart = CartSerializer( read_only = True )
+    itemsSaved = BookSerializer( read_only = True ) 
+
+    class Meta: 
+        model = SavedItem
+        fields = ( 'id', 'cart', 'itemsSaved' )
+"""
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ('user', 'book', 'quantity', 'savedlater', 'date_added')
-
+"""
 class WishListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WishList

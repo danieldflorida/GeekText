@@ -51,6 +51,7 @@ class ProfileView extends React.Component
             })
             return title;
         }
+       
         const comments = array.map(elem  => 
             <ListGroup.Item key={elem.comment}>
                 <Image 
@@ -70,51 +71,54 @@ class ProfileView extends React.Component
         )
     }
 
+    fetchProfileData(user)
+    {
+         //Access user data
+         Axios.post(`http://127.0.0.1:8000/api/users/find_user/`, 
+         {username : user},
+         {headers: {"Content-Type": "application/json"}})
+         .then((res) => {
+           const data = res.data;
+           
+           this.setState({name : data.name});
+         })
+ 
+         //Access profile data
+ 
+         Axios.post(`http://127.0.0.1:8000/api/profiles/find_profile/`,
+         {
+             username: user
+         })
+         .then((res) => {
+             this.setState({
+                 profilePic: res.data.picture,
+                 bio: res.data.bio
+             })
+         })
+         //Access comments data
+         Axios.post(`http://127.0.0.1:8000/api/comments/find_comments/`,
+         {
+             username: user
+         })
+         .then((res) => {
+             var list = [] 
+             list = res.data;
+             this.setState({
+                 comments: list
+             })
+             
+             this.setState({
+                 renderComments: this.renderComments()
+             })
+         
+         })       
+    }
+
     componentDidMount () 
     {
         const user = this.props.match.params.username;
-        //Access user data
-        Axios.post(`http://127.0.0.1:8000/api/users/find_user/`, 
-        {username : user},
-        {headers: {"Content-Type": "application/json"}})
-        .then((res) => {
-          const data = res.data;
-          
-          this.setState({name : data.name});
-        })
-
-        //Access profile data
-
-        Axios.post(`http://127.0.0.1:8000/api/profiles/find_profile/`,
-        {
-            username: user
-        })
-        .then((res) => {
-            //console.log(res.data);
-            this.setState({
-                profilePic: res.data.picture,
-                bio: res.data.bio
-            })
-        })
-        //Access comments data
-        Axios.post(`http://127.0.0.1:8000/api/comments/find_comments/`,
-        {
-            username: user
-        })
-        .then((res) => {
-            var list = [] 
-            list = res.data;
-            this.setState({
-                comments: list
-            })
-            
-            this.setState({
-                renderComments: this.renderComments()
-            })
-        
-        })
-        
-        
+       
+        this.fetchProfileData(user);
     }
     
 

@@ -1,0 +1,20 @@
+.main-header {
+    align-content: center;
+}
+.settings-nav{
+    display: inline-block;
+    align-content: left;
+    width: 300px;
+}
+
+.form-div{
+    display: inline-block;
+    align-content: left;
+}
+
+.outer-div {
+    display: block;
+    width:1200px;
+    margin:30px;
+}
+

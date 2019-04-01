@@ -18,7 +18,7 @@ from django.conf import settings
 
 from api.api_setup.views import (UserViewSet, ProfileViewSet, BookViewSet, AuthorViewSet,
  CategoryViewSet, ShippingInformationViewSet, CreditCardViewSet,
-PublishingViewSet, CommentViewSet, RatingViewSet, CartViewSet, WishListViewSet,
+PublishingViewSet, CommentViewSet, RatingViewSet, CartListView, CartItemsView, WishListViewSet,
 WishListDetailsViewSet, OrderViewSet, OrderDetailsViewSet)
 
 from rest_framework.routers import DefaultRouter
@@ -34,7 +34,8 @@ router.register(r'creditcards', CreditCardViewSet, base_name='creditcard')
 router.register(r'publishers', PublishingViewSet, base_name='publishing')
 router.register(r'comments', CommentViewSet, base_name='comment')
 router.register(r'ratings', RatingViewSet, base_name='rating')
-router.register(r'carts', CartViewSet, base_name='cart')
+router.register(r'carts', CartListView, base_name='cart')
+router.register(r'cartitems', CartItemsView, base_name='cartitems')
 router.register(r'wishlists', WishListViewSet, base_name='wishlist')
 router.register(r'wishlistdetails', WishListDetailsViewSet, base_name='wishlistdetails')
 router.register(r'order', OrderViewSet, base_name='order')

@@ -103,13 +103,65 @@ class Rating(models.Model):
     def __str__(self):
         return self.date_added
 
+class Cart( models.Model ):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    updated_at = models.DateTimeField(auto_now=True)
+    price = models.DecimalField( max_digits = 6, decimal_places = 2, default = 0.0 )
+
+class CartItem( models.Model ):
+    cart = models.ForeignKey( 
+        Cart,
+        related_name= 'items', 
+        on_delete = models.CASCADE,
+        null = True,
+        blank = True
+    )
+    itemsInCart = models.ForeignKey(
+        Book, 
+        related_name='items',
+        on_delete=models.CASCADE,
+    )
+    quantity = models.IntegerField( default = 1 )
+
+    def __str__( self ):
+        
+        a = '"{}" | '.format( self.itemsInCart.title )
+        b = '{} | '.format( self.quantity )
+        c = '${} | '.format( self.itemsInCart.price )
+        d = '{}'.format( self.itemsInCart.bookID )
+        
+
+        ret = a + b + c + d
+
+        return ret
+
+
+class SavedItem( models.Model ):
+    cart = models.ForeignKey( 
+        Cart,
+        related_name= 'saved', 
+        on_delete = models.CASCADE,
+        null = True,
+        blank = True
+    )
+
+    itemsSaved = models.ForeignKey(
+        Book, 
+        related_name='saved',
+        on_delete=models.CASCADE,
+    )
+
+    def __str__( self ):
+
+        return '"%s" | $%.2f | %d' % ( self.itemsSaved.title, self.itemsSaved.price, self.itemsSaved.bookID )
+"""
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     book = models.ForeignKey(Book, on_delete = models.CASCADE)
     quantity = models.IntegerField()
     savedlater = models.BooleanField(default=False)
     date_added = models.DateField(auto_now_add=True)
-
+"""
 class WishList(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=100)

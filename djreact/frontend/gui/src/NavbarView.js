@@ -22,8 +22,8 @@ const NavbarView = (props) =>
             <Dropdown.Item href={"/profile/" + user}>
                 Profile
             </Dropdown.Item>
-            <Dropdown.Item href={"/" + user + "/settings"}>
-                Settings
+            <Dropdown.Item href={"/settings/" + user}>
+                Edit Profile
             </Dropdown.Item>
             <Dropdown.Divider/>
             <Dropdown.Item href={"/" + props.username + "/cart"}>
