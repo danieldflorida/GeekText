@@ -9,55 +9,6 @@ class User(models.Model):
     date_added = models.DateField(auto_now_add=True)
     def __str__(self):
         return self.username
-
-class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    picture = models.ImageField(default = 'src/images/DefaultProfile.png')
-    bio = models.CharField(max_length=300)
-    def __str__(self):
-        return self.user
-
-class Author(models.Model):
-    name = models.CharField(max_length=200)
-    bio = models.TextField()
-    date_added = models.DateField(auto_now_add=True)
-    def __str__(self):
-        return self.name
-    
-class Category(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    date_added = models.DateField(auto_now_add=True)
-    class Meta:
-        verbose_name_plural = "Categories"
-    def __str__(self):
-        return self.name
-
-
-class ShippingInformation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    address = models.CharField(max_length=200)
-    default = models.BooleanField(default=False)
-    date_added = models.DateField(auto_now_add=True)
-    class Meta:
-        verbose_name_plural = "Shipping Information"
-    def __str__(self):
-        return self.address
-
-
-class CreditCard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    number = models.CharField(max_length=100)
-    expdate = models.CharField(max_length=50)
-    holdername = models.CharField(max_length=200)
-    seccode = models.CharField(max_length=50)
-    billing_address = models.CharField(max_length=200)
-    date_added = models.DateField(auto_now_add=True)
-    class Meta:
-        verbose_name_plural = "Credit Cards"
-    def __str__(self):
-        return self.number
-
 class Publishing(models.Model):
     publisher = models.CharField(max_length=200)
     release_date = models.DateField()
@@ -83,6 +34,61 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    picture = models.ImageField(default = 'src/images/DefaultProfile.png')
+    bio = models.CharField(max_length=300)
+    owned_books = models.ForeignKey(
+        Book,
+        null=True,
+        related_name='owned_books',
+        on_delete=models.CASCADE
+    )
+    def __str__(self):
+        return self.user
+
+class Author(models.Model):
+    name = models.CharField(max_length=200)
+    bio = models.TextField()
+    date_added = models.DateField(auto_now_add=True)
+    def __str__(self):
+        return self.name
+    
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    date_added = models.DateField(auto_now_add=True)
+    class Meta:
+        verbose_name_plural = "Categories"
+    def __str__(self):
+        return self.name
+
+class ShippingInformation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=200)
+    default = models.BooleanField(default=False)
+    date_added = models.DateField(auto_now_add=True)
+    class Meta:
+        verbose_name_plural = "Shipping Information"
+    def __str__(self):
+        return self.address
+
+
+class CreditCard(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    number = models.CharField(max_length=100)
+    expdate = models.CharField(max_length=50)
+    holdername = models.CharField(max_length=200)
+    seccode = models.CharField(max_length=50)
+    billing_address = models.CharField(max_length=200)
+    date_added = models.DateField(auto_now_add=True)
+    class Meta:
+        verbose_name_plural = "Credit Cards"
+    def __str__(self):
+        return self.number
+
+
 
 
 class Comment(models.Model):

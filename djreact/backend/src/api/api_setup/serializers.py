@@ -28,9 +28,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'password', 'name', 'email', 'home_address', 'date_added')
 
 class ProfileSerializer(serializers.ModelSerializer):
+    owned_books = serializers.StringRelatedField( many = True ) 
     class Meta:
         model = Profile
-        fields = ('user', 'picture', 'bio')
+        fields = ('user', 'picture', 'bio', 'owned_books')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
