@@ -1,8 +1,9 @@
 import React from 'react' 
 import Axios from 'axios'
-import {Form, Row, Col, Button} from 'react-bootstrap'
+import {Form, Row, Col, Button, Nav, Tab, SplitButton, Dropdown} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 import '../containers/EditProfileView.css';
+
 class EditProfileView extends React.Component 
 {
     constructor(props)
@@ -24,10 +25,16 @@ class EditProfileView extends React.Component
             expDate: '',
             holderName: '',
             securityCode: '',
-            billingAddress: ''
+            billingAddress: '',
+            creditCards: [],
+            //new password info
+            newPassword: '',
+            retypeNewPassword: ''
         };
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.changePassword = this.changePassword.bind(this);
+        this.saveCreditCards = this.saveCreditCards.bind(this);
     }
          
     handleInputChange = (e) =>
@@ -78,8 +85,10 @@ class EditProfileView extends React.Component
 
             })
          })
+         .catch((err) => {console.log(err)})
 
          //Access Credit Card
+         /*
          Axios.post(`http://127.0.0.1:8000/api/profiles/find_creditcard/`,
          {
              username: user
@@ -93,6 +102,25 @@ class EditProfileView extends React.Component
                 billing_address: res.data.billing_address
             })
          })
+         .catch((err) => console.log(err))*/
+          //Access credit cards
+          Axios.post(`http://127.0.0.1:8000/api/creditcards/find_creditcards/`,
+          {
+              username: user
+          })
+          .then((res) => {
+              var list = [] 
+              list = res.data;
+              console.log(list);
+              this.setState({
+                  creditCards: list
+              })
+              
+              /*this.setState({
+                  renderComments: this.renderComments()
+              })*/
+          
+          })       
     }
 
     
@@ -107,7 +135,7 @@ class EditProfileView extends React.Component
     handleSubmit = (e) =>
     {
         e.preventDefault();
-
+        
         //Update profile
         Axios.post(`http://127.0.0.1:8000/api/profiles/find_pk/`,
         {
@@ -130,8 +158,9 @@ class EditProfileView extends React.Component
         
         })
         .catch(err => {console.log(err)})
-
+        
         //Update Credit Card //TODO
+        /*
         Axios.post(`http://127.0.0.1:8000/api/creditcard/find_pk/`,
         {
             username: this.state.username
@@ -152,7 +181,7 @@ class EditProfileView extends React.Component
                 console.log(err);
             } 
             )
-        
+            
         })
         .catch(err => {
             console.log(err)
@@ -170,176 +199,349 @@ class EditProfileView extends React.Component
                 console.log(err);
             } 
             )
-        })
+        })*/
+    }
+    //Submit password change button 
+    //Verifies password and new password passes new requirements
+    changePassword(e)
+    {
+
+    }
+    //Save Credit cards button
+    saveCreditCards(e)
+    {
+
+    }
+    displayCreditCards()
+    {
+        const array = this.state.creditCards;
+
+        const creditcards = array.map((elem,index)  =>
+             
+            <div className="creditcard-form" key={index+1}>
+            <h5>Credit Card {index+1}</h5>
+                <Form.Group as={Row} controlId="creditcardnum">
+                    <Form.Label column sm={2}>
+                        Credit Card Number
+                    </Form.Label>
+                    <Col sm={6}>
+                        <Form.Control 
+                        name="creditCardNum"
+                        placeholder={elem.number} 
+                        onChange={this.handleInputChange}/>
+                    </Col>
+                </Form.Group>
+
+            <Form.Group as={Row} controlId="cardholder">
+                <Form.Label column sm={2}>
+                    Cardholder Name
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    name="holderName"
+                    placeholder={elem.holdername} 
+                    onChange={this.handleInputChange}/>
+                </Col>
+            </Form.Group>
+            
+            <Form.Group as={Row} 
+            //controlId="exp-CCV-form"
+            >
+                <Form.Label column sm={2}>
+                    Expiration Date
+                </Form.Label>
+                <Col sm={3}>
+                    <Form.Control 
+                    name="expDate"
+                    placeholder={elem.expdate}
+                    onChange={this.handleInputChange} />
+                </Col>
+
+                <Form.Label column sm={1}>
+                    CCV
+                </Form.Label>
+                <Col sm={2}>
+                    <Form.Control
+                    name="securityCode"
+                    placeholder={elem.seccode} 
+                    onChange={this.handleInputChange}/>
+                </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} controlId="billingaddress">
+                <Form.Label column sm={2}>
+                    Billing Address
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    name="billingAddress"
+                    placeholder={elem.billing_address}
+                    onChange={this.handleInputChange} />
+                </Col>
+            </Form.Group>
+            
+            </div>
+        );
+        const num = array.length + 1
+        return (
+            <div>
+            {creditcards}
+            <div className="creditcard-form">
+            <h5>Credit Card {num}</h5>
+                <Form.Group as={Row} controlId="creditcardnum">
+                    <Form.Label column sm={2}>
+                        Credit Card Number
+                    </Form.Label>
+                    <Col sm={6}>
+                        <Form.Control 
+                        name="creditCardNum"
+                        placeholder="XXXX-XXXX-XXXX-XXXX" 
+                        onChange={this.handleInputChange}/>
+                    </Col>
+                </Form.Group>
+
+            <Form.Group as={Row} controlId="cardholder">
+                <Form.Label column sm={2}>
+                    Cardholder Name
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    name="holderName"
+                    placeholder="Cardholder Name"
+                    onChange={this.handleInputChange}/>
+                </Col>
+            </Form.Group>
+            
+            <Form.Group as={Row} 
+            //controlId="exp-CCV-form"
+            >
+                <Form.Label column sm={2}>
+                    Expiration Date
+                </Form.Label>
+                <Col sm={3}>
+                    <Form.Control 
+                    name="expDate"
+                    placeholder="mm/dd/yyyy"
+                    onChange={this.handleInputChange} />
+                </Col>
+
+                <Form.Label column sm={1}>
+                    CCV
+                </Form.Label>
+                <Col sm={2}>
+                    <Form.Control
+                    name="securityCode"
+                    placeholder="CCV"
+                    onChange={this.handleInputChange}/>
+                </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} controlId="billingaddress">
+                <Form.Label column sm={2}>
+                    Billing Address
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    name="billingAddress"
+                    placeholder="Billing Address"
+                    onChange={this.handleInputChange} />
+                </Col>
+            </Form.Group>
+            </div>
+            </div>)
     }
 
     render()
     {
+        const settingsForm =  <Form className="form-div">
+        <Form.Group as={Row} controlId="bio">
+            <Form.Label column md={2}>
+                Bio
+            </Form.Label>
+            <Col>
+                <Form.Control 
+                as="textarea" 
+                rows="8"
+                cols="75"
+                name="bio"
+                placeholder={this.state.bio}
+                onChange={this.handleInputChange} />
+            </Col>
+        </Form.Group>
+
+        <br/>
+
+        <Form.Group as={Row} controlId="username">
+            <Form.Label column sm={2}>
+                Username
+            </Form.Label>
+            <Col sm={6}>
+                <Form.Control 
+                placeholder={this.state.username} 
+                onChange={this.handleInputChange}/>
+            </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} controlId="email">
+            <Form.Label column sm={2}>
+                Email
+            </Form.Label>
+            <Col sm={6}>
+                <Form.Control 
+                type="email" 
+                name="email"
+                placeholder={this.state.email}
+                onChange={this.handleInputChange} />
+            </Col>
+        </Form.Group>
+
+        <br/>
+
+        <Form.Group as={Row} controlId="address">
+            <Form.Label column sm={2}>
+                Address
+            </Form.Label>
+            <Col sm={6}>
+                <Form.Control 
+                name="homeAddress"
+                placeholder={this.state.homeAddress}
+                onChange={this.handleInputChange}/>
+            </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} controlId="mailingaddress">
+            <Form.Label column sm={2}>
+                Mailing Address
+            </Form.Label>
+            <Col sm={6}>
+                <Form.Control 
+                name="mailingAddress"
+                placeholder={this.state.mailingAddress}
+                onChange={this.handleInputChange}/>
+            </Col>
+        </Form.Group>
+
+        <br/>
+    
+        <Form.Group as={Row} controlId="rememberMeCheckbox">
+            <Col sm={{ span: 10, offset: 2 }}>
+                <Form.Check label="Remember me" />
+            </Col>
+        </Form.Group>
+
+        <Form.Group as={Row}>
+            <Col sm={{ span: 10, offset: 2 }}>
+            <Button 
+            type="submit"
+            onClick={e => {this.handleSubmit(e)}}>Save Changes</Button>
+            </Col>
+        </Form.Group>
+
+    </Form>
+
+    const changePassword = 
+    <Form>
+        <Form.Group as={Row} controlId="password">
+            <Form.Label column sm={2}>
+                Password
+            </Form.Label>
+            <Col sm={6}>
+                <Form.Control 
+                name="password"
+                type="password"
+                onChange={this.handleInputChange} 
+                />
+            </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} controlId="newPassword">
+            <Form.Label column sm={2}>
+                New Password
+            </Form.Label>
+            <Col sm={6}>
+                <Form.Control 
+                name="newPassword"
+                type="password" 
+                onChange={this.handleInputChange}
+                />
+            </Col>
+        </Form.Group>
+        <Form.Group as={Row} controlId="retypePassword">
+            <Form.Label column sm={2}>
+                Retype New Password
+            </Form.Label>
+            <Col sm={6}>
+                <Form.Control 
+                name="retypeNewPassword"
+                type="password" 
+                onChange={this.handleInputChange}
+                />
+            </Col>
+        </Form.Group>
+
+        <Form.Group as={Row}>
+            <Col sm={{ span: 10, offset: 2 }}>
+            <Button 
+            type="submit"
+            onClick={e => {this.changePassword(e)}}>Save Changes</Button>
+            </Col>
+        </Form.Group>
+    </Form>
+
+    const creditCardForm = 
+    <Form>
+        {this.displayCreditCards()}
+        <Form.Group as={Row}>
+            <Col sm={{ span: 10, offset: 2 }}>
+            <Button 
+            type="submit"
+            onClick={e => {this.saveCreditCards(e)}}>Save Changes</Button>
+            </Col>
+        </Form.Group>
+        
+    </Form>
+    
+
         return(
             <div style={{marginTop:150}} className="outer-div">
                 <h3 className="main-header">Settings</h3>
-                <div className= "settings-nav">
-
-                </div>
-
-                <Form className="form-div">
-                    <Form.Group as={Row} controlId="bio">
-                        <Form.Label column md={2}>
-                            Bio
-                        </Form.Label>
-                        <Col>
-                            <Form.Control 
-                            as="textarea" 
-                            rows="8"
-                            cols="75"
-                            name="bio"
-                            placeholder={this.state.bio}
-                            onChange={this.handleInputChange} />
+                <Tab.Container id="tabs" defaultActiveKey="settings">
+                    <Row
+                     className="row-div"
+                     >
+                        <Col sm={3} 
+                        className="pill-nav"
+                        >
+                            <Nav variant="pills" className="flex-column">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="settings">Settings</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="change-password">Change Password</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="creditCardForm">Credit Cards</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
                         </Col>
-                    </Form.Group>
-
-                    <br/>
-
-                    <Form.Group as={Row} controlId="username">
-                        <Form.Label column sm={2}>
-                            Username
-                        </Form.Label>
-                        <Col sm={6}>
-                            <Form.Control 
-                            placeholder={this.state.username} 
-                            onChange={this.handleInputChange}/>
+                        <Col sm={10} 
+                        className="pill-content"
+                        >
+                            <Tab.Content>
+                                <Tab.Pane eventKey="settings">
+                                    {/*Settings */}
+                                    {settingsForm}
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="change-password">
+                                    {changePassword}
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="creditCardForm">
+                                    {creditCardForm}
+                                </Tab.Pane>
+                            </Tab.Content>
                         </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} controlId="email">
-                        <Form.Label column sm={2}>
-                            Email
-                        </Form.Label>
-                        <Col sm={6}>
-                            <Form.Control 
-                            type="email" 
-                            name="email"
-                            placeholder={this.state.email}
-                            onChange={this.handleInputChange} />
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} controlId="formHorizontalPassword">
-                        <Form.Label column sm={2}>
-                            Password
-                        </Form.Label>
-                        <Col sm={6}>
-                            <Form.Control 
-                            type="password" 
-                            placeholder={this.state.password} //change this to not show password
-                            />
-                        </Col>
-                    </Form.Group>
-
-                    <br/>
-
-                    <Form.Group as={Row} controlId="address">
-                        <Form.Label column sm={2}>
-                            Address
-                        </Form.Label>
-                        <Col sm={6}>
-                            <Form.Control 
-                            name="homeAddress"
-                            placeholder={this.state.homeAddress}
-                            onChange={this.handleInputChange}/>
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} controlId="mailingaddress">
-                        <Form.Label column sm={2}>
-                            Mailing Address
-                        </Form.Label>
-                        <Col sm={6}>
-                            <Form.Control 
-                            name="mailingAddress"
-                            placeholder={this.state.mailingAddress}
-                            onChange={this.handleInputChange}/>
-                        </Col>
-                    </Form.Group>
-
-                    <br/>
-                    <Form.Group as={Row} controlId="creditcardnum">
-                        <Form.Label column sm={2}>
-                            Credit Card Number
-                        </Form.Label>
-                        <Col sm={6}>
-                            <Form.Control 
-                            name="creditCardNum"
-                            placeholder={this.state.creditCardNum} 
-                            onChange={this.handleInputChange}/>
-                        </Col>
-                    </Form.Group>
- 
-                    <Form.Group as={Row} controlId="cardholder">
-                        <Form.Label column sm={2}>
-                            Cardholder Name
-                        </Form.Label>
-                        <Col sm={6}>
-                          <Form.Control 
-                          name="holderName"
-                          placeholder={this.state.holderName} 
-                          onChange={this.handleInputChange}/>
-                        </Col>
-                    </Form.Group>
-                    
-                    <Form.Group as={Row} 
-                    //controlId="exp-CCV-form"
-                    >
-                        <Form.Label column sm={2}>
-                            Expiration Date
-                        </Form.Label>
-                        <Col sm={3}>
-                            <Form.Control 
-                            name="expDate"
-                            placeholder={this.state.expDate}
-                            onChange={this.handleInputChange} />
-                        </Col>
-
-                        <Form.Label column sm={1}>
-                            CCV
-                        </Form.Label>
-                        <Col sm={2}>
-                            <Form.Control
-                            name="securityCode"
-                            placeholder={this.state.securityCode} 
-                            onChange={this.handleInputChange}/>
-                        </Col>
-                    </Form.Group>
-
-
-                    <Form.Group as={Row} controlId="billingaddress">
-                        <Form.Label column sm={2}>
-                            Billing Address
-                        </Form.Label>
-                        <Col sm={6}>
-                            <Form.Control 
-                            name="billingAddress"
-                            placeholder={this.state.billingAddress}
-                            onChange={this.handleInputChange} />
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row} controlId="rememberMeCheckbox">
-                        <Col sm={{ span: 10, offset: 2 }}>
-                            <Form.Check label="Remember me" />
-                        </Col>
-                    </Form.Group>
-
-                    <Form.Group as={Row}>
-                        <Col sm={{ span: 10, offset: 2 }}>
-                        <Button 
-                        type="submit"
-                        onClick={e => {this.handleSubmit(e)}}>Save Changes</Button>
-                        </Col>
-                    </Form.Group>
-
-                </Form>
-
+                    </Row>
+                </Tab.Container>
             
             </div>
         )

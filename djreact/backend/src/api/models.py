@@ -74,7 +74,6 @@ class ShippingInformation(models.Model):
     def __str__(self):
         return self.address
 
-
 class CreditCard(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     number = models.CharField(max_length=100)
@@ -87,8 +86,6 @@ class CreditCard(models.Model):
         verbose_name_plural = "Credit Cards"
     def __str__(self):
         return self.number
-
-
 
 
 class Comment(models.Model):

@@ -137,8 +137,12 @@ class CreditCardViewSet(viewsets.ModelViewSet):
         user = User.objects.filter(username = request.data['username'].first())
         creditcard = CreditCard.objects.filter(user = user)
 
-        serializer = CreditCardSerializer(creditcard)
-        return Response(serializer.data)
+        if creditcard:
+            serializer = CreditCardSerializer(creditcard)
+            return Response(serializer.data)
+        else:
+            return
+        
 
     @list_route(methods=['post'])
     def find_pk(self, request):
@@ -150,7 +154,7 @@ class CreditCardViewSet(viewsets.ModelViewSet):
     def update_creditcard(self, request, pk=None):
         user = User.objects.filter(username=request.data['username']).first()
 
-        obj, created = CreditCard.objects.update_or_create(user=user.id, 
+        obj, created = CreditCard.objects.update_or_create(user=user, 
         defaults=
         {'user' : user,
          'number': request.data['number'],
@@ -166,19 +170,35 @@ class CreditCardViewSet(viewsets.ModelViewSet):
     @list_route(methods=['post'])
     def create_creditcard(self, request):
         user = User.objects.filter(username=request.data['username']).first()
+        ccnum = CreditCard.objects.filter(user=user, number=request.data['number']).exists()
+        if ccnum: #if a credit card num exists for that user
+            return
+        else:
+            obj, created = CreditCard.objects.update_or_create(user=user, 
+            defaults=
+            {'user' : user,
+            'number': request.data['number'],
+            'expdate': request.data['expdate'],
+            'holdername': request.data['holdername'],
+            'seccode': request.data['seccode'],
+            'billing_address': request.data['billing_address']})
+            print(created)
 
-        obj, created = CreditCard.objects.update_or_create(user=user.id, 
-        defaults=
-        {'user' : user,
-         'number': request.data['number'],
-         'expdate': request.data['expdate'],
-         'holdername': request.data['holdername'],
-         'seccode': request.data['seccode'],
-         'billing_address': request.data['billing_address']})
-        print(created)
-
-        serializer = CreditCardSerializer(obj)
-        return Response(serializer.data)
+            serializer = CreditCardSerializer(obj)
+            return Response(serializer.data)
+    
+    @list_route(methods=['get', 'post'])
+    def find_creditcards(self, request): #returns the list of credit cards for a user
+        user = User.objects.filter(username = request.data['username']).first()
+        creditcards= CreditCard.objects.filter(user = user)
+        cards = list(creditcards)
+        data = []
+        for i in range(len(cards)):
+            serializer = CreditCardSerializer(cards[i])
+            data.append(serializer.data)
+        
+        print(data)
+        return Response(data=data)
 
 
 class PublishingViewSet(viewsets.ModelViewSet):
