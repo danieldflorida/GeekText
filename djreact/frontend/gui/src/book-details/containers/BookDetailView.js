@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import MyVerticallyCenteredModal from '../components/EnlargedCover'
 import '../components/BookDetail.css'
-
+import AuthorBooks from './AuthorBooks'
 //import { Card } from 'antd'
 
 
@@ -14,8 +14,7 @@ class BookDetail extends React.Component {
         this.state = { 
           modalShow: false,
           isLoaded: false,
-          items: [],
-          book: {},         
+          book: {}
         };
         
       }
@@ -29,6 +28,30 @@ class BookDetail extends React.Component {
                     isLoaded: true
                 });
             })
+
+//////////////////
+            /*
+            axios.get( `http://127.0.0.1:8000/api/` )
+            .then( res => {
+                this.setState({
+                    allDataFromApi: res.data
+                });
+            })
+            */
+
+            /*
+            fetch('http://127.0.0.1:8000/api/')
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    allDataFromApi: json
+                })
+            })
+            */
+
+
+/////////////////////
+
     }
 
     render( ) {
@@ -37,11 +60,9 @@ class BookDetail extends React.Component {
 
         var { isLoaded } = this.state
 
-        if (!isLoaded){
+        if (!isLoaded ){
         return <div>Loading...</div>
         } else
-
-
         return( 
 
 
@@ -120,6 +141,11 @@ class BookDetail extends React.Component {
            ))}
        </ul>
 
+
+
+
+
+            <AuthorBooks />
 
             </div>
 
