@@ -33,6 +33,19 @@ button[ value = "undefined" ] {
     border:none ;
 }
 
+input[ value = "undefined" ] {
+    display:none;
+}
+
+input[ type = "number"] {
+    width: 210px ;
+}
+
+img[ value = "undefined" ] {
+    display:none;
+}
+
+
 button {
     display: inline-block ;
     border: 1px solid black;

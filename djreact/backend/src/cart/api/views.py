@@ -18,17 +18,100 @@ class CartListView( viewsets.ModelViewSet ):
             pk = request.data[ 'book_id' ]
         )
 
-        cart.price = cart.price + bookChoice.price 
-        cart.save()
-
         alreadyInCart = CartItem.objects.filter( cart = cart, itemsInCart = bookChoice ).first()
 
         if alreadyInCart:
             alreadyInCart.quantity += 1
             alreadyInCart.save()
+
+            cart.price = cart.price + bookChoice.price 
+            cart.save()
+        
         else: 
             new_cart_item = CartItem( cart = cart, itemsInCart = bookChoice )
             new_cart_item.save() 
+
+            cart.price = cart.price + bookChoice.price 
+            cart.save()
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+
+    @detail_route( methods = ['put'] )
+    def add_multiple_cart( self, request, pk = None ):
+        cart = self.get_object() 
+        
+        bookChoice = Book.objects.get( 
+            pk = request.data[ 'book_id' ]
+        )
+
+        count = request.data[ 'quantity' ]
+
+        alreadyInCart = CartItem.objects.filter( cart = cart, itemsInCart = bookChoice ).first()
+
+        if alreadyInCart:
+            for x in range(count):
+                alreadyInCart.quantity += 1
+                alreadyInCart.save()
+
+                cart.price = cart.price + bookChoice.price 
+                cart.save()
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+
+    @detail_route( methods = ['put'] )
+    def rem_cart( self, request, pk = None ):
+        cart = self.get_object() 
+
+        bookChoice = Book.objects.get( 
+            pk = request.data[ 'book_id' ]
+        )
+
+        alreadyInCart = CartItem.objects.filter( cart = cart, itemsInCart = bookChoice ).first()
+
+        if (alreadyInCart) and (alreadyInCart.quantity > 1):
+            alreadyInCart.quantity -= 1
+            alreadyInCart.save()
+
+            cart.price = cart.price - bookChoice.price
+            if cart.price < 0:
+                    cart.price = 0 
+            cart.save()
+        else:
+            alreadyInCart.delete()
+            cart.price = cart.price - bookChoice.price
+            if cart.price < 0:
+                    cart.price = 0 
+            cart.save()
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+
+    @detail_route( methods = ['put'] )
+    def rem_multiple_cart( self, request, pk = None ):
+        cart = self.get_object() 
+        
+        bookChoice = Book.objects.get( 
+            pk = request.data[ 'book_id' ]
+        )
+
+        count = request.data[ 'quantity' ]
+
+        alreadyInCart = CartItem.objects.filter( cart = cart, itemsInCart = bookChoice ).first()
+
+        if alreadyInCart:
+            for x in range(count):
+                if alreadyInCart.quantity > 0:
+                    alreadyInCart.quantity -= 1
+                    alreadyInCart.save()
+
+                    cart.price = cart.price - bookChoice.price 
+                    if cart.price < 0:
+                        cart.price = 0 
+                    cart.save()
+                else:
+                    alreadyInCart.delete()
 
         serializer = CartSerializer(cart)
         return Response(serializer.data)

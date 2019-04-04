@@ -6,3 +6,5 @@ pycache/
 local_settings.py
 db.sqlite3
 media
+package.json
+package-lock.json

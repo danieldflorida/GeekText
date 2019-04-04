@@ -1,4 +1,5 @@
-import React from 'react' 
+import React from 'react'
+import ReactDOM from 'react-dom' 
 import axios from 'axios'
 import {Card} from 'antd'
 import '../App.css'
@@ -10,7 +11,10 @@ class CartDetail extends React.Component {
         books:[]
     }
 
-    componentDidMount() {
+    constructor( props ) {
+        super(props);
+        this.myRef = React.createRef() ;
+
         axios.get( 'http://127.0.0.1:8000/carts/7' )
             .then( res => {
                 this.setState({
@@ -35,6 +39,15 @@ class CartDetail extends React.Component {
 
         })
     }
+
+    componentWillMount() {
+        this.refs = {} 
+        
+    }
+
+    componentDidMount() {
+        
+    }
     
     handleClickMove( value ) { 
         axios.put("http://127.0.0.1:8000/carts/7/add_to_cart/", `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
@@ -47,6 +60,11 @@ class CartDetail extends React.Component {
         axios.put("http://127.0.0.1:8000/carts/7/rem_later/", `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
         alert( "Item has been removed." )
         window.location.reload() 
+    }
+
+    handleNumber( valueSent ) {
+        //var node = ReactDOM.findDOMNode( this.myRef )
+        //node.setAttribute( 'max', 8 )
     }
 
     render( ) {
@@ -113,16 +131,26 @@ class CartDetail extends React.Component {
                         <th><h6><b>Title</b></h6></th>
                         <th><h6><b>Quantity</b></h6></th>
                         <th><h6><b>Unit Price</b></h6></th>
-                        <th><h6><b>Remove Units</b></h6></th>
+                        <th><h6><b>Modify Units</b></h6></th>
                     </tr>
 
                     {finalList.map( (value, index, finalList ) => ( [ <tr>
-                        <th><img width={75} height = {100} alt="cover" src={ finalList[index][0] } /></th>
+                        <th><img width={75} value = {String(finalList[index][2])} height = {100} src={ finalList[index][0] } /></th>
                         <th><body>{finalList[index][1]}</body></th>
                         <th><body>{finalList[index][2]}</body></th>
                         <th><body>{finalList[index][3]}</body></th>
-                        <th><body>tbd</body></th>
-                    </tr> ] ) ) }
+                        <th>
+                            <body value = {String(finalList[index][2])} >
+                                <input Title="Attempting to remove more than the quantity in the cart will remove all of the item."
+                                    type="number" 
+                                    ref={(ref) => this.myRef = ref} 
+                                    min="0" max="50" 
+                                    placeholder="     # to Add or Remove"/>
+                                <br/>
+                                <input type="submit" value="Add Units"/><input type="submit" value="Remove Units"/>
+                            </body>
+                        </th>
+                    </tr> ] ) )  }
 
                     <tr>
                         <th>Subtotal: <b>${this.state.cart.price}</b></th>
@@ -137,7 +165,7 @@ class CartDetail extends React.Component {
                 <div>
                 <table>
                     <tr>
-                        <th><h6><b>Title</b></h6></th>
+                        <th><h6><b>Title</b></h6></th> 
                         <th><h6><b>Price</b></h6></th>
                         <th><h6><b>Move To Cart</b></h6></th>
                         <th><h6><b>Remove From List</b></h6></th>
