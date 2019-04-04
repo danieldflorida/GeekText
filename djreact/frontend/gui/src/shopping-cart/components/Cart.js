@@ -5,7 +5,7 @@ import { List } from 'antd' ;
 
 const Carts = ( props ) => {
     return (
-        <List
+/*        <List
             itemLayout="horizontal"
             size="large"
             pagination={{
@@ -32,7 +32,8 @@ const Carts = ( props ) => {
             </List.Item>
         )}
     />
-
+*/  
+        <div/>
     )
 }
 

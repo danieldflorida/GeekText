@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import '../App.css'
+import '../../App.css'
 
 class CartDetail extends React.Component {
 

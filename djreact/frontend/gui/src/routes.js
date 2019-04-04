@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom' ;
 
 import BookList from './containers/BookListView' ;
 import BookDetail from './containers/BookDetailView' ;
-import CartDetail from './containers/CartDetailView' ;
+import CartDetail from './shopping-cart/containers/CartDetailView' ;
 
 const BaseRouter = () => (
     <div>
