@@ -1,12 +1,12 @@
 import React from 'react' 
 import axios from 'axios'
-import Login from '../components/Login'
 //import { Tabs } from 'antd'
 
 import {Tabs, Tab, Container} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../styling/HomePageView.css'
-import AccountCreation from '../components/AccountCreation';
+import './styling/HomePageView.css'
+import AccountCreation from './profile-management/components/AccountCreation';
+import Login from './profile-management/components/Login'
 
 
 class HomePage extends React.Component {
@@ -15,7 +15,7 @@ class HomePage extends React.Component {
     {
         super(props);
         this.state = { 
-            username: '',
+            username: null,
             displayLoginBox: true
         }
         this.handleUser = this.handleUser.bind(this);
@@ -25,13 +25,14 @@ class HomePage extends React.Component {
     handleUser = (user) => {
         this.setState({username: user});
         this.props.user(this.state.username);
+        
     }
     
     displayLogin ()
     {
         const user = sessionStorage.getItem("username");
     
-        if(user === '')
+        if(user === '' || user === null)
         {
             return 'block'
         }
@@ -43,9 +44,20 @@ class HomePage extends React.Component {
   
 
     render( ) {
-        console.log(this.displayLogin());
+        //console.log(this.displayLogin());
+        console.log("Home Page View: " + this.state.username);
         return(
-            <Container align ="center" className="loginBlock" style={{display: this.displayLogin()}}>
+            <Container 
+            align ="center" 
+            //className="loginBlock" 
+            style={{
+                display: this.displayLogin(),
+                marginTop: '100px',
+                width: '15rem',
+                height: '23rem',  
+                padding: '10px',
+                boxShadow: "2px 2px 3px 4px #ccc"
+                }}>
                 
                 <div className ="ml-auto p-2">
                 <Tabs   

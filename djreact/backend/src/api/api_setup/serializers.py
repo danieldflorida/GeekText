@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from api.models import (Author, Book, Cart, Category, Comment, CreditCard,
-Order, OrderDetails, Publishing, Rating,
-ShippingInformation, User, WishList, WishListDetails)
+Order, OrderDetails, Publishing, Rating, CartItem, SavedItem,
+ShippingInformation, User, Profile, WishList, WishListDetails)
 
 
 """
@@ -14,7 +14,8 @@ class BookSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ('author', 'category', 'name', 'cover', 'description', 'date_added')
+        fields = ('bookID', 'title', 'price', 'cover', 'genre', 'description', 'publisher', 'publicationDate', 'ISBNThirteen', 'ISBNTen', 'pages', 'authors')
+
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,7 +25,13 @@ class AuthorSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password', 'name', 'email', 'home_address', 'date_added')
+        fields = ('username', 'password', 'name', 'email', 'home_address', 'cart', 'date_added')
+
+class ProfileSerializer(serializers.ModelSerializer):
+    owned_books = serializers.StringRelatedField( many = True ) 
+    class Meta:
+        model = Profile
+        fields = ('user', 'picture', 'bio', 'owned_books')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,7 +54,7 @@ class CreditCardSerializer(serializers.ModelSerializer):
 class PublishingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publishing
-        fields = ('book', 'publisher', 'release_date', 'date_added')
+        fields = ('publisher', 'release_date', 'date_added')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -60,11 +67,37 @@ class RatingSerializer(serializers.ModelSerializer):
         model = Rating
         fields = ('user', 'book', 'shownick', 'stars', 'date_added')
 
+class CartSerializer( serializers.ModelSerializer ):
+    items = serializers.StringRelatedField( many = True ) 
+    saved = serializers.StringRelatedField( many = True ) 
+
+    class Meta:
+        model = Cart
+        fields = ( 'id', 'user', 'updated_at', 'items', 'price', 'saved' )
+
+class CartItemSerializer( serializers.ModelSerializer ):
+
+    cart = CartSerializer( read_only = True )
+    itemsInCart = BookSerializer( read_only = True ) 
+
+    class Meta:
+        model = CartItem
+        fields = ( 'id', 'cart', 'itemsInCart', 'quantity' )
+
+
+class SavedItemSerializer( serializers.ModelSerializer ):
+    cart = CartSerializer( read_only = True )
+    itemsSaved = BookSerializer( read_only = True ) 
+
+    class Meta: 
+        model = SavedItem
+        fields = ( 'id', 'cart', 'itemsSaved' )
+"""
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ('user', 'book', 'quantity', 'savedlater', 'date_added')
-
+"""
 class WishListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WishList

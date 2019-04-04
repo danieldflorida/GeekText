@@ -20,16 +20,17 @@ constructor (props)
     this.createAccount = this.createAccount.bind(this);
 }
 
-handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    
-    this.setState({
-      [name]: value
-    });
-    
-  }
+    handleInputChange(event) 
+    {
+        const target = event.target;
+        const value = target.value;
+        const name = target.name;
+        
+        this.setState({
+        [name]: value
+        });
+        
+    }
 
   verifyPassword(){
     const pass = this.state.password;
@@ -67,7 +68,8 @@ handleInputChange(event) {
     || pass.includes('%') || pass.includes('^')
     || pass.includes('&') || pass.includes('*')
     || pass.includes('-') || pass.includes('_')
-    || pass.includes('+') || pass.includes('='))
+    || pass.includes('+') || pass.includes('=')
+    || pass.includes('?'))
     {
         prec--
         console.log('Password includes special character.')
@@ -99,8 +101,7 @@ handleInputChange(event) {
     {
         console.log('Password needs upper and lowercase letters.')
     }
-    //console.log('Preconditions: ' + prec)
-
+    
     if(pass !== this.state.passwordCheck)
     {
         console.log('Passwords are not the same!')
@@ -133,26 +134,76 @@ handleInputChange(event) {
     return false
   }
 
-  printPasswordStrength(event)
-  {
-    
-  }
-//Used in onClick
-createAccount(e)
-{
-        //e.preventDefault();
-        //Check if user or email exists
-        /*
-        Axios.get( `http://127.0.0.1:8000/api/users/${this.state.username}` )
-        .then( res => {
-            console.log('Username already exists')
-            return
+    printPasswordStrength(event)
+    {
+
+    }
+
+    createRelatedTables(user)
+    {
+        //Initialize a profile
+        Axios.post("http://127.0.0.1:8000/api/profiles/create_profile/", 
+        {
+            username: user
+        },
+        {headers: {"Content-Type": "application/json"}})
+        .then(res => {  
+            console.log(res)
         })
-        */
+        .catch(error => {
+            console.error(error)
+        })
+        
+        //Initialize an empty cart
+        Axios.post("http://127.0.0.1:8000/api/carts/create_cart/")
+        .then(res => {  
+            //res.data returns the pk of the cart
+            //console.log("PK" + res.data);
+
+            //Finds the pk of a user
+            Axios.post("http://127.0.0.1:8000/api/users/find_pk/",
+            {username: this.state.username})
+            .then(pk => {
+                //console.log(pk.data)
+
+                //References the new cart to the new user
+                Axios.put(`http://127.0.0.1:8000/api/users/${pk.data}/set_cart/`,
+                {
+                    username: this.state.username,
+                    cart: res.data
+                })
+                .then(r =>
+                    {console.log(r)})
+
+            })
+            
+        })
+        .catch(error => {
+            console.error(error)
+        })
+
+        //Initialize an empty wishlist
+        Axios.post("http://127.0.0.1:8000/api/wishlists/create_wishlist/",
+        {
+            username: user
+        },
+        {headers: {"Content-Type": "application/json"}})
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+  
+    //Used in onClick
+    createAccount(e)
+    {
         console.log('Password verified: ' + this.verifyPassword())
         if(this.verifyPassword() === true)
         {
-            Axios.post('http://127.0.0.1:8000/api/users/add-user/', 
+            //Creates the user
+            Axios.post("http://127.0.0.1:8000/api/users/add_user/", 
             {
                 username: this.state.username,
                 password: this.state.password,
@@ -163,17 +214,21 @@ createAccount(e)
             {headers: {"Content-Type": "application/json"}})
             .then(res => {  
                 console.log(res)
+                this.createRelatedTables(this.state.username);
             })
             .catch(error => {
                 console.error(error)
             })
-           
+            
+
         }
         else
         {
-            
+            e.preventDefault();
+            alert('Incorrect input');
         }
-}
+    }
+
 
 
 
@@ -185,7 +240,7 @@ render()
                 <strong></strong>
             </font>
             <br/>
-            <label>
+            <label style={{margin: '15px 0'}}>
                 E-mail &nbsp;
                 <input 
                     name="email"
@@ -194,7 +249,8 @@ render()
                     onChange={this.handleInputChange}
                      />
             </label>
-            <label>
+            <br/>
+            <label style={{margin: '15px 0'}}>
                 Name &nbsp;
                 <input 
                     name="name"
@@ -203,7 +259,8 @@ render()
                     onChange={this.handleInputChange}
                      />
             </label>
-            <label>
+            <br/>
+            <label style={{margin: '15px 0'}}>
                 Username &nbsp;
                 <input 
                 name="username"
@@ -211,7 +268,8 @@ render()
                 value={this.state.username}
                 onChange={this.handleInputChange} />
             </label>
-            <label>
+            <br/>
+            <label style={{margin: '15px 0'}}>
                 Password &nbsp;
                 <input 
                 name="password"
@@ -220,7 +278,8 @@ render()
                 onChange={this.handleInputChange} />
                 
             </label>
-            <label>
+            <br/>
+            <label style={{margin: '15px 0'}}>
                 Re-enter Password &nbsp;
                 <input 
                 name="passwordCheck"
@@ -228,6 +287,7 @@ render()
                 value={this.state.passwordCheck}
                 onChange={this.handleInputChange} /> 
             </label>
+            <br/>
             <button 
             type="button"
             onClick={e => {this.createAccount(e)}}>Create</button>
