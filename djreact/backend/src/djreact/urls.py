@@ -17,12 +17,21 @@ from django.contrib import admin
 from django.urls import path, include
 
 from django.conf.urls.static import static 
+from django.conf.urls import url
 from django.conf import settings 
+from rest_framework import routers 
+from cart.api import views 
+
+router = routers.DefaultRouter()
+router.register( r'carts', views.CartListView )
+router.register( r'cart_items', views.CartItemsView )
+
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
-    path('api/', include('api.api_setup.urls'))
-    #path('api/users/', include('users.api.urls'))
-    #path('api/', include('books.api.urls'), include('users.api.urls'))
+    path('api/', include('books.api.urls')),
+    url( r'^', include(router.urls)),
+    #path('cart/', include( 'cart.api.urls'))
+
 ] + static( settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )

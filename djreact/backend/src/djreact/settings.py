@@ -25,7 +25,7 @@ SECRET_KEY = '(v1s57rz^x&ron#4bx&-n9(4j%7nvr9#ajkk792yyl+&9iajfd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -38,10 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    #'books',
-    'api',
+    'books',
     'corsheaders',
-    'users'
+    'cart'
 ]
 
 MIDDLEWARE = [
@@ -130,9 +129,10 @@ MEDIA_ROOT = os.path.join( os.path.dirname( BASE_DIR ), 'src' )
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
         'rest_framework.permissions.AllowAny'
     ]
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CART_SES_ID = 'cart'

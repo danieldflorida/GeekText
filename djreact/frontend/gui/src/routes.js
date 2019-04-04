@@ -1,28 +1,18 @@
 import React from 'react' ;
-import { Route } from 'react-router-dom' ;
+import { Route, Switch } from 'react-router-dom' ;
 
-import HomePage from './HomePageView'
-import BookList from './book-browsing-and-sorting/containers/BookListView' ;
-import BookDetail from './book-details/containers/BookDetailView' ;
-import EditProfileView from './profile-management/containers/EditProfileView';
-import ProfileView from './profile-management/containers/ProfileView';
+import BookList from './containers/BookListView' ;
+import BookDetail from './containers/BookDetailView' ;
+import CartDetail from './containers/CartDetailView' ;
 
-const BaseRouter = (props) => {
-    var handleUser = (user) =>
-    {
-        props.data(user);
-    }
-    return(
-    
+const BaseRouter = () => (
     <div>
+    <Switch>
+        <Route exact path='/carts' component = {CartDetail} />
+        <Route exact path='/:bookID' component = {BookDetail} />
         <Route exact path='/' component = {BookList} />
-        <Route exact path='/bookID' component = {BookDetail} />
-        <Route exact path='/home' 
-        render = {(props) => <HomePage {...props} user={handleUser}/>}/>
-        <Route exact path='/profile/:username' component = {ProfileView} />
-        <Route exact path='/settings/:username' component={EditProfileView} />
-    
+    </Switch>
     </div>
-)} ;
+) ;
 
 export default BaseRouter ;

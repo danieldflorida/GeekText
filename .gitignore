@@ -1,19 +1,29 @@
 <<<<<<< HEAD
 =======
+<<<<<<< HEAD
+=======
 
 # Created by https://www.gitignore.io/api/macos,django
 # Edit at https://www.gitignore.io/?templates=macos,django
 
+>>>>>>> origin/Temp-Master-Branch
 >>>>>>> origin/Temp-Master-Branch
 ### Django ###
 *.log
 *.pot
 *.pyc
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/Temp-Master-Branch
 pycache/
 local_settings.py
 db.sqlite3
 media
+<<<<<<< HEAD
+package.json
+package-lock.json
+=======
 =======
 __pycache__/
 local_settings.py
@@ -166,4 +176,5 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/macos,django
+>>>>>>> origin/Temp-Master-Branch
 >>>>>>> origin/Temp-Master-Branch
