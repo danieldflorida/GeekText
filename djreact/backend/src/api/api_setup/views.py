@@ -56,6 +56,21 @@ class UserViewSet(viewsets.ModelViewSet):
         #print(user.id)
         serializer = UserSerializer(user)
         return Response(serializer.data)
+    
+    @list_route(methods=['post'])
+    def find_pk(self, request):
+        user = User.objects.get(username=request.data['username'])
+        return Response(data=user.pk)
+
+    @detail_route(methods=['put'])
+    def set_cart(self, request, pk=None):
+        cart = Cart.objects.get(pk=request.data['cart'])
+        obj, created = User.objects.update_or_create(username=request.data['username'], 
+        defaults={'cart': cart})
+        print(created)
+        
+        serializer = UserSerializer(obj)
+        return Response(serializer.data)
 
 class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
@@ -232,18 +247,15 @@ class CartListView( viewsets.ModelViewSet ):
     serializer_class = CartSerializer
 
     @list_route(methods=['post', 'put'])
-    def create_cart(self, request):
+    def create_cart(self, request): #creates cart and returns pk
         
-        user = User.objects.get(username=request.data['username'])
-
+        #user = User.objects.get(username=request.data['username'])
         cart = Cart(
-            user = user,
             price = 0
             )
         cart.save()
 
-        serializer = CartSerializer(cart)
-        return Response(serializer.data)
+        return Response(data=cart.pk)
 
     @detail_route(methods=['put'])
     def add_to_cart( self, request, pk = None ):

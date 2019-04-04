@@ -155,13 +155,28 @@ constructor (props)
         })
         
         //Initialize an empty cart
-        Axios.post("http://127.0.0.1:8000/api/carts/create_cart/", 
-        {
-            username: user
-        },
-        {headers: {"Content-Type": "application/json"}})
+        Axios.post("http://127.0.0.1:8000/api/carts/create_cart/")
         .then(res => {  
-            console.log(res)
+            //res.data returns the pk of the cart
+            //console.log("PK" + res.data);
+
+            //Finds the pk of a user
+            Axios.post("http://127.0.0.1:8000/api/users/find_pk/",
+            {username: this.state.username})
+            .then(pk => {
+                //console.log(pk.data)
+
+                //References the new cart to the new user
+                Axios.put(`http://127.0.0.1:8000/api/users/${pk.data}/set_cart/`,
+                {
+                    username: this.state.username,
+                    cart: res.data
+                })
+                .then(r =>
+                    {console.log(r)})
+
+            })
+            
         })
         .catch(error => {
             console.error(error)

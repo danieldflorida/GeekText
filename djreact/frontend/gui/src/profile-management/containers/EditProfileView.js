@@ -20,12 +20,13 @@ class EditProfileView extends React.Component
             homeAddress: '',
             //shipping information
             mailingAddress: '',
-            //credit card
+            //for NEW credit card addition
             creditCardNum: '',
             expDate: '',
             holderName: '',
             securityCode: '',
             billingAddress: '',
+            //List of credit cards on file
             creditCards: [],
             //new password info
             newPassword: '',
@@ -35,6 +36,7 @@ class EditProfileView extends React.Component
         this.handleSubmit = this.handleSubmit.bind(this);
         this.changePassword = this.changePassword.bind(this);
         this.saveCreditCards = this.saveCreditCards.bind(this);
+        this.handleCreditCards = this.handleCreditCards.bind(this);
     }
          
     handleInputChange = (e) =>
@@ -210,7 +212,42 @@ class EditProfileView extends React.Component
     //Save Credit cards button
     saveCreditCards(e)
     {
-
+        e.preventDefault();
+        const array = this.state.creditCards;
+        for (let i = 0; i < array.length; i++) {
+        
+            
+        }
+    }
+    handleCreditCards = (e, index) =>
+    {
+        const name = e.target.name;
+        const value = e.target.value;
+        const array = this.state.creditCards;
+        
+        switch(name)
+        {
+            case 'number':
+                array[index].number = value; 
+            break;
+            case 'holdername':
+                array[index].holdername = value; 
+            break;
+            case 'expdate':
+                array[index].expdate = value; 
+            break;
+            case 'seccode':
+                array[index].seccode = value; 
+            break;
+            case 'billing_address':
+                array[index].billing_address = value; 
+            break;
+            default:
+            break;
+        }
+        this.setState({
+            creditCards: array
+        })  
     }
     displayCreditCards()
     {
@@ -220,31 +257,33 @@ class EditProfileView extends React.Component
              
             <div className="creditcard-form" key={index+1}>
             <h5>Credit Card {index+1}</h5>
-                <Form.Group as={Row} controlId="creditcardnum">
+                <Form.Group as={Row}>
                     <Form.Label column sm={2}>
                         Credit Card Number
                     </Form.Label>
                     <Col sm={6}>
                         <Form.Control 
-                        name="creditCardNum"
+                        name="number"
                         placeholder={elem.number} 
-                        onChange={this.handleInputChange}/>
+                        onChange={e=> {this.handleCreditCards(e, index)}}
+                        />
                     </Col>
                 </Form.Group>
 
-            <Form.Group as={Row} controlId="cardholder">
+            <Form.Group as={Row}>
                 <Form.Label column sm={2}>
                     Cardholder Name
                 </Form.Label>
                 <Col sm={6}>
                     <Form.Control 
-                    name="holderName"
+                    name="holdername"
                     placeholder={elem.holdername} 
-                    onChange={this.handleInputChange}/>
+                    onChange={e=> {this.handleCreditCards(e, index)}}
+                    />
                 </Col>
             </Form.Group>
             
-            <Form.Group as={Row} 
+            <Form.Group as={Row}
             //controlId="exp-CCV-form"
             >
                 <Form.Label column sm={2}>
@@ -252,9 +291,10 @@ class EditProfileView extends React.Component
                 </Form.Label>
                 <Col sm={3}>
                     <Form.Control 
-                    name="expDate"
+                    name="expdate"
                     placeholder={elem.expdate}
-                    onChange={this.handleInputChange} />
+                    onChange={e=> {this.handleCreditCards(e, index)}}
+                     />
                 </Col>
 
                 <Form.Label column sm={1}>
@@ -262,21 +302,23 @@ class EditProfileView extends React.Component
                 </Form.Label>
                 <Col sm={2}>
                     <Form.Control
-                    name="securityCode"
+                    name="seccode"
                     placeholder={elem.seccode} 
-                    onChange={this.handleInputChange}/>
+                    onChange={e=> {this.handleCreditCards(e, index)}}
+                    />
                 </Col>
             </Form.Group>
 
-            <Form.Group as={Row} controlId="billingaddress">
+            <Form.Group as={Row} >
                 <Form.Label column sm={2}>
                     Billing Address
                 </Form.Label>
                 <Col sm={6}>
                     <Form.Control 
-                    name="billingAddress"
+                    name="billing_address"
                     placeholder={elem.billing_address}
-                    onChange={this.handleInputChange} />
+                    onChange={e=> {this.handleCreditCards(e, index)}} 
+                    />
                 </Col>
             </Form.Group>
             
@@ -288,7 +330,7 @@ class EditProfileView extends React.Component
             {creditcards}
             <div className="creditcard-form">
             <h5>Credit Card {num}</h5>
-                <Form.Group as={Row} controlId="creditcardnum">
+                <Form.Group as={Row}>
                     <Form.Label column sm={2}>
                         Credit Card Number
                     </Form.Label>
@@ -296,11 +338,12 @@ class EditProfileView extends React.Component
                         <Form.Control 
                         name="creditCardNum"
                         placeholder="XXXX-XXXX-XXXX-XXXX" 
-                        onChange={this.handleInputChange}/>
+                        onChange={this.handleInputChange}
+                        />
                     </Col>
                 </Form.Group>
 
-            <Form.Group as={Row} controlId="cardholder">
+            <Form.Group as={Row}>
                 <Form.Label column sm={2}>
                     Cardholder Name
                 </Form.Label>
@@ -336,7 +379,7 @@ class EditProfileView extends React.Component
                 </Col>
             </Form.Group>
 
-            <Form.Group as={Row} controlId="billingaddress">
+            <Form.Group as={Row} >
                 <Form.Label column sm={2}>
                     Billing Address
                 </Form.Label>
