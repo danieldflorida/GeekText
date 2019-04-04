@@ -1,7 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom' 
 import axios from 'axios'
-import {Card} from 'antd'
 import '../App.css'
 
 class CartDetail extends React.Component {
@@ -114,7 +112,7 @@ class CartDetail extends React.Component {
         }
 
         var finalSaved = [] 
-        for( var i = 0 ; i < sitems.length ; i++ ) {
+        for( i = 0 ; i < sitems.length ; i++ ) {
             finalSaved.push( [ sitems[i], sprices[i], sbooks[i] ] ) ; 
         }
 
@@ -135,7 +133,7 @@ class CartDetail extends React.Component {
                     </tr>
 
                     {finalList.map( (value, index, finalList ) => ( [ <tr>
-                        <th><img width={75} value = {String(finalList[index][2])} height = {100} src={ finalList[index][0] } /></th>
+                        <th><img width={75} alt = "" value = {String(finalList[index][2])} height = {100} src={ finalList[index][0] } /></th>
                         <th><body>{finalList[index][1]}</body></th>
                         <th><body>{finalList[index][2]}</body></th>
                         <th><body>{finalList[index][3]}</body></th>
