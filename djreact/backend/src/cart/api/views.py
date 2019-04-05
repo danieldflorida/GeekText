@@ -100,8 +100,8 @@ class CartListView( viewsets.ModelViewSet ):
 
         alreadyInCart = CartItem.objects.filter( cart = cart, itemsInCart = bookChoice ).first()
 
-        if alreadyInCart:
-            for x in range(count):
+        if alreadyInCart and ( count != alreadyInCart.quantity):
+            for x in range(0, count):
                 if alreadyInCart.quantity > 0:
                     alreadyInCart.quantity -= 1
                     alreadyInCart.save()
@@ -112,6 +112,11 @@ class CartListView( viewsets.ModelViewSet ):
                     cart.save()
                 else:
                     alreadyInCart.delete()
+        else:
+            alreadyInCart.delete()
+            cart.price = cart.price - alreadyInCart.quantity * bookChoice.price 
+            cart.save()
+
 
         serializer = CartSerializer(cart)
         return Response(serializer.data)

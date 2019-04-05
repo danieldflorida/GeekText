@@ -11,7 +11,8 @@ class CartDetail extends React.Component {
 
     constructor( props ) {
         super(props);
-        this.myRef = React.createRef() ;
+        this.myRef = [] ;
+        //= React.createRef() ;
 
         axios.get( 'http://127.0.0.1:8000/carts/7' )
             .then( res => {
@@ -60,9 +61,28 @@ class CartDetail extends React.Component {
         window.location.reload() 
     }
 
-    handleNumber( valueSent ) {
-        //var node = ReactDOM.findDOMNode( this.myRef )
-        //node.setAttribute( 'max', 8 )
+    handleNumberAdd( id, num ) {
+        if( num != 0 && num <= 30 ) {
+            axios.put("http://127.0.0.1:8000/carts/7/add_multiple_cart/", `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
+            alert( "The item(s) have been added." )
+            window.location.reload() 
+        } else if( num > 30 ) {
+            alert( "Please enter a value lower than or equal to 30." )
+        } else {
+            alert( "Please enter a value to add to the cart." )
+        }
+    }
+
+    handleNumberDel( id, num ) {
+        if( num != 0 && num <= 30 ) {
+            axios.put("http://127.0.0.1:8000/carts/7/rem_multiple_cart/", `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
+            alert( "The item(s) have been removed." )
+            window.location.reload() 
+        } else if( num > 30 ) {
+            alert( "Please enter a value lower than or equal to 30." )
+        } else {
+            alert( "Please enter a value to remove from the cart." )
+        }
     }
 
     render( ) {
@@ -78,6 +98,7 @@ class CartDetail extends React.Component {
         const quantity = []
         const prices = []
         const covers = [] 
+        const bookIDs = []
         for( let [i, value] of itemList.entries() ) {
             if( i === 0 || i%4 === 0 )
                 items.push( <li key={i}>{value}</li>) ; 
@@ -85,13 +106,16 @@ class CartDetail extends React.Component {
                 quantity.push( <li key={i}>{value}</li>) ;
             else if( i === 2 || ( i - 2 ) % 4 === 0 ) 
                 prices.push( <li key={i}>{value}</li>) ;
-            else 
+            else {
                 covers.push( this.state.books[ itemList[i] - 1 ] )
+                bookIDs.push( itemList[i] )
+            }
         }
+        console.log( itemList )
 
         var finalList = [] 
         for( var i = 0 ; i < items.length ; i++ ) {
-            finalList.push( [ covers[i], items[i], quantity[i], prices[i] ] ) ; 
+            finalList.push( [ covers[i], items[i], quantity[i], prices[i], bookIDs[i] ] ) ; 
         }
 
         var savedList = String( this.state.cart.saved ).split( "," )
@@ -139,13 +163,17 @@ class CartDetail extends React.Component {
                         <th><body>{finalList[index][3]}</body></th>
                         <th>
                             <body value = {String(finalList[index][2])} >
-                                <input Title="Attempting to remove more than the quantity in the cart will remove all of the item."
+                                <input Title="The maximum to modify at once is 30."
                                     type="number" 
-                                    ref={(ref) => this.myRef = ref} 
-                                    min="0" max="50" 
+                                    id = "quantity"
+                                    ref={(ref) => this.myRef[index] = ref} 
+                                    min="1" max="30" 
                                     placeholder="     # to Add or Remove"/>
                                 <br/>
-                                <input type="submit" value="Add Units"/><input type="submit" value="Remove Units"/>
+                                <input type="submit" value="Add Units" onClick = { () => this.handleNumberAdd( finalList[index][4], this.myRef[index].value ) }/>
+                                <input type="submit" value="Remove Units" 
+                                    Title="Attempting to remove more than the quantity in the cart will remove all of the item."
+                                    onClick = { () => this.handleNumberDel( finalList[index][4], this.myRef[index].value ) }/>
                             </body>
                         </th>
                     </tr> ] ) )  }
