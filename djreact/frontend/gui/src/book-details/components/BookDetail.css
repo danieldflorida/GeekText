@@ -3,12 +3,14 @@
     width: 1000px;
     margin: auto;
     justify-content: space-around;
+ /*   border: 1px #ccc solid; */
 }
 
 .left-column-container {
     margin: 20px;
     flex: 1px;
     min-width: 450px;
+  /*  border: 1px #ccc solid;*/
 }
 
 .small-bkCover {
@@ -22,6 +24,7 @@
     margin: 20px;
     flex: 1px;
     min-width: 10px;
+  /*  border: 1px #ccc solid;*/
 }
 
 .price-money-symbol {

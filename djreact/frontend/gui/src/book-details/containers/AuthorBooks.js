@@ -1,5 +1,6 @@
 import React from 'react' 
 import axios from 'axios'
+import '../components/AuthorBooks.css'
 
 class AuthorBooks extends React.Component {
 
@@ -8,14 +9,7 @@ class AuthorBooks extends React.Component {
     
         this.state = { 
           isLoaded: false,
-          items: [],
-          book: {},  
-          ///////
-          allDataFromApi: [],
-
-          result: [], 
-          isEmpty: true
-          ///////
+          allDataFromApi: []
         };
         
       }
@@ -29,46 +23,65 @@ class AuthorBooks extends React.Component {
                 });
             })
 
-
     }
 
     render( ) {
 
-        //////////////
-        const authName = 'James Kurose'
-        const theresult = this.state.allDataFromApi.map(abook => ({
+       
+        //////////////////////
+        const authName = this.props.location.state.authorName
+
+        const resultingBooks = this.state.allDataFromApi.map(abook => ({          
            ...abook, 
            authors: abook.authors.filter(auth => auth.name.includes(authName))
        })).filter(abook => abook.authors.length > 0)
 
 
-
+       /////////////////////////
 
 
         var { isLoaded } = this.state
 
-        if (!isLoaded ){
+        if (!isLoaded){
         return <div>Loading...</div>
         } else
         return( 
 
+            
+
+            <div className="div-container">
+
+                <h1 className="h1-author-name">{authName}</h1>
+
+                <div className="div-author-biography">
+                   { <p>{resultingBooks[0].authors[0].biography}</p>}
+                </div>
+
+                <br></br>
+                <br></br>
+                <br></br>
 
 
-            <div>
-                <ul>
-                {theresult.map(anitem => (
-                    <div>
-                        <li>
-                            {anitem.title}
-                        </li>
+                <div className="between-books">
+                {resultingBooks.map(thisAuthorsBook => (
+                    <div className="a-books-info" key={thisAuthorsBook.id}>
+                        
+                        <img src={ thisAuthorsBook.cover } className="book-covers" alt="cover" height="285" width="200"/>
+        
+                            <br></br>
+                            <div className="book-title">
+                            <span>{thisAuthorsBook.title}</span>
+                             </div>
+                        
                     </div>
 
                 ))}
-                </ul>
+                </div>
 
 
                 {/*theresult[0].title*/}
-                {console.log(theresult)}
+                {console.log(resultingBooks)}
+                
 
             </div>
 

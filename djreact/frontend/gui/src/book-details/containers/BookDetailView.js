@@ -2,7 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import MyVerticallyCenteredModal from '../components/EnlargedCover'
 import '../components/BookDetail.css'
-import AuthorBooks from './AuthorBooks'
+//import AuthorBooks from './AuthorBooks'
+import { Link } from "react-router-dom"
 //import { Card } from 'antd'
 
 
@@ -55,6 +56,8 @@ class BookDetail extends React.Component {
     }
 
     render( ) {
+
+        const currBookID = this.props.match.params.id 
 
         let modalClose = () => this.setState({ modalShow: false });
 
@@ -129,9 +132,27 @@ class BookDetail extends React.Component {
           <ul>
           {this.state.book.authors.map(author => (
 
-            <div>
-                <li key={author.id}>
-                    <div className="author-name">{author.name}</div> 
+            <div key={author.id}>
+                <li>
+                    <div className="author-name">
+                    
+                      <Link to={{
+                          pathname: `${currBookID}/AuthorBooks`,
+                          state: {
+                            authorName: author.name
+                          }
+                        }}>
+                       
+                        {author.name}</Link>
+                    
+                    </div> 
+                    {console.log(author.name)}
+
+                    {/* 
+                    <div className="author-name">
+                        <Link to={`${currBookID}/AuthorBooks`}>{author.name}</Link>
+                    </div> 
+                    */}
                     <div>{author.biography}</div>
                     <br></br>
                     <br></br>
@@ -145,7 +166,7 @@ class BookDetail extends React.Component {
 
 
 
-            <AuthorBooks />
+            {/*<AuthorBooks />*/}
 
             </div>
 
