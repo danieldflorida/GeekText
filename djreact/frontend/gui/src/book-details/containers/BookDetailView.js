@@ -141,18 +141,13 @@ class BookDetail extends React.Component {
                           state: {
                             authorName: author.name
                           }
-                        }}>
-                       
+                        }}>                     
                         {author.name}</Link>
                     
                     </div> 
-                    {console.log(author.name)}
+                    {/*console.log(author.name)*/}
 
-                    {/* 
-                    <div className="author-name">
-                        <Link to={`${currBookID}/AuthorBooks`}>{author.name}</Link>
-                    </div> 
-                    */}
+                
                     <div>{author.biography}</div>
                     <br></br>
                     <br></br>

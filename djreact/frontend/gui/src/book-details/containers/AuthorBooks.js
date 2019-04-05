@@ -1,6 +1,7 @@
 import React from 'react' 
 import axios from 'axios'
 import '../components/AuthorBooks.css'
+import { Link } from "react-router-dom"
 
 class AuthorBooks extends React.Component {
 
@@ -29,6 +30,8 @@ class AuthorBooks extends React.Component {
 
        
         //////////////////////
+       
+
         const authName = this.props.location.state.authorName
 
         const resultingBooks = this.state.allDataFromApi.map(abook => ({          
@@ -66,11 +69,25 @@ class AuthorBooks extends React.Component {
                 {resultingBooks.map(thisAuthorsBook => (
                     <div className="a-books-info" key={thisAuthorsBook.id}>
                         
-                        <img src={ thisAuthorsBook.cover } className="book-covers" alt="cover" height="285" width="200"/>
-        
+                    <Link to={{
+                        pathname: `/${thisAuthorsBook.id}`
+                      }}>                     
+                       <img src={ thisAuthorsBook.cover } className="book-covers" alt="cover" height="285" width="200"/>
+                    </Link>
+
+
                             <br></br>
                             <div className="book-title">
-                            <span>{thisAuthorsBook.title}</span>
+                            
+
+                            <Link to={{
+                                pathname: `/${thisAuthorsBook.id}`
+                              }}>                     
+                              {thisAuthorsBook.title}</Link>
+
+                           {/* <span>{thisAuthorsBook.title}</span>*/}
+                            <br></br>
+                            <span>{resultingBooks[0].authors[0].name}</span>
                              </div>
                         
                     </div>
@@ -79,8 +96,7 @@ class AuthorBooks extends React.Component {
                 </div>
 
 
-                {/*theresult[0].title*/}
-                {console.log(resultingBooks)}
+                {/*console.log(resultingBooks)*/}
                 
 
             </div>
