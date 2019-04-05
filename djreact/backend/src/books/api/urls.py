@@ -1,21 +1,4 @@
-##################
-'''
-from django.urls import path, include
-from .import views
-from rest_framework import routers
 
-router = routers.DefaultRouter()
-router.register('Books', views.BookView)
-router.register('Authors', views.AuthorView)
-
-urlpatterns = [
-    path('', include(router.urls)),
-]
-'''
-#####################
-
-
-######################
 
 from django.urls import path
 
@@ -31,4 +14,4 @@ urlpatterns = [
     path('<pk>', BookDetailView.as_view())
 ] + static( settings.MEDIA_URL )
 
-##########################
+

@@ -23,8 +23,7 @@ class Author(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=120, null=False)
     biography = models.TextField(null=True)
-    #books = models.ForeignKey('Book', blank=True, null=True, on_delete=models.CASCADE)
-    books = models.ManyToManyField('Book', blank=True)
+    
 
     def __str__(self):
         return self.name

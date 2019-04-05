@@ -5,7 +5,7 @@ from books.models import Author
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ('id', 'name', 'biography', 'books')
+        fields = ('id', 'name', 'biography')
         #depth = 1
 
 
