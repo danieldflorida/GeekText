@@ -110,7 +110,7 @@ class Login extends Component {
             onClick={e => {this.loginClick(e, this.state.Username, this.state.Password)}}>Login</Button>
             </Col>
         </Form.Group>
-        <a href="/forgotpassword">Forgot Password?</a>
+        <a align="left" href="/forgotpassword">Forgot Password?</a>
       </Form>
     )
   }

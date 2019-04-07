@@ -73,7 +73,9 @@ class Category(models.Model):
         return self.name
 
 class ShippingInformation(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     default = models.BooleanField(default=False)
     date_added = models.DateField(auto_now_add=True)

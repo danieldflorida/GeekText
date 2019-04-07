@@ -20,7 +20,10 @@ class EditProfileView extends React.Component
             email: '',
             homeAddress: '',
             //shipping information
-            mailingAddress: '',
+            shippingInfo: [],
+            //for NEW shipping address
+            shippingName: '',
+            newMailingAddress: '', 
             //for NEW credit card addition
             creditCardNum: '',
             expDate: '',
@@ -39,6 +42,9 @@ class EditProfileView extends React.Component
         this.saveCreditCard = this.saveCreditCard.bind(this);
         this.createCreditCard = this.createCreditCard.bind(this);
         this.handleCreditCards = this.handleCreditCards.bind(this);
+        this.handleShippingInfo = this.handleShippingInfo.bind(this);
+        this.createShippingInfo = this.createShippingInfo.bind(this);
+        this.saveShippingInfo = this.saveShippingInfo.bind(this);
     }
          
     handleInputChange = (e) =>
@@ -80,34 +86,20 @@ class EditProfileView extends React.Component
          })
 
          //Access Shipping Information
-         Axios.post(`http://127.0.0.1:8000/api/profiles/find_shippinginformation/`,
+         Axios.post(`http://127.0.0.1:8000/api/shippinginformation/find_shippinginformation/`,
          {
              username: user
          })
          .then((res) => {
+            console.log(res.data);
             this.setState({
-                mailingAddress: res.data.address
+                shippingInfo: res.data //res.data should return a list of addresses
 
             })
          })
          .catch((err) => {console.log(err)})
 
-         //Access Credit Card
-         /*
-         Axios.post(`http://127.0.0.1:8000/api/profiles/find_creditcard/`,
-         {
-             username: user
-         })
-         .then((res) => {
-            this.setState({
-                creditCardNum: res.data.number,
-                expDate: res.data.expdata,
-                holderName: res.data.holdername,
-                securityCode: res.data.seccode,
-                billing_address: res.data.billing_address
-            })
-         })
-         .catch((err) => console.log(err))*/
+         
           //Access credit cards
           Axios.post(`http://127.0.0.1:8000/api/creditcards/find_creditcards/`,
           {
@@ -120,11 +112,7 @@ class EditProfileView extends React.Component
               this.setState({
                   creditCards: list
               })
-              
-              /*this.setState({
-                  renderComments: this.renderComments()
-              })*/
-          
+
           })       
     }
 
@@ -147,12 +135,12 @@ class EditProfileView extends React.Component
             username: this.state.username
         })
         .then((res) => {
-            //console.log(res);
+            console.log(this.state.profilePic);
             Axios.put(`http://127.0.0.1:8000/api/profiles/${res.data}/update_profile/`,
             {
                 username: this.state.username,
-                bio: this.state.bio,
-                picture: this.state.profilePic
+                bio: this.state.bio
+                //picture: this.state.profilePic
             })
             .then((res)=>{
                 console.log(res)
@@ -192,106 +180,6 @@ class EditProfileView extends React.Component
 
     }
 
-    validateCreditCards(list)
-    {
-        let validate = true;
-        
-        //Validates the existing list of credit cards
-        for(let i = 0; i < list.length && validate === true; i++)
-        {
-            //Credit card number must be 16 digits
-            let num = list[i].number.split(" ").join('');//replace whitespace with nothing
-            num = num.split('-').join(''); //replace dashes with nothing 
-
-            //console.log(num);
-            if(num.length != 16) 
-            {
-                validate = false;
-                alert("Credit card " + i + " must be 16 digits");
-            }
-
-            //Security code must be 3 digits
-            if(list[i].seccode.toString().length != 3)
-            {
-                validate = false;
-                alert("Security code must be 3 digits");
-            }
-
-            //Validating Expiration date
-            let date = list[i].expdate.split("/");
-            //console.log(date);
-            if(date.length === 3)
-            {
-                const month = parseInt(date[0]);
-                const day = parseInt(date[1]);
-                const year = parseInt(date[2]);
-                
-                if((month < 0 || month > 12) ||
-                 (day < 0 || day > 31) || 
-                 (year < new Date().getFullYear())) //expiration date has passed
-                 {
-                    validate = false;
-                    alert("Enter a valid date.")
-                 }
-                    
-            }
-            else
-            {
-                validate = false;
-                alert("Enter a valid date.")
-            }    
-
-        }
-
-        //This section validates the new credit card
-        
-        let num = this.state.creditCardNum.split(" ").join('');//replace whitespace with nothing
-        num = num.split('-').join(''); //replace dashes with nothing 
-
-        if(num != '' && num.length != 16) 
-        {
-            validate = false;
-            alert("New credit card must be 16 digits");
-        }
-
-        //Security code must be 3 digits
-        const code = this.state.securityCode;
-        if(code != '' && code.length != 3)
-        {
-            validate = false;
-            alert("Security code must be 3 digits");
-        }
-
-        //Validating Expiration date
-        
-        let expdate = this.state.expDate;
-        let date = this.state.expDate.split("/");
-        if(expdate != '')
-        {
-            if(date.length === 3)
-            {
-                const month = parseInt(date[0]);
-                const day = parseInt(date[1]);
-                const year = parseInt(date[2]);
-                
-                if((month < 0 || month > 12) ||
-                    (day < 0 || day > 31) || 
-                    (year < new Date().getFullYear())) //expiration date has passed
-                    {
-                    validate = false;
-                    alert("Enter a valid date.")
-                    }
-                    
-            }
-            else
-            {
-                validate = false;
-                alert("Enter a valid date.")
-            }    
-        }
-
-        return validate;
-    }
     validate(card)
     {
         let validate = true;
@@ -300,14 +188,14 @@ class EditProfileView extends React.Component
         num = num.split('-').join(''); //replace dashes with nothing 
 
         //console.log(num);
-        if(num.length != 16) 
+        if(num.length !== 16) 
         {
             validate = false;
             alert("Credit card number must be 16 digits");
         }
 
         //Security code must be 3 digits
-        if(card.seccode.toString().length != 3)
+        if(card.seccode.toString().length !== 3)
         {
             validate = false;
             alert("Security code must be 3 digits");
@@ -342,7 +230,7 @@ class EditProfileView extends React.Component
     //Save Credit cards button for updating cards
     saveCreditCard(e, i)
     {
-        e.preventDefault();
+        //e.preventDefault();
         const array = this.state.creditCards;
         const validate = this.validate(array[i]);
         if (validate)
@@ -363,7 +251,7 @@ class EditProfileView extends React.Component
 
     createCreditCard(e)
     {
-        e.preventDefault();
+        //e.preventDefault();
         //New credit card
 
         //No fields must be empty if one field is filled out
@@ -406,7 +294,7 @@ class EditProfileView extends React.Component
         const name = e.target.name;
         const value = e.target.value;
         const array = this.state.creditCards;
-        if(index != null) //an existing credit card
+        if(index !== null) //an existing credit card
         {
             switch(name)
             {
@@ -432,8 +320,7 @@ class EditProfileView extends React.Component
             }
             
             this.setState({
-                creditCards: array,
-                [name]: value
+                creditCards: array
             })  
         }
         else //not an existing credit card
@@ -659,7 +546,175 @@ class EditProfileView extends React.Component
                 </div>
             </div>)
     }
+    handleShippingInfo = (e, index) =>
+    {
+        const name = e.target.name;
+        const value = e.target.value;
+        const array = this.state.creditCards;
+        if(index !== null) //an existing shipping information
+        {
+            switch(name)
+            {
+                case 'name':
+                    array[index].name = value; 
+                break;
+                case 'address':
+                    array[index].address = value;
+                break;
+                default:
+                break;
+            }
+            
+            this.setState({
+                shippingInfo: array
+            })  
+        }
+        else //not an existing shipping information
+        {  
+            this.setState({
+                [name]: value
+            })  
+        }
+    }
+    createShippingInfo(e)
+    {
+        //e.preventDefault();
+        const name = this.state.shippingName;
+        const mailing = this.state.newMailingAddress;
+        console.log(name);
+        console.log(mailing);
+        if(name && mailing)
+        {
+            Axios.post("http://127.0.0.1:8000/api/shippinginformation/create_shippinginformation/",
+            {
+                username: this.state.username,
+                name: this.state.shippingName,
+                address: this.state.newMailingAddress
+            })
+            .then(console.log("Shipping Info POST success"))
+            .catch(err=> {console.log(err)});
+        }
+        
+    }
+    saveShippingInfo(e, i)
+    {
+        //e.preventDefault();
+        const array = this.state.shippingInfo;
+        
+        const id = array[i].id;
+        Axios.put(`http://127.0.0.1:8000/api/shippinginformation/${id}/update_shippinginformation/`,
+        {
+            id: id,
+            username: this.state.username,
+            name: array[i].name,
+            address: array[i].address
+        })
+    
+    }
+    deleteShippingInfo(e, index)
+    {
+        //e.preventDefault();
+        const array = this.state.shippingInfo;
+        Axios.delete(`http://127.0.0.1:8000/api/shippinginformation/${array[index].id}`)
+        .catch(err => {
+            console.log(err)
+        });
+    }
+    displayShippingInfo()
+    {
+        const array = this.state.shippingInfo;
 
+        const info = array.map((elem, index) => 
+            <div className="creditcard-form" key={index+1}>
+                <h5 align="left">Address {index+1}</h5>
+                <Form.Group as={Row}>
+                        <Form.Label column sm={3} 
+                        align="left">
+                            Name
+                        </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control
+                            size="sm" 
+                            name="name"
+                            placeholder={elem.name} 
+                            onChange={e=> {this.handleShippingInfo(e, index)}}
+                            />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row}>
+                        <Form.Label column sm={3} 
+                        align="left">
+                            Mailing Address
+                        </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control
+                            size="sm" 
+                            name="address"
+                            placeholder={elem.address} 
+                            onChange={e=> {this.handleShippingInfo(e, index)}}
+                            />
+                        </Col>
+                    </Form.Group>
+
+                    <Form.Group as={Row}>
+                        <Col sm={{ span: 10, offset: 2 }}>
+                            <Button 
+                            className="card-button"
+                            variant="danger"
+                            type="submit"
+                            onClick={e => {this.deleteShippingInfo(e, index)}}>Delete</Button>
+                            <Button 
+                            type="submit"
+                            onClick={e => {this.saveShippingInfo(e, index)}}>Save Changes</Button>
+                        </Col>
+                    </Form.Group>
+            </div>
+        )
+
+        const num = array.length + 1;
+        return (
+            <div>
+                {info}
+                <h5 align="left">Address {num}</h5>
+                <Form.Group as={Row}>
+                    <Form.Label column sm={3} 
+                    align="left">
+                        Name
+                    </Form.Label>
+                    <Col sm={6}>
+                        <Form.Control
+                        size="sm" 
+                        name="shippingName"
+                        onChange={e=> {this.handleShippingInfo(e, null)}}
+                        />
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row}>
+                    <Form.Label column sm={3} 
+                    align="left">
+                        Mailing Address
+                    </Form.Label>
+                    <Col sm={6}>
+                        <Form.Control
+                        size="sm" 
+                        name="newMailingAddress"
+                        onChange={e=> {this.handleShippingInfo(e, null)}}
+                        />
+                    </Col>
+                </Form.Group>
+
+                    
+                <Form.Group as={Row}>
+                    <Col sm={{ span: 10, offset: 2 }}>
+                    <Button 
+                    type="submit"
+                    onClick={e => {this.createShippingInfo(e)}}>Add Address</Button>
+                    </Col>
+                </Form.Group>
+            </div>
+        )
+    }
+   
     render()
     {
         const settingsForm =  
@@ -701,7 +756,7 @@ class EditProfileView extends React.Component
             <Col sm={6}>
                 <Form.Control 
                 size="sm"
-                disabled="true"
+                disabled={true}
                 placeholder={this.state.username} 
                 onChange={this.handleInputChange}/>
             </Col>
@@ -734,27 +789,14 @@ class EditProfileView extends React.Component
             </Col>
         </Form.Group>
 
-        <Form.Group as={Row} controlId="mailingaddress">
-            <Form.Label column sm={2}>
-                Mailing Address
-            </Form.Label>
-            <Col sm={6}>
-                <Form.Control 
-                size="sm"
-                name="mailingAddress"
-                placeholder={this.state.mailingAddress}
-                onChange={this.handleInputChange}/>
-            </Col>
-        </Form.Group>
-
         <br/>
-    
+        {/*
         <Form.Group as={Row} controlId="rememberMeCheckbox">
             <Col sm={{ span: 10, offset: 2 }}>
                 <Form.Check label="Remember me" />
             </Col>
         </Form.Group>
-
+        */}
         <Form.Group as={Row}>
             <Col sm={{ span: 10, offset: 2 }}>
             <Button 
@@ -822,6 +864,10 @@ class EditProfileView extends React.Component
         {this.displayCreditCards()}
     </Form>
     
+    const shippingInfo =
+    <Form>
+        {this.displayShippingInfo()}
+    </Form>
 
         return(
             <div className="settings-div">
@@ -843,6 +889,9 @@ class EditProfileView extends React.Component
                                 <Nav.Item>
                                     <Nav.Link eventKey="creditCardForm">Credit Cards</Nav.Link>
                                 </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="shipping-info">Shipping Information</Nav.Link>
+                                </Nav.Item>
                             </Nav>
                         </Col>
                         <Col sm={10} 
@@ -858,6 +907,9 @@ class EditProfileView extends React.Component
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="creditCardForm">
                                     {creditCardForm}
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="shipping-info">
+                                    {shippingInfo}
                                 </Tab.Pane>
                             </Tab.Content>
                         </Col>

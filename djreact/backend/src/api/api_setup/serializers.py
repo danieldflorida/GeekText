@@ -36,13 +36,13 @@ class ProfileSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('name', 'description', 'date_added')
+        fields = ('id','name', 'description', 'date_added')
 
 
 class ShippingInformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingInformation
-        fields = ('user', 'address', 'default', 'date_added')
+        fields = ('id', 'user', 'name','address', 'default', 'date_added')
 
 class CreditCardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -73,7 +73,7 @@ class CartSerializer( serializers.ModelSerializer ):
 
     class Meta:
         model = Cart
-        fields = ( 'id', 'user', 'updated_at', 'items', 'price', 'saved' )
+        fields = ( 'id', 'updated_at', 'items', 'price', 'saved' )
 
 class CartItemSerializer( serializers.ModelSerializer ):
 
