@@ -1,0 +1,51 @@
+.main-header {
+    align-content: left;
+    padding-left:0px;
+}
+.settings-nav{
+    display: inline-block;
+    align-content: left;
+    width: 300px;
+}
+.row-div {
+    display: block;
+}
+.pill-content {
+    display: inline-block;
+    align-content: center;
+    width: 750px;
+    margin:10px;
+    padding: 10px;
+}
+
+.pill-nav {
+    display: inline-block;
+    vertical-align: top;
+    align-content: left;
+    width: 250px;
+    height: 750px;
+    margin:10px;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+}
+.form-div{
+    display: inline-block;
+    align-content: left;
+}
+
+.settings-div {
+    display: block;
+    width:1200px;
+    margin:30px;
+    margin-top:150px;
+}
+
+.creditcard-form {
+    padding:10px;
+    margin: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.card-button{
+    margin: 10px;
+}

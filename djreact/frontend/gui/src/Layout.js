@@ -1,4 +1,5 @@
 import React from 'react' ;
+<<<<<<< HEAD
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom'
 
@@ -36,6 +37,34 @@ const CustomLayout = ( props ) => {
     )
 }
 
+=======
+import NavbarView from './NavbarView';
+
+import {Container} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+
+
+const CustomLayout = (props) =>
+{
+   
+    return(
+        <div>
+            <NavbarView username={props.username}/>
+                <div 
+                align="center"
+                style={{ background: '#fff', 
+                    marginTop: 100, 
+                    minHeight: 100,
+                    alignContent: 'center' }}
+                >
+                    {props.children}
+                </div>
+        </div>
+
+)
+
+}
+>>>>>>> 690c25ecbaffae8462b03ba66a8e783d19944126
 export default CustomLayout ;
 
   

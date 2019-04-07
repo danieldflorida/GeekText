@@ -1,0 +1,11 @@
+.loginBlock {
+    width: 20rem;
+    height: 25rem;  
+    padding: 10px;
+    box-shadow: 2px 2px 3px 4px #ccc;
+    margin-top: 150px;
+}
+
+.custom-navbar {
+    margin-bottom: 25px;
+}
