@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-//import CustomLayout from '../containers/Layout' ;
-
-
+import {Form, Button, Row, Col} from 'react-bootstrap' 
+import './Forms.css'
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -53,7 +52,12 @@ class Login extends Component {
               });
                 
                 if(incorrect == true)
+                {
                   console.log("Username or password is incorrect");
+                  alert("Username or password is incorrect");
+                  e.preventDefault();
+                }
+                  
                 
             }) 
             .catch(function (error) {
@@ -65,31 +69,49 @@ class Login extends Component {
   
   render() {
     return (
-      <div>
-        <form>
-          <label style={{margin: '15px 0'}}> 
-            Username &nbsp;
-            <input 
-              name="Username"
-              type="text"
-              value={this.state.Username} 
-              onChange={this.handleInputChange} />
-          </label>
-          <br/>  
-          <label style={{margin: '15px 0'}}>
-            Password &nbsp;
-            <input
-              name="Password"
-              type="text" 
-              value={this.state.Password}
-              onChange={this.handleInputChange} />
-          </label>
-          <br/>
-          <button 
-            onClick = {
-              e => {this.loginClick(e, this.state.Username, this.state.Password)}}>Login</button>
-        </form>
-      </div>
+      <Form className="custom-form" 
+      //style={{padding: 10}}
+      >
+        <Form.Group as={Row} controlId="username"
+         //className="input-box"
+          >
+            <Form.Label column sm={3}>
+                Username
+            </Form.Label>
+            <Col sm={8}>
+                <Form.Control 
+                //size="sm"
+                name="Username"
+                type="text" 
+                value = {this.state.Username}
+                onChange={this.handleInputChange}
+                />
+            </Col>
+        </Form.Group>
+        <Form.Group as={Row} controlId="password">
+            <Form.Label column sm={3}>
+                Password
+            </Form.Label>
+            <Col sm={8}>
+                <Form.Control 
+                //size="sm"
+                name="Password"
+                type="password" 
+                value = {this.state.Password}
+                onChange={this.handleInputChange}
+                />
+            </Col>
+        </Form.Group>
+
+        <Form.Group as={Row}>
+            <Col sm={{ span: 10, offset: 2 }}>
+            <Button 
+            type="submit"
+            onClick={e => {this.loginClick(e, this.state.Username, this.state.Password)}}>Login</Button>
+            </Col>
+        </Form.Group>
+        <a href="/forgotpassword">Forgot Password?</a>
+      </Form>
     )
   }
 }

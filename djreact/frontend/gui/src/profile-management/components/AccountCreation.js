@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-
-
+import './Forms.css';
+import {Form, Row, Col, Button} from 'react-bootstrap';
 class AccountCreation extends Component {
 
 constructor (props)
@@ -235,67 +235,94 @@ constructor (props)
 render() 
 {
     return(
-        <form>
-            <font color="red">
-                <strong></strong>
-            </font>
-            <br/>
-            <label style={{margin: '15px 0'}}>
-                E-mail &nbsp;
-                <input 
+        <Form className="custom-form">
+            <Form.Group as={Row} controlId="email"
+            //className="input-box"
+            >
+                <Form.Label column sm={3}>
+                    Email
+                </Form.Label>
+                <Col sm={8}>
+                    <Form.Control 
+                    size="sm"
                     name="email"
-                    type="text"
-                    value={this.state.email}
+                    type="email" 
+                    value = {this.state.email}
                     onChange={this.handleInputChange}
-                     />
-            </label>
-            <br/>
-            <label style={{margin: '15px 0'}}>
-                Name &nbsp;
-                <input 
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="name"
+            //className="input-box"
+            >
+                <Form.Label column sm={3}>
+                    Name
+                </Form.Label>
+                <Col sm={8}>
+                    <Form.Control 
+                    size="sm"
                     name="name"
-                    type="text"
-                    value={this.state.name}
+                    type="text" 
+                    value = {this.state.name}
                     onChange={this.handleInputChange}
-                     />
-            </label>
-            <br/>
-            <label style={{margin: '15px 0'}}>
-                Username &nbsp;
-                <input 
-                name="username"
-                type="text"
-                value={this.state.username}
-                onChange={this.handleInputChange} />
-            </label>
-            <br/>
-            <label style={{margin: '15px 0'}}>
-                Password &nbsp;
-                <input 
-                name="password"
-                type="text"
-                value={this.state.password}
-                onChange={this.handleInputChange} />
-                
-            </label>
-            <br/>
-            <label style={{margin: '15px 0'}}>
-                Re-enter Password &nbsp;
-                <input 
-                name="passwordCheck"
-                type="text"
-                value={this.state.passwordCheck}
-                onChange={this.handleInputChange} /> 
-            </label>
-            <br/>
-            <button 
-            type="button"
-            onClick={e => {this.createAccount(e)}}>Create</button>
-        </form>  
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="username"
+            //className="input-box"
+            >
+                <Form.Label column sm={3}>
+                    Username
+                </Form.Label>
+                <Col sm={8}>
+                    <Form.Control 
+                    size="sm"
+                    name="username"
+                    type="text" 
+                    value = {this.state.username}
+                    onChange={this.handleInputChange}
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="password">
+                <Form.Label column sm={3}>
+                    Password
+                </Form.Label>
+                <Col sm={8}>
+                    <Form.Control 
+                    size="sm"
+                    name="password"
+                    type="password" 
+                    value = {this.state.password}
+                    onChange={this.handleInputChange}
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="passwordCheck">
+                <Form.Label column sm={3}>
+                    Re-enter Password
+                </Form.Label>
+                <Col sm={8}>
+                    <Form.Control 
+                    size="sm"
+                    name="passwordCheck"
+                    type="password" 
+                    value = {this.state.passwordCheck}
+                    onChange={this.handleInputChange}
+                    />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row}>
+                <Col sm={{ span: 10, offset: 2 }}>
+                <Button 
+                type="submit"
+                onClick={e => {this.createAccount(e)}}>Sign Up</Button>
+                </Col>
+            </Form.Group>
+            
+      </Form>
     )
   }
-    
-
 }
 
 export default AccountCreation;

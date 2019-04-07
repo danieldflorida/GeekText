@@ -16,6 +16,7 @@ class EditProfileView extends React.Component
             //users table
             username: '',
             password: '',
+            name: '',
             email: '',
             homeAddress: '',
             //shipping information
@@ -35,7 +36,8 @@ class EditProfileView extends React.Component
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.changePassword = this.changePassword.bind(this);
-        this.saveCreditCards = this.saveCreditCards.bind(this);
+        this.saveCreditCard = this.saveCreditCard.bind(this);
+        this.createCreditCard = this.createCreditCard.bind(this);
         this.handleCreditCards = this.handleCreditCards.bind(this);
     }
          
@@ -61,6 +63,7 @@ class EditProfileView extends React.Component
                 password: res.data.password,
                 email: res.data.email,
                 homeAddress: res.data.home_address,
+                name: res.data.name
             })
          })
  
@@ -134,7 +137,7 @@ class EditProfileView extends React.Component
 
     }
     
-    handleSubmit = (e) =>
+    handleSubmit (e)
     {
         e.preventDefault();
         
@@ -161,47 +164,26 @@ class EditProfileView extends React.Component
         })
         .catch(err => {console.log(err)})
         
-        //Update Credit Card //TODO
-        /*
-        Axios.post(`http://127.0.0.1:8000/api/creditcard/find_pk/`,
+        Axios.post(`http://127.0.0.1:8000/api/profiles/find_pk/`,
         {
             username: this.state.username
-        })
-        .then((res) => {
-            console.log(res);
-            Axios.put(`http://127.0.0.1:8000/api/creditcards/${res.data}/update_creditcard/`,
+        }).then(res => {
+            Axios.put(`http://127.0.0.1:8000/api/users/${res.data}/update_user/`,
             {
-                username: this.state.username,
-                number: this.state.creditCardNum,
-                expdate: this.state.expDate,
-                holdername: this.state.holderName,
-                seccode: this.state.securityCode,
-                billing_address: this.state.billingAddress
+                username: this.state.username, //this is only for querying
+                home_address: this.state.homeAddress,
+                email: this.state.email,
+                name: this.state.name
             })
-            .then((res)=>{console.log(res)})
+            .then((res)=>{
+                console.log(res)
+            })
             .catch((err) => {
                 console.log(err);
-            } 
-            )
-            
-        })
-        .catch(err => {
-            console.log(err)
-            Axios.post(`http://127.0.0.1:8000/api/creditcards/create_creditcard/`,
-            {
-                username: this.state.username,
-                number: this.state.creditCardNum,
-                expdate: this.state.expDate,
-                holdername: this.state.holderName,
-                seccode: this.state.securityCode,
-                billing_address: this.state.billingAddress
             })
-            .then((res)=>{console.log(res)})
-            .catch((err) => {
-                console.log(err);
-            } 
-            )
-        })*/
+        })
+        
+      
     }
     //Submit password change button 
     //Verifies password and new password passes new requirements
@@ -209,45 +191,291 @@ class EditProfileView extends React.Component
     {
 
     }
-    //Save Credit cards button
-    saveCreditCards(e)
+
+    validateCreditCards(list)
+    {
+        let validate = true;
+        
+        //Validates the existing list of credit cards
+        for(let i = 0; i < list.length && validate === true; i++)
+        {
+            //Credit card number must be 16 digits
+            let num = list[i].number.split(" ").join('');//replace whitespace with nothing
+            num = num.split('-').join(''); //replace dashes with nothing 
+
+            //console.log(num);
+            if(num.length != 16) 
+            {
+                validate = false;
+                alert("Credit card " + i + " must be 16 digits");
+            }
+
+            //Security code must be 3 digits
+            if(list[i].seccode.toString().length != 3)
+            {
+                validate = false;
+                alert("Security code must be 3 digits");
+            }
+
+            //Validating Expiration date
+            let date = list[i].expdate.split("/");
+            //console.log(date);
+            if(date.length === 3)
+            {
+                const month = parseInt(date[0]);
+                const day = parseInt(date[1]);
+                const year = parseInt(date[2]);
+                
+                if((month < 0 || month > 12) ||
+                 (day < 0 || day > 31) || 
+                 (year < new Date().getFullYear())) //expiration date has passed
+                 {
+                    validate = false;
+                    alert("Enter a valid date.")
+                 }
+                    
+            }
+            else
+            {
+                validate = false;
+                alert("Enter a valid date.")
+            }    
+
+        }
+
+        //This section validates the new credit card
+        
+        let num = this.state.creditCardNum.split(" ").join('');//replace whitespace with nothing
+        num = num.split('-').join(''); //replace dashes with nothing 
+
+        if(num != '' && num.length != 16) 
+        {
+            validate = false;
+            alert("New credit card must be 16 digits");
+        }
+
+        //Security code must be 3 digits
+        const code = this.state.securityCode;
+        if(code != '' && code.length != 3)
+        {
+            validate = false;
+            alert("Security code must be 3 digits");
+        }
+
+        //Validating Expiration date
+        
+        let expdate = this.state.expDate;
+        let date = this.state.expDate.split("/");
+        if(expdate != '')
+        {
+            if(date.length === 3)
+            {
+                const month = parseInt(date[0]);
+                const day = parseInt(date[1]);
+                const year = parseInt(date[2]);
+                
+                if((month < 0 || month > 12) ||
+                    (day < 0 || day > 31) || 
+                    (year < new Date().getFullYear())) //expiration date has passed
+                    {
+                    validate = false;
+                    alert("Enter a valid date.")
+                    }
+                    
+            }
+            else
+            {
+                validate = false;
+                alert("Enter a valid date.")
+            }    
+        }
+
+        return validate;
+    }
+    validate(card)
+    {
+        let validate = true;
+        //Credit card number must be 16 digits
+        let num = card.number.split(" ").join('');//replace whitespace with nothing
+        num = num.split('-').join(''); //replace dashes with nothing 
+
+        //console.log(num);
+        if(num.length != 16) 
+        {
+            validate = false;
+            alert("Credit card number must be 16 digits");
+        }
+
+        //Security code must be 3 digits
+        if(card.seccode.toString().length != 3)
+        {
+            validate = false;
+            alert("Security code must be 3 digits");
+        }
+
+        //Validating Expiration date
+        let date = card.expdate.split("/");
+        //console.log(date);
+        if(date.length === 3)
+        {
+            const month = parseInt(date[0]);
+            const day = parseInt(date[1]);
+            const year = parseInt(date[2]);
+            
+            if((month < 0 || month > 12) ||
+            (day < 0 || day > 31) || 
+            (year < new Date().getFullYear())) //expiration date has passed
+            {
+                validate = false;
+                alert("Enter a valid date.")
+            }
+                
+        }
+        else
+        {
+            validate = false;
+            alert("Enter a valid date.")
+        }    
+        return validate;
+    }
+    
+    //Save Credit cards button for updating cards
+    saveCreditCard(e, i)
     {
         e.preventDefault();
         const array = this.state.creditCards;
-        for (let i = 0; i < array.length; i++) {
-        
-            
+        const validate = this.validate(array[i]);
+        if (validate)
+        {   
+            var id = array[i].id;
+            Axios.put(`http://127.0.0.1:8000/api/creditcards/${id}/update_creditcard/`,
+            {
+                id: id,
+                username: this.state.username,
+                number: array[i].number,
+                expdate: array[i].expdate,
+                holdername: array[i].holdername,
+                seccode: array[i].seccode,
+                billing_address: array[i].billing_address
+            })
         }
     }
+
+    createCreditCard(e)
+    {
+        e.preventDefault();
+        //New credit card
+
+        //No fields must be empty if one field is filled out
+        const holder = this.state.holderName;
+        const num = this.state.creditCardNum;
+        const date = this.state.expDate;
+        const code = this.state.securityCode;
+        const billing = this.state.billingAddress;
+        
+        let card = 
+        {
+            'holdername': holder,
+            'number': num,
+            'expdate': date,
+            'seccode': code,
+            'billing_address': billing
+        }
+
+        console.log(card);
+        const validate = this.validate(card);
+
+        if(validate && holder && num && date && code && billing)
+        {
+            Axios.post("http://127.0.0.1:8000/api/creditcards/create_creditcard/",
+            {
+                username: this.state.username,
+                number: num,
+                expdate: date,
+                holdername: holder,
+                seccode: code,
+                billing_address: billing
+            })
+            .then(console.log("Credit Card POST success"))
+            .catch(console.log("error"));
+        }
+    }
+
     handleCreditCards = (e, index) =>
     {
         const name = e.target.name;
         const value = e.target.value;
         const array = this.state.creditCards;
-        
-        switch(name)
+        if(index != null) //an existing credit card
         {
-            case 'number':
-                array[index].number = value; 
-            break;
-            case 'holdername':
-                array[index].holdername = value; 
-            break;
-            case 'expdate':
-                array[index].expdate = value; 
-            break;
-            case 'seccode':
-                array[index].seccode = value; 
-            break;
-            case 'billing_address':
-                array[index].billing_address = value; 
-            break;
-            default:
-            break;
+            switch(name)
+            {
+                case 'number':
+                    let num = value.split(" ").join('');//replace whitespace with nothing
+                    num = num.split('-').join(''); //replace dashes with nothing 
+                    array[index].number = num; 
+                break;
+                case 'holdername':
+                    array[index].holdername = value; 
+                break;
+                case 'expdate':
+                    array[index].expdate = value; 
+                break;
+                case 'seccode':
+                    array[index].seccode = value; 
+                break;
+                case 'billing_address':
+                    array[index].billing_address = value; 
+                break;
+                default:
+                break;
+            }
+            
+            this.setState({
+                creditCards: array,
+                [name]: value
+            })  
         }
-        this.setState({
-            creditCards: array
-        })  
+        else //not an existing credit card
+        {
+            var val;
+            switch(name)
+            {
+                case 'creditCardNum':
+                    let num = value.split(" ").join('');//replace whitespace with nothing
+                    num = num.split('-').join(''); //replace dashes with nothing 
+                    val = num; 
+                break;
+                case 'holderName':
+                    val = value; 
+                break;
+                case 'expDate':
+                    val = value; 
+                break;
+                case 'securityCode':
+                    val = value; 
+                break;
+                case 'billingAddress':
+                    val = value; 
+                break;
+                default:
+                break;
+            }
+            
+            this.setState({
+                [name]: val
+            })  
+        }
+        
+    }
+    deleteCreditCard(e, index)
+    {   
+        //e.preventDefault();
+        const array = this.state.creditCards;
+        Axios.delete(`http://127.0.0.1:8000/api/creditcards/${array[index].id}`)
+        .catch(err => {
+            console.log(err)
+        });
     }
     displayCreditCards()
     {
@@ -256,13 +484,15 @@ class EditProfileView extends React.Component
         const creditcards = array.map((elem,index)  =>
              
             <div className="creditcard-form" key={index+1}>
-            <h5>Credit Card {index+1}</h5>
+            <h5 align="left">Credit Card {index+1}</h5>
                 <Form.Group as={Row}>
-                    <Form.Label column sm={2}>
+                    <Form.Label column sm={3} 
+                    align="left">
                         Credit Card Number
                     </Form.Label>
                     <Col sm={6}>
-                        <Form.Control 
+                        <Form.Control
+                        size="sm" 
                         name="number"
                         placeholder={elem.number} 
                         onChange={e=> {this.handleCreditCards(e, index)}}
@@ -271,11 +501,13 @@ class EditProfileView extends React.Component
                 </Form.Group>
 
             <Form.Group as={Row}>
-                <Form.Label column sm={2}>
+                <Form.Label column sm={3}
+                align="left">
                     Cardholder Name
                 </Form.Label>
                 <Col sm={6}>
                     <Form.Control 
+                    size="sm"
                     name="holdername"
                     placeholder={elem.holdername} 
                     onChange={e=> {this.handleCreditCards(e, index)}}
@@ -286,11 +518,13 @@ class EditProfileView extends React.Component
             <Form.Group as={Row}
             //controlId="exp-CCV-form"
             >
-                <Form.Label column sm={2}>
+                <Form.Label column sm={3}
+                align="left">
                     Expiration Date
                 </Form.Label>
                 <Col sm={3}>
                     <Form.Control 
+                    size="sm"
                     name="expdate"
                     placeholder={elem.expdate}
                     onChange={e=> {this.handleCreditCards(e, index)}}
@@ -302,6 +536,7 @@ class EditProfileView extends React.Component
                 </Form.Label>
                 <Col sm={2}>
                     <Form.Control
+                    size="sm"
                     name="seccode"
                     placeholder={elem.seccode} 
                     onChange={e=> {this.handleCreditCards(e, index)}}
@@ -310,11 +545,13 @@ class EditProfileView extends React.Component
             </Form.Group>
 
             <Form.Group as={Row} >
-                <Form.Label column sm={2}>
+                <Form.Label column sm={3}
+                align="left">
                     Billing Address
                 </Form.Label>
                 <Col sm={6}>
                     <Form.Control 
+                    size="sm"
                     name="billing_address"
                     placeholder={elem.billing_address}
                     onChange={e=> {this.handleCreditCards(e, index)}} 
@@ -322,87 +559,118 @@ class EditProfileView extends React.Component
                 </Col>
             </Form.Group>
             
+            <Form.Group as={Row}>
+                <Col sm={{ span: 10, offset: 2 }}>
+                    <Button 
+                    className="card-button"
+                    variant="danger"
+                    type="submit"
+                    onClick={e => {this.deleteCreditCard(e, index)}}>Delete</Button>
+                    <Button 
+                    type="submit"
+                    onClick={e => {this.saveCreditCard(e, index)}}>Save Changes</Button>
+                </Col>
+            </Form.Group>
             </div>
         );
         const num = array.length + 1
         return (
             <div>
             {creditcards}
-            <div className="creditcard-form">
-            <h5>Credit Card {num}</h5>
+                <div className="creditcard-form">
+                <h5 align="left">Credit Card {num}</h5>
+                    <Form.Group as={Row}>
+                        <Form.Label column sm={3}
+                        align="left">
+                            Credit Card Number
+                        </Form.Label>
+                        <Col sm={6}>
+                            <Form.Control 
+                            size="sm"
+                            name="creditCardNum"
+                            placeholder="XXXX-XXXX-XXXX-XXXX" 
+                            onChange={e=> {this.handleCreditCards(e, null)}}
+                            />
+                        </Col>
+                    </Form.Group>
+
                 <Form.Group as={Row}>
-                    <Form.Label column sm={2}>
-                        Credit Card Number
+                    <Form.Label column sm={3}
+                    align="left">
+                        Cardholder Name
                     </Form.Label>
                     <Col sm={6}>
+                        <Form.Control
+                        size="sm" 
+                        name="holderName"
+                        placeholder="Cardholder Name"
+                        onChange={e=> {this.handleCreditCards(e, null)}}/>
+                    </Col>
+                </Form.Group>
+                
+                <Form.Group as={Row} 
+                //controlId="exp-CCV-form"
+                >
+                    <Form.Label column sm={3}
+                    align="left">
+                        Expiration Date
+                    </Form.Label>
+                    <Col sm={3}>
                         <Form.Control 
-                        name="creditCardNum"
-                        placeholder="XXXX-XXXX-XXXX-XXXX" 
-                        onChange={this.handleInputChange}
-                        />
+                        size="sm"
+                        name="expDate"
+                        placeholder="mm/dd/yyyy"
+                        onChange={e=> {this.handleCreditCards(e, null)}} />
+                    </Col>
+
+                    <Form.Label column sm={1}>
+                        CCV
+                    </Form.Label>
+                    <Col sm={2}>
+                        <Form.Control
+                        size="sm"
+                        name="securityCode"
+                        placeholder="CCV"
+                        onChange={e=> {this.handleCreditCards(e, null)}}/>
                     </Col>
                 </Form.Group>
 
-            <Form.Group as={Row}>
-                <Form.Label column sm={2}>
-                    Cardholder Name
-                </Form.Label>
-                <Col sm={6}>
-                    <Form.Control 
-                    name="holderName"
-                    placeholder="Cardholder Name"
-                    onChange={this.handleInputChange}/>
-                </Col>
-            </Form.Group>
-            
-            <Form.Group as={Row} 
-            //controlId="exp-CCV-form"
-            >
-                <Form.Label column sm={2}>
-                    Expiration Date
-                </Form.Label>
-                <Col sm={3}>
-                    <Form.Control 
-                    name="expDate"
-                    placeholder="mm/dd/yyyy"
-                    onChange={this.handleInputChange} />
-                </Col>
+                <Form.Group as={Row} >
+                    <Form.Label column sm={3}
+                    align="left">
+                        Billing Address
+                    </Form.Label>
+                    <Col sm={6}>
+                        <Form.Control 
+                        size="sm"
+                        name="billingAddress"
+                        placeholder="Billing Address"
+                        onChange={e=> {this.handleCreditCards(e, null)}} />
+                    </Col>
+                </Form.Group>
 
-                <Form.Label column sm={1}>
-                    CCV
-                </Form.Label>
-                <Col sm={2}>
-                    <Form.Control
-                    name="securityCode"
-                    placeholder="CCV"
-                    onChange={this.handleInputChange}/>
-                </Col>
-            </Form.Group>
-
-            <Form.Group as={Row} >
-                <Form.Label column sm={2}>
-                    Billing Address
-                </Form.Label>
-                <Col sm={6}>
-                    <Form.Control 
-                    name="billingAddress"
-                    placeholder="Billing Address"
-                    onChange={this.handleInputChange} />
-                </Col>
-            </Form.Group>
-            </div>
+                <Form.Group as={Row}>
+                    <Col sm={{ span: 10, offset: 2 }}>
+                    <Button 
+                    type="submit"
+                    onClick={e => {this.createCreditCard(e)}}>Add Card</Button>
+                    </Col>
+                </Form.Group>
+                </div>
             </div>)
     }
 
     render()
     {
-        const settingsForm =  <Form className="form-div">
+        const settingsForm =  
+        <Form className="form-div">
         <Form.Group as={Row} controlId="bio">
             <Form.Label column md={2}>
                 Bio
             </Form.Label>
             <Col>
                 <Form.Control 
+                size="sm"
                 as="textarea" 
                 rows="8"
                 cols="75"
@@ -411,8 +679,20 @@ class EditProfileView extends React.Component
                 onChange={this.handleInputChange} />
             </Col>
         </Form.Group>
-
         <br/>
+
+        <Form.Group as={Row} controlId="name">
+            <Form.Label column sm={2}>
+                Name
+            </Form.Label>
+            <Col sm={6}>
+                <Form.Control 
+                size="sm"
+                name="name"
+                placeholder={this.state.name} 
+                onChange={this.handleInputChange}/>
+            </Col>
+        </Form.Group>
 
         <Form.Group as={Row} controlId="username">
             <Form.Label column sm={2}>
@@ -420,6 +700,8 @@ class EditProfileView extends React.Component
             </Form.Label>
             <Col sm={6}>
                 <Form.Control 
+                size="sm"
+                disabled="true"
                 placeholder={this.state.username} 
                 onChange={this.handleInputChange}/>
             </Col>
@@ -431,6 +713,7 @@ class EditProfileView extends React.Component
             </Form.Label>
             <Col sm={6}>
                 <Form.Control 
+                size="sm"
                 type="email" 
                 name="email"
                 placeholder={this.state.email}
@@ -438,14 +721,13 @@ class EditProfileView extends React.Component
             </Col>
         </Form.Group>
 
-        <br/>
-
         <Form.Group as={Row} controlId="address">
             <Form.Label column sm={2}>
                 Address
             </Form.Label>
             <Col sm={6}>
                 <Form.Control 
+                size="sm"
                 name="homeAddress"
                 placeholder={this.state.homeAddress}
                 onChange={this.handleInputChange}/>
@@ -458,6 +740,7 @@ class EditProfileView extends React.Component
             </Form.Label>
             <Col sm={6}>
                 <Form.Control 
+                size="sm"
                 name="mailingAddress"
                 placeholder={this.state.mailingAddress}
                 onChange={this.handleInputChange}/>
@@ -490,6 +773,7 @@ class EditProfileView extends React.Component
             </Form.Label>
             <Col sm={6}>
                 <Form.Control 
+                size="sm"
                 name="password"
                 type="password"
                 onChange={this.handleInputChange} 
@@ -503,6 +787,7 @@ class EditProfileView extends React.Component
             </Form.Label>
             <Col sm={6}>
                 <Form.Control 
+                size="sm"
                 name="newPassword"
                 type="password" 
                 onChange={this.handleInputChange}
@@ -515,6 +800,7 @@ class EditProfileView extends React.Component
             </Form.Label>
             <Col sm={6}>
                 <Form.Control 
+                size="sm"
                 name="retypeNewPassword"
                 type="password" 
                 onChange={this.handleInputChange}
@@ -534,20 +820,12 @@ class EditProfileView extends React.Component
     const creditCardForm = 
     <Form>
         {this.displayCreditCards()}
-        <Form.Group as={Row}>
-            <Col sm={{ span: 10, offset: 2 }}>
-            <Button 
-            type="submit"
-            onClick={e => {this.saveCreditCards(e)}}>Save Changes</Button>
-            </Col>
-        </Form.Group>
-        
     </Form>
     
 
         return(
-            <div style={{marginTop:150}} className="outer-div">
-                <h3 className="main-header">Settings</h3>
+            <div className="settings-div">
+                <h3 className="main-header" >Settings</h3>
                 <Tab.Container id="tabs" defaultActiveKey="settings">
                     <Row
                      className="row-div"

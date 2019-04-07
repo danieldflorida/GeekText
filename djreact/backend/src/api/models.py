@@ -82,6 +82,7 @@ class ShippingInformation(models.Model):
         return self.address
 
 class CreditCard(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     number = models.CharField(max_length=100)
     expdate = models.CharField(max_length=50)

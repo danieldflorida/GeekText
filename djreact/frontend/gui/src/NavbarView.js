@@ -3,9 +3,11 @@ import {Navbar, Button, Dropdown, SplitButton,
     FormControl, Form, Nav} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 
+import './styling/HomePageView.css'
+
 function resetUsername() 
 {
-    sessionStorage.setItem("username", '');
+    sessionStorage.setItem("username", ""); //somehow change this to null
 }
 
 //can use props to display account name on Navbar
@@ -13,7 +15,7 @@ const NavbarView = (props) =>
 {
     const user = sessionStorage.getItem("username")
     const ButtonDisplay = 
-    <div className="ml-auto py-2 pl-1 pr-5" align="right">
+    <div className="ml-auto py-2 pl-1 pr-5 custom-navbar" align="right">
         <SplitButton
         title={user}
         id="dropdown-menu dropdown-menu-left"
@@ -48,7 +50,7 @@ const NavbarView = (props) =>
      
     
     return(
-        <Navbar bg="dark" variant="dark" fixed="top">
+        <Navbar bg="dark" variant="dark" fixed="top" className="custom-navbar">
             
             <Navbar.Brand href="/home">
                 GeekText
@@ -78,7 +80,7 @@ const NavbarView = (props) =>
             </div>
             
             
-            {user === '' ? signInLink : ButtonDisplay}
+            {user === "" ? signInLink : ButtonDisplay}
             
         </Navbar>
     )

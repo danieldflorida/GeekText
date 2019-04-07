@@ -47,7 +47,7 @@ class ShippingInformationSerializer(serializers.ModelSerializer):
 class CreditCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreditCard
-        fields = ('user', 'number', 'expdate', 'holdername', 'seccode',
+        fields = ('id', 'user', 'number', 'expdate', 'holdername', 'seccode',
         'billing_address', 'date_added')
 
 
