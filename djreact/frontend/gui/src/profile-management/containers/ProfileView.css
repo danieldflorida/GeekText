@@ -13,9 +13,12 @@
     display:inline-block;
     vertical-align: top;
     width: 300px;
+    height: 750px;
     margin-right: 0px;
+    margin-top:50px;
     margin-left:20px;
     padding:10px;
+    border-left: 1px solid #ccc;
 }
 .profile-pic {
     display: inline-block;

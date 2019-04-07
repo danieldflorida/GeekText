@@ -3,6 +3,7 @@ import Axios from 'axios'
 import { Image, ListGroup } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 import './ProfileView.css'
+import { resetWarningCache } from 'prop-types';
 
 //import {FormText, FormControl, Navbar, Nav} from 'react-bootstrap'
 
@@ -42,6 +43,7 @@ class ProfileView extends React.Component
             })
             return cover;
         }
+
         function title(id) {
             var title = 'title';
             Axios.get(`http://127.0.0.1:8000/api/books/${id}`)
@@ -51,7 +53,7 @@ class ProfileView extends React.Component
             })
             return title;
         }
-       
+        
         const comments = array.map(elem  => 
             <ListGroup.Item key={elem.comment}>
                 <Image 
@@ -60,6 +62,7 @@ class ProfileView extends React.Component
                 width='75' 
                 height ='100' />
                 <h5 className="inline">{title(elem.book)}</h5>
+                
                 <div className="comment">{elem.comment}</div>
             </ListGroup.Item>
         );
@@ -126,7 +129,7 @@ class ProfileView extends React.Component
     {
         return(
             <div className="outer-div">
-                <div className="middle-div">
+                <div className="middle-div" align="left">
                     {/*Profile Picture Area */}
                     <div className='profile-pic'>
                         <Image src={'http://127.0.0.1:8000' + this.state.profilePic} roundedCircle height="100" width="100"/>
@@ -147,7 +150,7 @@ class ProfileView extends React.Component
                 </div>
                 
                 {/* Owned Books */}
-                <div className="right-div">
+                <div className="right-div" align="left">
                     <h5 className="header">Owned Books</h5>
                 </div>
             </div>
