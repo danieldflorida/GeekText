@@ -11,9 +11,11 @@ class EditProfileView extends React.Component
         super(props);
         this.state = {
             //personal info
+            profile: {},
             profilePic: '',
             bio: '',
             //users table
+            user: {},
             username: '',
             password: '',
             name: '',
@@ -64,7 +66,9 @@ class EditProfileView extends React.Component
             {username : user},
             {headers: {"Content-Type": "application/json"}})
          .then((res) => {
+            // console.log(res.data.id);
             this.setState({
+                user: res.data,
                 username: res.data.username,
                 password: res.data.password,
                 email: res.data.email,
@@ -80,6 +84,7 @@ class EditProfileView extends React.Component
          })
          .then((res) => {
              this.setState({
+                 profile: res.data,
                  profilePic: res.data.picture,
                  bio: res.data.bio
              })
@@ -124,54 +129,42 @@ class EditProfileView extends React.Component
         this.fetchProfileData(user);
 
     }
-    
+    submitProfile(e)
+    {
+        Axios.put(`http://127.0.0.1:8000/api/profiles/${this.state.profile.id}/update_profile/`,
+        {
+            username: this.state.username,
+            bio: this.state.bio
+            //picture: this.state.profilePic
+        })
+        .then((res)=>{
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+     
+    }
+
     handleSubmit (e)
     {
         e.preventDefault();
         
         //Update profile
-        Axios.post(`http://127.0.0.1:8000/api/profiles/find_pk/`,
+        
+        Axios.put(`http://127.0.0.1:8000/api/users/${this.state.user.id}/update_user/`,
         {
-            username: this.state.username
+            username: this.state.username, //this is only for querying
+            home_address: this.state.homeAddress,
+            email: this.state.email,
+            name: this.state.name
         })
-        .then((res) => {
-            console.log(this.state.profilePic);
-            Axios.put(`http://127.0.0.1:8000/api/profiles/${res.data}/update_profile/`,
-            {
-                username: this.state.username,
-                bio: this.state.bio
-                //picture: this.state.profilePic
-            })
-            .then((res)=>{
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-        
+        .then((res)=>{
+            console.log(res)
         })
-        .catch(err => {console.log(err)})
-        
-        Axios.post(`http://127.0.0.1:8000/api/profiles/find_pk/`,
-        {
-            username: this.state.username
-        }).then(res => {
-            Axios.put(`http://127.0.0.1:8000/api/users/${res.data}/update_user/`,
-            {
-                username: this.state.username, //this is only for querying
-                home_address: this.state.homeAddress,
-                email: this.state.email,
-                name: this.state.name
-            })
-            .then((res)=>{
-                console.log(res)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        .catch((err) => {
+            console.log(err);
         })
-        
-      
     }
     //Submit password change button 
     //Verifies password and new password passes new requirements
@@ -717,76 +710,85 @@ class EditProfileView extends React.Component
    
     render()
     {
+        const profileForm =
+        <Form >
+            <Form.Group as={Row} controlId="bio">
+                <Form.Label column md={2}>
+                    Bio
+                </Form.Label>
+                <Col>
+                    <Form.Control 
+                    size="sm"
+                    as="textarea" 
+                    rows="8"
+                    cols="75"
+                    name="bio"
+                    placeholder={this.state.bio}
+                    onChange={this.handleInputChange} />
+                </Col>
+            </Form.Group>
+            <Form.Group as={Row}>
+                <Col sm={{ span: 10, offset: 2 }}>
+                <Button 
+                type="submit"
+                onClick={e => {this.submitProfile(e)}}>Save Changes</Button>
+                </Col>
+            </Form.Group>
+        </Form>
+
         const settingsForm =  
-        <Form className="form-div">
-        <Form.Group as={Row} controlId="bio">
-            <Form.Label column md={2}>
-                Bio
-            </Form.Label>
-            <Col>
-                <Form.Control 
-                size="sm"
-                as="textarea" 
-                rows="8"
-                cols="75"
-                name="bio"
-                placeholder={this.state.bio}
-                onChange={this.handleInputChange} />
-            </Col>
-        </Form.Group>
-        <br/>
+        <Form>
+            <Form.Group as={Row} controlId="name">
+                <Form.Label column sm={2}>
+                    Name
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    size="sm"
+                    name="name"
+                    placeholder={this.state.name} 
+                    onChange={this.handleInputChange}/>
+                </Col>
+            </Form.Group>
 
-        <Form.Group as={Row} controlId="name">
-            <Form.Label column sm={2}>
-                Name
-            </Form.Label>
-            <Col sm={6}>
-                <Form.Control 
-                size="sm"
-                name="name"
-                placeholder={this.state.name} 
-                onChange={this.handleInputChange}/>
-            </Col>
-        </Form.Group>
+            <Form.Group as={Row} controlId="username">
+                <Form.Label column sm={2}>
+                    Username
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    size="sm"
+                    disabled={true}
+                    placeholder={this.state.username} 
+                    onChange={this.handleInputChange}/>
+                </Col>
+            </Form.Group>
 
-        <Form.Group as={Row} controlId="username">
-            <Form.Label column sm={2}>
-                Username
-            </Form.Label>
-            <Col sm={6}>
-                <Form.Control 
-                size="sm"
-                disabled={true}
-                placeholder={this.state.username} 
-                onChange={this.handleInputChange}/>
-            </Col>
-        </Form.Group>
+            <Form.Group as={Row} controlId="email">
+                <Form.Label column sm={2}>
+                    Email
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    size="sm"
+                    type="email" 
+                    name="email"
+                    placeholder={this.state.email}
+                    onChange={this.handleInputChange} />
+                </Col>
+            </Form.Group>
 
-        <Form.Group as={Row} controlId="email">
-            <Form.Label column sm={2}>
-                Email
-            </Form.Label>
-            <Col sm={6}>
-                <Form.Control 
-                size="sm"
-                type="email" 
-                name="email"
-                placeholder={this.state.email}
-                onChange={this.handleInputChange} />
-            </Col>
-        </Form.Group>
-
-        <Form.Group as={Row} controlId="address">
-            <Form.Label column sm={2}>
-                Address
-            </Form.Label>
-            <Col sm={6}>
-                <Form.Control 
-                size="sm"
-                name="homeAddress"
-                placeholder={this.state.homeAddress}
-                onChange={this.handleInputChange}/>
-            </Col>
+            <Form.Group as={Row} controlId="address">
+                <Form.Label column sm={2}>
+                    Address
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    size="sm"
+                    name="homeAddress"
+                    placeholder={this.state.homeAddress}
+                    onChange={this.handleInputChange}/>
+                </Col>
         </Form.Group>
 
         <br/>
@@ -872,14 +874,18 @@ class EditProfileView extends React.Component
         return(
             <div className="settings-div">
                 <h3 className="main-header" >Settings</h3>
-                <Tab.Container id="tabs" defaultActiveKey="settings">
+                <Tab.Container id="tabs" defaultActiveKey="profile">
                     <Row
                      className="row-div"
                      >
                         <Col sm={3} 
                         className="pill-nav"
+                        align="left"
                         >
                             <Nav variant="pills" className="flex-column">
+                                <Nav.Item>
+                                    <Nav.Link eventKey="profile">Profile</Nav.Link>
+                                </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link eventKey="settings">Settings</Nav.Link>
                                 </Nav.Item>
@@ -896,8 +902,13 @@ class EditProfileView extends React.Component
                         </Col>
                         <Col sm={10} 
                         className="pill-content"
+                        align="left"
                         >
                             <Tab.Content>
+                                <Tab.Pane eventKey="profile">
+                                    {/*Settings */}
+                                    {profileForm}
+                                </Tab.Pane>
                                 <Tab.Pane eventKey="settings">
                                     {/*Settings */}
                                     {settingsForm}

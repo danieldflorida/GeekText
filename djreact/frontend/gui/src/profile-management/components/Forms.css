@@ -20,6 +20,7 @@
 }
 
 .submit-button {
+    display: inline;
     margin: 10px;
 }
 .or{
@@ -36,4 +37,9 @@
     align-content: left;
     padding-top: 10px;
     margin-top: 10px;
+}
+
+.forgot-link {
+    display: block;
+    padding: 5px;
 }

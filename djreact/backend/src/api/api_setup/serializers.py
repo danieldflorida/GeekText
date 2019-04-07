@@ -14,13 +14,13 @@ class BookSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ('bookID', 'title', 'price', 'cover', 'genre', 'description', 'publisher', 'publicationDate', 'ISBNThirteen', 'ISBNTen', 'pages', 'authors')
+        fields = ('id','bookID', 'title', 'price', 'cover', 'genre', 'description', 'publisher', 'publicationDate', 'ISBNThirteen', 'ISBNTen', 'pages', 'authors')
 
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ('name', 'bio', 'date_added')
+        fields = ('id', 'name', 'bio', 'date_added')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,7 +31,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     owned_books = serializers.StringRelatedField( many = True ) 
     class Meta:
         model = Profile
-        fields = ('user', 'picture', 'bio', 'owned_books')
+        fields = ('id', 'user', 'picture', 'bio', 'owned_books')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,18 +54,18 @@ class CreditCardSerializer(serializers.ModelSerializer):
 class PublishingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publishing
-        fields = ('publisher', 'release_date', 'date_added')
+        fields = ('id', 'publisher', 'release_date', 'date_added')
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('user', 'book', 'shownick', 'comment', 'date_added')
+        fields = ('id', 'user', 'book', 'shownick', 'comment', 'date_added')
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ('user', 'book', 'shownick', 'stars', 'date_added')
+        fields = ('id', 'user', 'book', 'shownick', 'stars', 'date_added')
 
 class CartSerializer( serializers.ModelSerializer ):
     items = serializers.StringRelatedField( many = True ) 
@@ -101,21 +101,21 @@ class CartSerializer(serializers.ModelSerializer):
 class WishListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WishList
-        fields = ('user', 'name', 'description', 'date_added')
+        fields = ('id', 'user', 'name', 'description', 'date_added')
 
 class WishListDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = WishListDetails
-        fields = ('wishlist', 'book', 'quantity', 'date_added')
+        fields = ('id', 'wishlist', 'book', 'quantity', 'date_added')
 
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('user', 'quantity', 'totalprice', 'date_added')
+        fields = ('id', 'user', 'quantity', 'totalprice', 'date_added')
 
 
 class OrderDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderDetails
-        fields = ('order', 'book', 'quantity', 'totalprice')
+        fields = ('id', 'order', 'book', 'quantity', 'totalprice')

@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from rest_framework.decorators import list_route
+from django.views.generic.edit import UpdateView
 
 from api.models import (Book, Author, User, Profile, Category, ShippingInformation, 
 CreditCard, Publishing, Comment, Rating, Cart, WishList, WishListDetails, CartItem, 
@@ -430,3 +431,9 @@ class OrderViewSet(viewsets.ModelViewSet):
 class OrderDetailsViewSet(viewsets.ModelViewSet):
     serializer_class = OrderDetailsSerializer
     queryset = OrderDetails.objects.all()
+"""
+class SettingsUpdate(UpdateView):
+    model = User
+    model2 = Profile
+    fields = ['name']
+"""

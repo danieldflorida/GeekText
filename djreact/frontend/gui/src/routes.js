@@ -7,6 +7,8 @@ import BookDetail from './book-details/containers/BookDetailView' ;
 import EditProfileView from './profile-management/containers/EditProfileView';
 import ProfileView from './profile-management/containers/ProfileView';
 import ResetPassword from './profile-management/components/ResetPassword';
+import ForgotUsername from './profile-management/components/ForgotUsername';
+
 const BaseRouter = (props) => {
     var handleUser = (user) =>
     {
@@ -22,7 +24,7 @@ const BaseRouter = (props) => {
         <Route exact path='/profile/:username' component = {ProfileView} />
         <Route exact path='/settings/:username' component={EditProfileView} />
         <Route exact path='/forgotpassword' component = {ResetPassword}/>
-    
+        <Route exact path='/forgotusername' component = {ForgotUsername}/>
     </div>
 )} ;
 
