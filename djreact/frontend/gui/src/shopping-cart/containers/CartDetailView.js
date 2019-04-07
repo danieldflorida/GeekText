@@ -1,12 +1,13 @@
 import React from 'react'
 import axios from 'axios'
-import '../../CartApp.css'
+import '../../styling/CartApp.css'
 
 class CartDetail extends React.Component {
 
     state = { 
         cart:{},
-        books:[]
+        books:[], 
+        currentUser: 7
     }
 
     constructor( props ) {
@@ -14,7 +15,7 @@ class CartDetail extends React.Component {
         this.myRef = [] ;
         //= React.createRef() ;
 
-        axios.get( 'http://127.0.0.1:8000/carts/7' )
+        axios.get( `http://127.0.0.1:8000/carts/${this.state.currentUser}` )
             .then( res => {
                 this.setState({
                     cart: res.data
@@ -49,21 +50,21 @@ class CartDetail extends React.Component {
     }
     
     handleClickMove( value ) { 
-        axios.put("http://127.0.0.1:8000/carts/7/add_to_cart/", `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
+        axios.put(`http://127.0.0.1:8000/carts/${this.state.currentUser}/add_to_cart/`, `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
         alert( "Item has been moved to your cart." )
-        axios.put("http://127.0.0.1:8000/carts/7/rem_later/", `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
+        axios.put(`http://127.0.0.1:8000/carts/${this.state.currentUser}/rem_later/`, `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
         window.location.reload() 
     }
 
     handleClickRemove( value ) { 
-        axios.put("http://127.0.0.1:8000/carts/7/rem_later/", `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
+        axios.put(`http://127.0.0.1:8000/carts/${this.state.currentUser}/rem_later/`, `{"book_id":${value}}`,{headers: {"Content-Type": "application/json"}}  )
         alert( "Item has been removed." )
         window.location.reload() 
     }
 
     handleNumberAdd( id, num ) {
         if( num != 0 && num <= 30 ) {
-            axios.put("http://127.0.0.1:8000/carts/7/add_multiple_cart/", `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
+            axios.put( `http://127.0.0.1:8000/carts/${this.state.currentUser}/add_multiple_cart/`, `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
             alert( "The item(s) have been added." )
             window.location.reload() 
         } else if( num > 30 ) {
@@ -75,7 +76,7 @@ class CartDetail extends React.Component {
 
     handleNumberDel( id, num ) {
         if( num != 0 && num <= 30 ) {
-            axios.put("http://127.0.0.1:8000/carts/7/rem_multiple_cart/", `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
+            axios.put( `http://127.0.0.1:8000/carts/${this.state.currentUser}/rem_multiple_cart/`, `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
             alert( "The item(s) have been removed." )
             window.location.reload() 
         } else if( num > 30 ) {
@@ -144,7 +145,7 @@ class CartDetail extends React.Component {
 
         return( 
             <div>
-                <h3>Cart Number ID (will eventually show current logged in usersname): { this.state.cart.id }</h3><br/>
+                <h3>Cart Number ID: { this.state.cart.id }</h3><br/>
                 <div>
                 <table>
                     <tr>

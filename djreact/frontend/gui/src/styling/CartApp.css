@@ -22,6 +22,11 @@ body {
     text-align: middle ;
 }
 
+body[ value = "undefined" ] {
+    display:none;
+    border:none ;
+}
+
 img {
     display: block ;
     margin-left: auto ;
