@@ -6,6 +6,7 @@ class Cart( models.Model ):
     price = models.DecimalField( max_digits = 6, decimal_places = 2, default = 0.0 )
 
 class User(models.Model):
+    id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=200)
     password = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
@@ -44,7 +45,7 @@ class Book(models.Model):
 
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    picture = models.ImageField(default = 'src/images/DefaultProfile.png')
+    picture = models.ImageField(default = '/images/DefaultProfile.png')
     bio = models.CharField(max_length=300)
     owned_books = models.ForeignKey(
         Book,
@@ -82,6 +83,7 @@ class ShippingInformation(models.Model):
         return self.address
 
 class CreditCard(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     number = models.CharField(max_length=100)
     expdate = models.CharField(max_length=50)

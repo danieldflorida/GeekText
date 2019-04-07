@@ -48,6 +48,20 @@ class UserViewSet(viewsets.ModelViewSet):
 
         serializer = UserSerializer(user)
         return Response(serializer.data)
+    
+    @detail_route(methods=['put'])
+    def update_user(self, request, pk=None):
+        
+        obj, created = User.objects.update_or_create(username=request.data['username'], 
+        defaults={
+            'email': request.data['email'],
+            'home_address': request.data['home_address'],
+            'name': request.data['name']
+            })
+        print(created)
+        
+        serializer = UserSerializer(obj)
+        return Response(serializer.data)
 
     @list_route(methods=['get', 'post'])
     def find_user(self, request):
@@ -111,7 +125,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
         obj, created = Profile.objects.update_or_create(user=user.id, 
         defaults={'picture': request.data['picture'], 'bio': request.data['bio']})
         print(created)
-        #oldProfile.pk
 
         serializer = ProfileSerializer(obj)
         return Response(serializer.data)
@@ -168,8 +181,8 @@ class CreditCardViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['put'])
     def update_creditcard(self, request, pk=None):
         user = User.objects.filter(username=request.data['username']).first()
-
-        obj, created = CreditCard.objects.update_or_create(user=user, 
+        print(request.data['id'])
+        obj, created = CreditCard.objects.update_or_create(id=request.data['id'], 
         defaults=
         {'user' : user,
          'number': request.data['number'],
@@ -189,17 +202,16 @@ class CreditCardViewSet(viewsets.ModelViewSet):
         if ccnum: #if a credit card num exists for that user
             return
         else:
-            obj, created = CreditCard.objects.update_or_create(user=user, 
-            defaults=
-            {'user' : user,
-            'number': request.data['number'],
-            'expdate': request.data['expdate'],
-            'holdername': request.data['holdername'],
-            'seccode': request.data['seccode'],
-            'billing_address': request.data['billing_address']})
-            print(created)
+            creditcard = CreditCard(user=user, 
+            number = request.data['number'],
+            expdate = request.data['expdate'],
+            holdername = request.data['holdername'],
+            seccode = request.data['seccode'],
+            billing_address = request.data['billing_address']
+            )
+            creditcard.save()
 
-            serializer = CreditCardSerializer(obj)
+            serializer = CreditCardSerializer(creditcard)
             return Response(serializer.data)
     
     @list_route(methods=['get', 'post'])

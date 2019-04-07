@@ -25,7 +25,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'password', 'name', 'email', 'home_address', 'cart', 'date_added')
+        fields = ('id','username', 'password', 'name', 'email', 'home_address', 'cart', 'date_added')
 
 class ProfileSerializer(serializers.ModelSerializer):
     owned_books = serializers.StringRelatedField( many = True ) 
@@ -47,7 +47,7 @@ class ShippingInformationSerializer(serializers.ModelSerializer):
 class CreditCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreditCard
-        fields = ('user', 'number', 'expdate', 'holdername', 'seccode',
+        fields = ('id', 'user', 'number', 'expdate', 'holdername', 'seccode',
         'billing_address', 'date_added')
 
 

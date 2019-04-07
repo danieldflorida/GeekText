@@ -1,0 +1,19 @@
+.input-box {
+    padding: 10px;
+    margin: 5px;
+}
+
+.custom-form {
+    padding: 10px;
+    margin-top:10px;
+    width: 350px;
+    height: 400px;
+}
+
+.wide-block {
+    width:500px;
+    height:400px;
+    padding: 10px;
+    box-shadow: 2px 2px 3px 4px #ccc;
+    margin-top: 150px;
+}

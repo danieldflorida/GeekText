@@ -1,5 +1,6 @@
 .main-header {
-    align-content: center;
+    align-content: left;
+    padding-left:0px;
 }
 .settings-nav{
     display: inline-block;
@@ -32,14 +33,19 @@
     align-content: left;
 }
 
-.outer-div {
+.settings-div {
     display: block;
     width:1200px;
     margin:30px;
+    margin-top:150px;
 }
 
 .creditcard-form {
     padding:10px;
     margin: 10px;
     border-bottom: 1px solid #ccc;
+}
+
+.card-button{
+    margin: 10px;
 }

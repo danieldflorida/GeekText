@@ -28,9 +28,9 @@ class App extends Component {
   returnUser = (user) =>
   {
     
-    if(user === '')
+    if(user === "")
     {
-      return '';
+      return "";
     }
     else
     {

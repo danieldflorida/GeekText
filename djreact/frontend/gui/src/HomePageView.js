@@ -31,8 +31,8 @@ class HomePage extends React.Component {
     displayLogin ()
     {
         const user = sessionStorage.getItem("username");
-    
-        if(user === '' || user === null)
+        console.log(user)
+        if(user === "" || user === null)
         {
             return 'block'
         }
@@ -47,16 +47,10 @@ class HomePage extends React.Component {
         //console.log(this.displayLogin());
         console.log("Home Page View: " + this.state.username);
         return(
-            <Container 
-            align ="center" 
-            //className="loginBlock" 
+            <div 
+            className="loginBlock" 
             style={{
-                display: this.displayLogin(),
-                marginTop: '100px',
-                width: '15rem',
-                height: '23rem',  
-                padding: '10px',
-                boxShadow: "2px 2px 3px 4px #ccc"
+                display: this.displayLogin()
                 }}>
                 
                 <div className ="ml-auto p-2">
@@ -65,15 +59,15 @@ class HomePage extends React.Component {
                     position="center"
                     align="center"
                     >
-                    <Tab eventKey="login" title="Login">
-                        <Login onLoggedIn={this.handleUser}/>
+                    <Tab eventKey="login" title="Login" align="center">
+                        <Login onLoggedIn={this.handleUser} align="center"/>
                     </Tab>
                     <Tab eventKey="createAccount" title="Sign Up" align="center">
-                        <AccountCreation/>
+                        <AccountCreation align="center"/>
                     </Tab>
                 </Tabs>
                 </div>
-            </Container>
+            </div>
         )
     } 
 
