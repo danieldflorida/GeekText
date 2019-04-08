@@ -1,34 +1,21 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 # Created by https://www.gitignore.io/api/macos,django
 # Edit at https://www.gitignore.io/?templates=macos,django
 
->>>>>>> origin/Temp-Master-Branch
->>>>>>> origin/Temp-Master-Branch
 ### Django ###
 *.log
 *.pot
 *.pyc
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> origin/Temp-Master-Branch
 pycache/
 local_settings.py
 db.sqlite3
 media
-<<<<<<< HEAD
+
 package.json
 package-lock.json
-=======
-=======
-__pycache__/
-local_settings.py
-db.sqlite3
-media
+
+
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -98,58 +85,33 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
-docs/_build/
+#json
+package-lock.json
+package.json
+.json
 
-# PyBuilder
-target/
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# testing
+/coverage
 
-# IPython
-profile_default/
-ipython_config.py
+# production
+/build
 
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
-
-### macOS ###
-# General
+# misc
 .DS_Store
+
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .AppleDouble
 .LSOverride
 
@@ -176,5 +138,4 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/macos,django
->>>>>>> origin/Temp-Master-Branch
->>>>>>> origin/Temp-Master-Branch
+

@@ -134,7 +134,7 @@ constructor (props)
     return false
   }
 
-    printPasswordStrength(event)
+    printPasswordStrength(e)
     {
 
     }

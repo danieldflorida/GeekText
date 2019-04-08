@@ -18,6 +18,7 @@ class User(models.Model):
         return self.username
 
 class Publishing(models.Model):
+    id = models.AutoField(primary_key=True)
     publisher = models.CharField(max_length=200)
     release_date = models.DateField()
     date_added = models.DateField(auto_now_add=True)
@@ -27,6 +28,7 @@ class Publishing(models.Model):
         return self.publisher
 
 class Book(models.Model):
+    id = models.AutoField(primary_key=True)
     bookID = models.IntegerField( default = 0 ) 
     title = models.CharField(max_length=120)
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -44,6 +46,7 @@ class Book(models.Model):
         return self.title
 
 class Profile(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     picture = models.ImageField(default = '/images/DefaultProfile.png')
     bio = models.CharField(max_length=300)
@@ -57,6 +60,7 @@ class Profile(models.Model):
         return self.user
 
 class Author(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     bio = models.TextField()
     date_added = models.DateField(auto_now_add=True)
@@ -64,6 +68,7 @@ class Author(models.Model):
         return self.name
     
 class Category(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
     description = models.TextField()
     date_added = models.DateField(auto_now_add=True)
@@ -73,7 +78,9 @@ class Category(models.Model):
         return self.name
 
 class ShippingInformation(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
     address = models.CharField(max_length=200)
     default = models.BooleanField(default=False)
     date_added = models.DateField(auto_now_add=True)
@@ -98,6 +105,7 @@ class CreditCard(models.Model):
 
 
 class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     shownick = models.BooleanField(default=True)
@@ -107,6 +115,7 @@ class Comment(models.Model):
         return self.comment
 
 class Rating(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     book = models.ForeignKey(Book, on_delete = models.CASCADE)
     shownick = models.BooleanField(default=True)
@@ -118,6 +127,7 @@ class Rating(models.Model):
 
 
 class CartItem( models.Model ):
+    id = models.AutoField(primary_key=True)
     cart = models.ForeignKey( 
         Cart,
         related_name= 'items', 
@@ -146,6 +156,7 @@ class CartItem( models.Model ):
 
 
 class SavedItem( models.Model ):
+    id = models.AutoField(primary_key=True)
     cart = models.ForeignKey( 
         Cart,
         related_name= 'saved', 
@@ -172,6 +183,7 @@ class Cart(models.Model):
     date_added = models.DateField(auto_now_add=True)
 """
 class WishList(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -181,6 +193,7 @@ class WishList(models.Model):
 
 
 class WishListDetails(models.Model):
+    id = models.AutoField(primary_key=True)
     wishlist = models.ForeignKey(WishList, on_delete = models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -190,12 +203,14 @@ class WishListDetails(models.Model):
 
 
 class Order(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     totalprice = models.IntegerField()
     date_added = models.DateField(auto_now_add=True)
 
 class OrderDetails(models.Model):
+    id = models.AutoField(primary_key=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     quantity = models.IntegerField()

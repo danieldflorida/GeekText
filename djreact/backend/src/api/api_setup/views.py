@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from rest_framework.decorators import list_route
+from django.views.generic.edit import UpdateView
 
 from api.models import (Book, Author, User, Profile, Category, ShippingInformation, 
 CreditCard, Publishing, Comment, Rating, Cart, WishList, WishListDetails, CartItem, 
@@ -66,8 +67,10 @@ class UserViewSet(viewsets.ModelViewSet):
     @list_route(methods=['get', 'post'])
     def find_user(self, request):
         user = User.objects.filter(username = request.data['username']).first()
+        exists = User.objects.filter(username = request.data['username']).exists()
+        if not exists: #filter by username then by email
+            user = User.objects.filter(email=request.data['email']).first()
         
-        #print(user.id)
         serializer = UserSerializer(user)
         return Response(serializer.data)
     
@@ -85,6 +88,22 @@ class UserViewSet(viewsets.ModelViewSet):
         
         serializer = UserSerializer(obj)
         return Response(serializer.data)
+    
+    @detail_route(methods=['put'])
+    def change_password(self, request, pk=None):
+        obj = User.objects.get(id=request.data['id'])
+        if not obj:
+            return Response()
+        else:
+            obj.password = request.data['password']
+            obj.save()
+            """obj, created = User.objects.update_or_create(id=request.data['id'], 
+            defaults={
+                'password': request.data['password']
+                })
+            print(created)"""
+            serializer = UserSerializer(obj)
+            return Response(serializer.data)
 
 class ProfileViewSet(viewsets.ModelViewSet):
     serializer_class = ProfileSerializer
@@ -123,7 +142,10 @@ class ProfileViewSet(viewsets.ModelViewSet):
         user = User.objects.filter(username=request.data['username']).first()
 
         obj, created = Profile.objects.update_or_create(user=user.id, 
-        defaults={'picture': request.data['picture'], 'bio': request.data['bio']})
+        defaults={
+            #'picture': request.data['picture'], 
+            'bio': request.data['bio']
+            })
         print(created)
 
         serializer = ProfileSerializer(obj)
@@ -148,12 +170,48 @@ class ShippingInformationViewSet(viewsets.ModelViewSet):
     serializer_class = ShippingInformationSerializer
     queryset = ShippingInformation.objects.all()
 
-    @list_route(methods=['get','post'])
-    def find_shippinginformation(self, request):
-        user = User.objects.filter(username = request.data['username'].first())
-        shippinginfo = ShippingInformation.objects.filter(user = user)
+    @list_route(methods=['get', 'post'])
+    def find_shippinginformation(self, request): #returns the list of credit cards for a user
+        user = User.objects.filter(username = request.data['username']).first()
+        addresses = ShippingInformation.objects.filter(user = user)
+        info = list(addresses)
+        data = []
+        for i in range(len(info)):
+            serializer = ShippingInformationSerializer(info[i])
+            data.append(serializer.data)
+        
+        print(data)
+        return Response(data=data)
 
-        serializer = ShippingInformationSerializer(shippinginfo)
+    @list_route(methods=['post'])
+    def create_shippinginformation(self, request):
+        user = User.objects.filter(username=request.data['username']).first()
+        info = ShippingInformation.objects.filter(user=user, address=request.data['address']).exists()
+        if info: #if a credit card num exists for that user
+            return
+        else:
+            shipping = ShippingInformation(user=user, 
+            name=request.data['name'],
+            address=request.data['address']
+            )
+            shipping.save()
+
+            serializer = ShippingInformationSerializer(shipping)
+            return Response(serializer.data)
+        
+    @detail_route(methods=['put'])
+    def update_shippinginformation(self, request, pk=None):
+        user = User.objects.filter(username=request.data['username']).first()
+        print(request.data['id'])
+        obj, created = ShippingInformation.objects.update_or_create(id=request.data['id'], 
+        defaults=
+        {'user' : user,
+         'name' : request.data['name'],
+         'address' : request.data['address']
+         })
+        print(created)
+
+        serializer = ShippingInformationSerializer(obj)
         return Response(serializer.data)
 
 class CreditCardViewSet(viewsets.ModelViewSet):
@@ -373,3 +431,9 @@ class OrderViewSet(viewsets.ModelViewSet):
 class OrderDetailsViewSet(viewsets.ModelViewSet):
     serializer_class = OrderDetailsSerializer
     queryset = OrderDetails.objects.all()
+"""
+class SettingsUpdate(UpdateView):
+    model = User
+    model2 = Profile
+    fields = ['name']
+"""
