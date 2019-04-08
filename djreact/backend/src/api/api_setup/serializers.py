@@ -14,13 +14,13 @@ class BookSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ('id','bookID', 'title', 'price', 'cover', 'genre', 'description', 'publisher', 'publicationDate', 'ISBNThirteen', 'ISBNTen', 'pages', 'authors')
+        fields = ('bookID', 'title', 'price', 'cover', 'genre', 'description', 'publisher', 'publicationDate', 'ISBNThirteen', 'ISBNTen', 'pages', 'authors')
 
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ('id', 'name', 'bio', 'date_added')
+        fields = ('name', 'bio', 'date_added')
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,18 +31,18 @@ class ProfileSerializer(serializers.ModelSerializer):
     owned_books = serializers.StringRelatedField( many = True ) 
     class Meta:
         model = Profile
-        fields = ('id', 'user', 'picture', 'bio', 'owned_books')
+        fields = ('user', 'picture', 'bio', 'owned_books')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('id','name', 'description', 'date_added')
+        fields = ('name', 'description', 'date_added')
 
 
 class ShippingInformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShippingInformation
-        fields = ('id', 'user', 'name','address', 'default', 'date_added')
+        fields = ('user', 'address', 'default', 'date_added')
 
 class CreditCardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,18 +54,18 @@ class CreditCardSerializer(serializers.ModelSerializer):
 class PublishingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publishing
-        fields = ('id', 'publisher', 'release_date', 'date_added')
+        fields = ('publisher', 'release_date', 'date_added')
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ('id', 'user', 'book', 'shownick', 'comment', 'date_added')
+        fields = ('user', 'book', 'shownick', 'comment', 'date_added')
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ('id', 'user', 'book', 'shownick', 'stars', 'date_added')
+        fields = ('user', 'book', 'shownick', 'stars', 'date_added')
 
 class CartSerializer( serializers.ModelSerializer ):
     items = serializers.StringRelatedField( many = True ) 
@@ -73,7 +73,7 @@ class CartSerializer( serializers.ModelSerializer ):
 
     class Meta:
         model = Cart
-        fields = ( 'id', 'updated_at', 'items', 'price', 'saved' )
+        fields = ( 'id', 'user', 'updated_at', 'items', 'price', 'saved' )
 
 class CartItemSerializer( serializers.ModelSerializer ):
 
@@ -101,21 +101,21 @@ class CartSerializer(serializers.ModelSerializer):
 class WishListSerializer(serializers.ModelSerializer):
     class Meta:
         model = WishList
-        fields = ('id', 'user', 'name', 'description', 'date_added')
+        fields = ('user', 'name', 'description', 'date_added')
 
 class WishListDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = WishListDetails
-        fields = ('id', 'wishlist', 'book', 'quantity', 'date_added')
+        fields = ('wishlist', 'book', 'quantity', 'date_added')
 
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id', 'user', 'quantity', 'totalprice', 'date_added')
+        fields = ('user', 'quantity', 'totalprice', 'date_added')
 
 
 class OrderDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderDetails
-        fields = ('id', 'order', 'book', 'quantity', 'totalprice')
+        fields = ('order', 'book', 'quantity', 'totalprice')
