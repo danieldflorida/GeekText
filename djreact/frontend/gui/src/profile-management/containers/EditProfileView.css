@@ -28,6 +28,10 @@
     padding: 10px;
     border-right: 1px solid #ccc;
 }
+.form-div{
+    display: inline-block;
+    align-content: left;
+}
 
 .settings-div {
     display: block;
