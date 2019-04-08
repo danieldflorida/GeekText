@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom' ;
 import BaseRouter from './routes' ;
 import 'antd/dist/antd.css';
-import 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css'
 
 import CustomLayout from './Layout' ;
 
 
 class App extends Component {
+<<<<<<< HEAD
+  render() {
+=======
   
   constructor(props)
   {
@@ -45,12 +45,13 @@ componentDidUpdate()
 }
 
 render() {
+>>>>>>> 690c25ecbaffae8462b03ba66a8e783d19944126
     return (
       <div className="App">
         <Router>
-            <CustomLayout username={this.returnUser(sessionStorage.getItem("username"))}>
-              <BaseRouter data={this.handleData}/>
-            </CustomLayout>
+          <CustomLayout>
+            <BaseRouter />
+          </CustomLayout>
         </Router>
       </div>
     );
