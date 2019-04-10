@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { FilterMenuProps, FilterMenuState, ColumnProps, ColumnFilterItem } from './interface';
-export default class FilterMenu<T> extends React.Component<FilterMenuProps<T>, FilterMenuState> {
+declare class FilterMenu<T> extends React.Component<FilterMenuProps<T>, FilterMenuState<T>> {
     static defaultProps: {
         handleFilter(): void;
         column: {};
     };
+    static getDerivedStateFromProps<T>(nextProps: FilterMenuProps<T>, prevState: FilterMenuState<T>): Partial<FilterMenuState<T>>;
     neverShown: boolean;
     constructor(props: FilterMenuProps<T>);
     componentDidMount(): void;
-    componentWillReceiveProps(nextProps: FilterMenuProps<T>): void;
+    componentDidUpdate(): void;
     getDropdownVisible(): boolean | undefined;
     setNeverShown: (column: ColumnProps<T>) => void;
     setSelectedKeys: ({ selectedKeys }: {
@@ -29,3 +30,4 @@ export default class FilterMenu<T> extends React.Component<FilterMenuProps<T>, F
     renderFilterIcon: () => JSX.Element;
     render(): JSX.Element;
 }
+export default FilterMenu;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ResizeObserver from 'resize-observer-polyfill';
 import { ConfigConsumerProps } from '../config-provider';
 export interface AutoSizeType {
     minRows?: number;
@@ -16,16 +15,13 @@ export interface TextAreaState {
 }
 declare class TextArea extends React.Component<TextAreaProps, TextAreaState> {
     nextFrameActionId: number;
-    resizeObserver: ResizeObserver | null;
     state: {
         textareaStyles: {};
     };
     private textAreaRef;
     componentDidMount(): void;
     componentDidUpdate(prevProps: TextAreaProps): void;
-    componentWillUnmount(): void;
     resizeOnNextFrame: () => void;
-    updateResizeObserverHook(): void;
     focus(): void;
     blur(): void;
     resizeTextarea: () => void;

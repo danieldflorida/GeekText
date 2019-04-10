@@ -13,8 +13,8 @@
   display: flex;
   flex-flow: row wrap;
 
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     display: flex;
   }
 }
@@ -61,7 +61,6 @@
 
 .@{ant-prefix}-col {
   position: relative;
-  display: block;
 }
 
 .make-grid-columns();

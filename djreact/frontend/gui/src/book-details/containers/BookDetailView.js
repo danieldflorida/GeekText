@@ -72,7 +72,7 @@ class BookDetail extends React.Component {
           modalShow: false,
           isLoaded: false,
           book: {}, 
-          currentUser: 3
+          currentUser: 1
         };
         
       }

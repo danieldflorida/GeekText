@@ -35,25 +35,13 @@ export interface CardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
     activeTabKey?: string;
     defaultActiveTabKey?: string;
 }
-export interface CardState {
-    widerPadding: boolean;
-}
-export default class Card extends React.Component<CardProps, CardState> {
+export default class Card extends React.Component<CardProps, {}> {
     static Grid: typeof Grid;
     static Meta: typeof Meta;
-    state: {
-        widerPadding: boolean;
-    };
-    private resizeEvent;
-    private updateWiderPaddingCalled;
-    private container;
     componentDidMount(): void;
-    componentWillUnmount(): void;
-    updateWiderPadding(): void;
     onTabChange: (key: string) => void;
-    saveRef: (node: HTMLDivElement) => void;
     isContainGrid(): undefined;
-    getAction(actions: React.ReactNode[]): JSX.Element[] | null;
+    getAction(actions: React.ReactNode[]): JSX.Element[];
     getCompatibleHoverable(): boolean | undefined;
     renderCard: ({ getPrefixCls }: ConfigConsumerProps) => JSX.Element;
     render(): JSX.Element;

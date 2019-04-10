@@ -22,6 +22,7 @@ declare const _default: {
         filterReset: string;
         selectAll: string;
         selectInvert: string;
+        sortTitle: string;
     };
     Modal: {
         okText: string;

@@ -1,2 +1,2 @@
-declare const _default: (valid: boolean, message: string) => void;
+declare const _default: (valid: boolean, component: string, message: string) => void;
 export default _default;

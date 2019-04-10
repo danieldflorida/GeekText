@@ -4,14 +4,14 @@
 @empty-prefix-cls: ~'@{ant-prefix}-empty';
 
 .@{empty-prefix-cls} {
-  text-align: center;
+  margin: 0 8px;
   font-size: @empty-font-size;
   line-height: 22px;
-  margin: 0 8px;
+  text-align: center;
 
   &-image {
-    margin-bottom: 8px;
     height: 100px;
+    margin-bottom: 8px;
 
     img {
       height: 100%;
@@ -27,26 +27,21 @@
   }
 
   // antd internal empty style
-  &-small {
-    margin: 8px 0;
-
-    .@{empty-prefix-cls}-image {
-      height: 35px;
-    }
-  }
-
   &-normal {
     margin: 32px 0;
+    color: @disabled-color;
 
     .@{empty-prefix-cls}-image {
       height: 40px;
     }
   }
-}
 
-// Patch for popup adjust
-.@{ant-prefix}-select-dropdown--multiple .@{ant-prefix}-select-dropdown-menu-item {
-  .@{empty-prefix-cls}-small {
-    margin-left: @control-padding-horizontal + 20;
+  &-small {
+    margin: 8px 0;
+    color: @disabled-color;
+
+    .@{empty-prefix-cls}-image {
+      height: 35px;
+    }
   }
 }

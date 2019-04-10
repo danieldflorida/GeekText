@@ -1,4 +1,4 @@
 import '../../style/index.less';
 import './index.less';
 import '../../select/style';
-import '../../checkbox/style';
+import '../../empty/style';

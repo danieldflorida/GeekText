@@ -25,8 +25,11 @@ export default class Item extends React.Component<ListItemProps, any> {
     static Meta: typeof Meta;
     static contextTypes: {
         grid: PropTypes.Requireable<any>;
+        itemLayout: PropTypes.Requireable<string>;
     };
     context: any;
+    isItemContainsTextNode(): undefined;
+    isFlexMode(): boolean;
     renderItem: ({ getPrefixCls }: ConfigConsumerProps) => JSX.Element;
     render(): JSX.Element;
 }
