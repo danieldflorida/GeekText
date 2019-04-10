@@ -3,6 +3,7 @@ import axios from 'axios'
 
 class BookDetail extends React.Component {
 
+
     state = { 
         book: {},
         currentUser: 7
@@ -17,6 +18,8 @@ class BookDetail extends React.Component {
                 });
             })
     }
+
+
 
     handleClickCart() { 
         axios.put(`http://127.0.0.1:8000/carts/${this.state.currentUser}/add_to_cart/`, `{"book_id":${this.state.book.bookID}}`,{headers: {"Content-Type": "application/json"}}  )
