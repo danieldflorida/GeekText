@@ -1,0 +1,55 @@
+.container {
+    display: flex;
+    width: 1000px;
+    margin: auto;
+    justify-content: space-around;
+ /*   border: 1px #ccc solid; */
+}
+
+.left-column-container {
+    margin: 20px;
+    flex: 1px;
+    min-width: 450px;
+  /*  border: 1px #ccc solid;*/
+}
+
+.small-bkCover {
+    margin: 30px;
+    flex: 1px;
+    min-width: 80px;
+}
+
+
+.right-column-container {
+    margin: 20px;
+    flex: 1px;
+    min-width: 10px;
+  /*  border: 1px #ccc solid;*/
+}
+
+.price-money-symbol {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.price {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.overview-header{
+    text-align: center
+}
+
+.overview{
+    margin: 20px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    padding:20px;
+    text-align: center;
+    
+}
+
+.author-name{
+    font-weight: bold;
+}

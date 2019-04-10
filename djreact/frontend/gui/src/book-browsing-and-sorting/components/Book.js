@@ -30,7 +30,7 @@ const Books = ( props ) => {
                 >
                     <List.Item.Meta
                     avatar={<Avatar src={"https://image.shutterstock.com/image-photo/kherson-ukraine-august-27-2016-260nw-474817798.jpg"} />}
-                    title={<a href={`/${item.bookID}`}>{item.title}</a>}
+                    title={<a href={`/${item.id}`}>{item.title}</a>}
                     description={item.description}
                     price={item.price}
                     />

@@ -1,0 +1,41 @@
+.div-container {
+    display:flex;
+    flex-direction: column;
+    width: auto;
+    justify-content: center;
+  /*  border: 1px #ccc solid;*/
+}
+
+
+
+.between-books {
+    display:flex; 
+    flex-wrap: wrap;
+    width: auto;
+    justify-content: space-around;
+   /* border: 1px #ccc solid;*/
+}
+
+.a-books-info{
+   
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    margin: auto;
+    justify-content: space-around;
+    flex-basis: 200px;
+    /*border: 1px #ccc solid;*/
+}
+
+.h1-author-name {
+    text-align: center;
+}
+
+.div-author-biography {
+    text-align: center;
+}
+
+.book-title {
+    margin: 20px;
+    flex: 1px;
+}

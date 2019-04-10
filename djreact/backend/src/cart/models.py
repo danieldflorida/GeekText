@@ -28,7 +28,7 @@ class CartItem( models.Model ):
         a = '"{}" | '.format( self.itemsInCart.title )
         b = '{} | '.format( self.quantity )
         c = '${} | '.format( self.itemsInCart.price )
-        d = '{}'.format( self.itemsInCart.bookID )
+        d = '{}'.format( self.itemsInCart.id )
         
 
         ret = a + b + c + d
@@ -52,4 +52,4 @@ class SavedItem( models.Model ):
 
     def __str__( self ):
 
-        return '"%s" | $%.2f | %d' % ( self.itemsSaved.title, self.itemsSaved.price, self.itemsSaved.bookID )
+        return '"%s" | $%.2f | %d' % ( self.itemsSaved.title, self.itemsSaved.price, self.itemsSaved.id )

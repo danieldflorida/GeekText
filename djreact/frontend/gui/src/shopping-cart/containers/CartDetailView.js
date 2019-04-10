@@ -7,7 +7,7 @@ class CartDetail extends React.Component {
     state = { 
         cart:{},
         books:[], 
-        currentUser: 7
+        currentUser: 3
     }
 
     constructor( props ) {
