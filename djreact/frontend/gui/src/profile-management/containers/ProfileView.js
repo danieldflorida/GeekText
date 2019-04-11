@@ -3,7 +3,6 @@ import Axios from 'axios'
 import { Image, ListGroup } from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 import './ProfileView.css'
-import { resetWarningCache } from 'prop-types';
 
 //import {FormText, FormControl, Navbar, Nav} from 'react-bootstrap'
 
@@ -17,6 +16,7 @@ class ProfileView extends React.Component
             profilePic: null,
             bio: '',
             name: null,
+            nickname: '',
             userId: null,
             comments: [], //used to hold comments table from API
             renderComments: null //used to render comments in a profie
@@ -83,7 +83,10 @@ class ProfileView extends React.Component
          .then((res) => {
            const data = res.data;
            
-           this.setState({name : data.name});
+           this.setState({
+               name : data.name,
+               nickname: data.nickname
+            });
          })
  
          //Access profile data
@@ -133,7 +136,7 @@ class ProfileView extends React.Component
                     {/*Profile Picture Area */}
                     <div className='profile-pic'>
                         <Image src={'http://127.0.0.1:8000' + this.state.profilePic} roundedCircle height="100" width="100"/>
-                        <h2 className='header'>{this.state.name}</h2>
+                        <h2 className='header'>{this.state.nickname !== '' ? this.state.nickname : this.state.name}</h2>
                     </div>
      
                     {/* Bio */}

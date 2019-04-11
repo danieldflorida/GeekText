@@ -25,7 +25,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','username', 'password', 'name', 'email', 'home_address', 'cart', 'date_added')
+        fields = ('id','username', 'password', 'name','nickname', 'email', 'home_address', 'cart', 'date_added')
 
 class ProfileSerializer(serializers.ModelSerializer):
     owned_books = serializers.StringRelatedField( many = True ) 

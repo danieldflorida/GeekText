@@ -11,6 +11,7 @@ constructor (props)
         email: '',
         name: '',
         username: '',
+        user: {}, //user returned from account creation
         password: '',
         passwordCheck: '',
         passwordStrength: ''
@@ -134,17 +135,12 @@ constructor (props)
     return false
   }
 
-    printPasswordStrength(e)
-    {
-
-    }
-
-    createRelatedTables(user)
+    createRelatedTables(userid)
     {
         //Initialize a profile
         Axios.post("http://127.0.0.1:8000/api/profiles/create_profile/", 
         {
-            username: user
+            username: this.state.username
         },
         {headers: {"Content-Type": "application/json"}})
         .then(res => {  
@@ -154,38 +150,20 @@ constructor (props)
             console.error(error)
         })
         
-        //Initialize an empty cart
-        Axios.post("http://127.0.0.1:8000/api/carts/create_cart/")
+        //Initialize an empty cart and assigns it to the user
+        Axios.post("http://127.0.0.1:8000/api/carts/create_cart/",
+        {
+            userid: userid
+        })
         .then(res => {  
-            //res.data returns the pk of the cart
-            //console.log("PK" + res.data);
-
-            //Finds the pk of a user
-            Axios.post("http://127.0.0.1:8000/api/users/find_pk/",
-            {username: this.state.username})
-            .then(pk => {
-                //console.log(pk.data)
-
-                //References the new cart to the new user
-                Axios.put(`http://127.0.0.1:8000/api/users/${pk.data}/set_cart/`,
-                {
-                    username: this.state.username,
-                    cart: res.data
-                })
-                .then(r =>
-                    {console.log(r)})
-
+                console.log(res.data);
             })
-            
-        })
-        .catch(error => {
-            console.error(error)
-        })
+
 
         //Initialize an empty wishlist
         Axios.post("http://127.0.0.1:8000/api/wishlists/create_wishlist/",
         {
-            username: user
+            username: this.state.username
         },
         {headers: {"Content-Type": "application/json"}})
         .then(res => {
@@ -203,6 +181,7 @@ constructor (props)
         if(this.verifyPassword() === true)
         {
             //Creates the user
+            //Also creates all related tables
             Axios.post("http://127.0.0.1:8000/api/users/add_user/", 
             {
                 username: this.state.username,
@@ -213,8 +192,12 @@ constructor (props)
             },
             {headers: {"Content-Type": "application/json"}})
             .then(res => {  
-                console.log(res)
-                this.createRelatedTables(this.state.username);
+                console.log(res.data);
+                this.setState({
+                    user: res.data
+                })
+                //if(res.data)
+                    //this.createRelatedTables(user.id);
             })
             .catch(error => {
                 console.error(error)

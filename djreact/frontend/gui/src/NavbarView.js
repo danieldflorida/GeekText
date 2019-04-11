@@ -80,7 +80,7 @@ const NavbarView = (props) =>
             </div>
             
             
-            {user === "" ? signInLink : ButtonDisplay}
+            {user === null || user === "" ? signInLink : ButtonDisplay}
             
         </Navbar>
     )

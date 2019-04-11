@@ -10,6 +10,7 @@ class User(models.Model):
     username = models.CharField(max_length=200)
     password = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
+    nickname = models.CharField(max_length=200,default='')
     email = models.EmailField()
     home_address = models.CharField(max_length=200)
     date_added = models.DateField(auto_now_add=True)
@@ -48,7 +49,7 @@ class Book(models.Model):
 class Profile(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    picture = models.ImageField(default = '/images/DefaultProfile.png')
+    picture = models.ImageField(default = '/images/Default_Profile.png')
     bio = models.CharField(max_length=300)
     owned_books = models.ForeignKey(
         Book,

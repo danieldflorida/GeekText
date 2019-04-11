@@ -26,7 +26,29 @@ class Login extends Component {
   }
 
   loginClick(e, user, pass){
-
+      axios.post('http://127.0.0.1:8000/api/users/login/',
+      {
+        username: user,
+        password: pass
+      })
+      .then(res => {
+        if(res.data.username == user) //if credentials were wrong it passes nothing
+        {
+          console.log("Correct credentials.");
+          this.setState({
+            loggedIn: true
+          })
+          
+          this.props.onLoggedIn(this.state.Username); //Passes username to props
+        }
+        else
+        {
+          alert("Username and/or password are incorrect.");
+          e.preventDefault();
+        }
+      })
+      .catch(err => console.log(err))
+      /*
       //verifies login credentials
       axios.get( `http://127.0.0.1:8000/api/users/` )
             .then( res => {
@@ -63,7 +85,7 @@ class Login extends Component {
             .catch(function (error) {
               console.log(error)
             })
-            
+            */
   }
 
   

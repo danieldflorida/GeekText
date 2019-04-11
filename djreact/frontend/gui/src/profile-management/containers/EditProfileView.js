@@ -17,6 +17,7 @@ class EditProfileView extends React.Component
             //users table
             user: {},
             username: '',
+            nickname: '',
             password: '',
             name: '',
             email: '',
@@ -70,6 +71,7 @@ class EditProfileView extends React.Component
             this.setState({
                 user: res.data,
                 username: res.data.username,
+                nickname: res.data.nickname,
                 password: res.data.password,
                 email: res.data.email,
                 homeAddress: res.data.home_address,
@@ -148,13 +150,14 @@ class EditProfileView extends React.Component
 
     handleSubmit (e)
     {
-        e.preventDefault();
+        //e.preventDefault();
         
         //Update profile
         
         Axios.put(`http://127.0.0.1:8000/api/users/${this.state.user.id}/update_user/`,
         {
             username: this.state.username, //this is only for querying
+            nickname: this.state.nickname,
             home_address: this.state.homeAddress,
             email: this.state.email,
             name: this.state.name
@@ -747,6 +750,19 @@ class EditProfileView extends React.Component
                     size="sm"
                     name="name"
                     placeholder={this.state.name} 
+                    onChange={this.handleInputChange}/>
+                </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} controlId="nickname">
+                <Form.Label column sm={2}>
+                    Nickname
+                </Form.Label>
+                <Col sm={6}>
+                    <Form.Control 
+                    size="sm"
+                    name="nickname"
+                    placeholder={this.state.nickname} 
                     onChange={this.handleInputChange}/>
                 </Col>
             </Form.Group>

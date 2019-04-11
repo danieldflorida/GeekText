@@ -8,7 +8,7 @@ pycache/
 local_settings.py
 db.sqlite3
 media
-
+__pycache__/
 #json
 package-lock.json
 package.json

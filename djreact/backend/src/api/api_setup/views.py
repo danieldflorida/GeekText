@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 from rest_framework.decorators import list_route
 from django.views.generic.edit import UpdateView
+from django.contrib.auth.hashers import make_password, check_password
 
 from api.models import (Book, Author, User, Profile, Category, ShippingInformation, 
 CreditCard, Publishing, Comment, Rating, Cart, WishList, WishListDetails, CartItem, 
@@ -29,26 +30,63 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
+    #populates the rest of the tables when creating accounts
+    def create_account(self, user):
+        
+        #CREATE PROFILE
+        profile = Profile(
+            user = user,
+            bio = ''
+        )
+        profile.save()
+
+        #CREATE WISHLIST
+        wishlist = WishList(
+            user = user,
+            name = '',
+            description=''
+        )
+
+        wishlist.save()
+
+        #CREATE CART     
+        cart = Cart(
+            user = user,
+            price = 0
+            )
+        cart.save()
+
+        user.cart = cart #references the new cart on the user
+        user.save() 
+        print(user.cart)
+        return
+
     @list_route(methods=['post', 'put'])
     def add_user(self, request, pk = None):
+        
+        hashedPass = make_password(request.data['password'])
         user = User(
             username = request.data['username'],
-            password = request.data['password'],
+            password = hashedPass,
             name = request.data['name'],
             email = request.data['email'],
             home_address = request.data['home_address']
             )
-        #user = self.get_object()
+        print(user.password) #testing the hash
+
         #Search for existing user
         userExists = User.objects.filter(username = request.data['username']).first()
 
         if userExists:
-            return 
+            return Response(data=None)
         else:
             user.save()
 
+        self.create_account(user) #pass user to make the rest of the tables
+
         serializer = UserSerializer(user)
         return Response(serializer.data)
+    
     
     @detail_route(methods=['put'])
     def update_user(self, request, pk=None):
@@ -56,6 +94,7 @@ class UserViewSet(viewsets.ModelViewSet):
         obj, created = User.objects.update_or_create(username=request.data['username'], 
         defaults={
             'email': request.data['email'],
+            'nickname' : request.data['nickname'],
             'home_address': request.data['home_address'],
             'name': request.data['name']
             })
@@ -89,13 +128,25 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(obj)
         return Response(serializer.data)
     
+    @list_route(methods=['post'])
+    def login(self, request):
+        user = User.objects.filter(username = request.data['username']).first()
+        check = check_password(request.data['password'], user.password)
+        if check:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        else:
+            print('Login credentials incorrect')
+            return
+
     @detail_route(methods=['put'])
     def change_password(self, request, pk=None):
         obj = User.objects.get(id=request.data['id'])
         if not obj:
-            return Response()
+            return 
         else:
-            obj.password = request.data['password']
+            hashed = make_password(request.data['password'], salt=None, hasher='default')
+            obj.password = hashed
             obj.save()
             """obj, created = User.objects.update_or_create(id=request.data['id'], 
             defaults={
@@ -319,13 +370,18 @@ class CartListView( viewsets.ModelViewSet ):
     @list_route(methods=['post', 'put'])
     def create_cart(self, request): #creates cart and returns pk
         
-        #user = User.objects.get(username=request.data['username'])
+        user = User.objects.get(id=request.data['userid'])
         cart = Cart(
+            user = user,
             price = 0
             )
         cart.save()
 
-        return Response(data=cart.pk)
+        user.cart = cart #references the new cart on the user
+        user.save() 
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
 
     @detail_route(methods=['put'])
     def add_to_cart( self, request, pk = None ):
