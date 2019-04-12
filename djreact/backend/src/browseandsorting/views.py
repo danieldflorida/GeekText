@@ -9,19 +9,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
-#class BookCreate(generics.ListCreateAPIView):
-#    queryset = Book.objects.all()
-#    serializer_class = BookSerializer
-#
-#class AuthorCreate(generics.ListCreateAPIView):
-#    queryset = Author.objects.all()
-#    serializer_class = AuthorSerializer
-#
-#class CategoryCreate(generics.ListCreateAPIView):
-#    queryset = Category.objects.all()
-#    serializer_class = CategorySerializer
-
-
 #Class that handle list of book
 class BookList(APIView):
     def get_objects(self, category=None, author=None):
