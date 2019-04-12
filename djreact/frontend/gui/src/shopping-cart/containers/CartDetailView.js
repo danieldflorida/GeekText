@@ -64,7 +64,7 @@ class CartDetail extends React.Component {
     }
 
     handleNumberAdd( id, num ) {
-        if( num !== 0 && num <= 30 ) {
+        if( num > 0 && num <= 30 && num !== "" ) {
             axios.put( `http://127.0.0.1:8000/carts/${this.state.currentUser}/add_multiple_cart/`, `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
             alert( "The item(s) have been added." )
             window.location.reload() 
@@ -76,7 +76,7 @@ class CartDetail extends React.Component {
     }
 
     handleNumberDel( id, num ) {
-        if( num !== 0 && num <= 30 ) {
+        if( num > 0 && num <= 30 && num !== "" ) {
             axios.put( `http://127.0.0.1:8000/carts/${this.state.currentUser}/rem_multiple_cart/`, `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
             alert( "The item(s) have been removed." )
             window.location.reload() 
@@ -94,9 +94,6 @@ class CartDetail extends React.Component {
 	console.log( "ItemList: ", itemList )
         itemList = String( itemList ).split(" | ")
         itemList = String( itemList ).split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
-
-        //--> Code can break the string up into multiple lists when it is uncommented 
-        //    Currently can't get display tables to work so it has been commented out and the strings are just being displayed.
 
         const items = []
         const quantity = []
