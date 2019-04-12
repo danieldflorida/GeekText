@@ -20,7 +20,8 @@ class BookSerializer(serializers.ModelSerializer):
     authors = AuthorSerializer(many=True, read_only=True)
     rating_set = RatingSerializer(many=True, read_only=True)
     photo_url = serializers.SerializerMethodField()
-
+    category = CategorySerializer(read_only=True)
+    
     class Meta:
         model = Book
         fields = ('id', 'title', 'price', 'cover', 'category', 'description', 'publisher', 'publicationDate', 'ISBNThirteen', 'ISBNTen', 'pages', 'authors', 'rating_set', 'photo_url', 'created_at')

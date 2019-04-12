@@ -128,7 +128,7 @@ class BookDetail extends React.Component {
 
                <div className="right-column-container">
                   <h3>{this.state.book.title}</h3>
-                  <span>Genre: {this.state.book.category}</span>
+                  <span>Genre: {this.state.book.category.name}</span>
                   <br></br>
                   <br></br>
                   <br></br>
