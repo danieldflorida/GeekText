@@ -1,0 +1,1 @@
+backend.bat & frontend.bat

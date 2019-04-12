@@ -1,0 +1,1 @@
+start cmd /k "cd ..\djreact\frontend\gui && npm start"
