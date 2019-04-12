@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from parent.models import Author, Book, ShoppingCart, CartItem, SavedItem, Category, Rating, BookSold
+from parent.models import (Author, Book, ShoppingCart, CartItem, SavedItem, Category, Rating, BookSold,
+User, Profile, CreditCard, ShippingInformation, Comment)
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -59,3 +60,30 @@ class BookSoldSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookSold
         fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id','username', 'password', 'name', 'nickname', 'email', 'home_address', 'cart', 'created_at')
+
+class ProfileSerializer(serializers.ModelSerializer):
+    owned_books = serializers.StringRelatedField( many = True ) 
+    class Meta:
+        model = Profile
+        fields = ('id', 'user', 'picture', 'bio', 'owned_books')
+
+class ShippingInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingInformation
+        fields = ('id', 'user', 'name','address', 'default', 'date_added')
+
+class CreditCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CreditCard
+        fields = ('id', 'user', 'number', 'expdate', 'holdername', 'seccode',
+        'billing_address', 'date_added')
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('id', 'user', 'book', 'shownick', 'comment', 'date_added')

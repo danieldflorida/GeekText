@@ -1,11 +1,13 @@
 import React from 'react' ;
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom'
+import {Container} from 'react-bootstrap';
+import NavbarView from './NavbarView';
 
 const { Header, Content, Footer } = Layout;
 
 const CustomLayout = ( props ) => {
-    return (
+    /*return (
         <Layout className="layout">
             <Header>
             <div className="logo" />
@@ -33,7 +35,23 @@ const CustomLayout = ( props ) => {
             Ant Design ©2018 Created by Ant UED
             </Footer>
         </Layout>
+    )*/
+    return(
+        <div>
+            <NavbarView username={props.username}/>
+                <div 
+                align="center"
+                style={{ background: '#fff', 
+                    marginTop: 100, 
+                    minHeight: 100,
+                    alignContent: 'center' }}
+                >
+                    {props.children}
+                </div>
+        </div>
+
     )
+
 }
 
 export default CustomLayout ;

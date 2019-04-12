@@ -21,11 +21,16 @@ from django.conf.urls import url
 from django.conf import settings 
 from rest_framework import routers 
 from cart.api import views 
+from profilemanagement.views import (UserViewSet, ProfileViewSet, ShippingInformationViewSet, CreditCardViewSet, CommentViewSet)
 
 router = routers.DefaultRouter()
 router.register( r'carts', views.CartListView )
 router.register( r'cart_items', views.CartItemsView )
-
+router.register(r'users', UserViewSet, base_name='user')
+router.register(r'profiles', ProfileViewSet, base_name='profile')
+router.register(r'shippinginformation', ShippingInformationViewSet, base_name='shippinginformation')
+router.register(r'creditcards', CreditCardViewSet, base_name='creditcard')
+router.register(r'comments', CommentViewSet, base_name='comment')
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),

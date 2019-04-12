@@ -1,0 +1,61 @@
+.outer-div {
+    display: block;
+    width:1200px;
+    margin-top: 100px;
+}
+.middle-div {
+    display: inline-block;
+    align-self: auto;
+    width: 800px;
+    margin: 30px;
+}
+.right-div {
+    display:inline-block;
+    vertical-align: top;
+    width: 300px;
+    height: 750px;
+    margin-right: 0px;
+    margin-top:50px;
+    margin-left:20px;
+    padding:10px;
+    border-left: 1px solid #ccc;
+}
+.profile-pic {
+    display: inline-block;
+    padding: 10px;
+}
+
+.header {
+    display: inline-block;
+    padding: 10px;
+    margin: 0px;
+}
+
+.bio {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    width: 800px;
+    padding: 15px;
+    border: 1px solid grey;
+}
+.comment-block {
+    display: block;
+    justify-content: center;
+    margin: 10px;
+    width: 800px;
+    padding: 15px;
+}
+.comment {
+    display: block;
+    justify-content: left;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.book-cover{
+    padding: 10px;
+    margin: 5px;
+}
