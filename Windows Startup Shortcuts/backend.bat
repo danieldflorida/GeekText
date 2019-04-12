@@ -1,0 +1,1 @@
+start cmd /k "cd ..\djreact\backend && env\Scripts\activate.bat && cd src && python manage.py runserver"
