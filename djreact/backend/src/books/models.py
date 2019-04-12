@@ -19,7 +19,6 @@ class Book(models.Model):
 
 from django.db import models
 
-
 class Book(models.Model):
     id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=120)
@@ -37,7 +36,6 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-
 class Author(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=120, null=False)
@@ -46,4 +44,3 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
-

@@ -32,6 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('books.api.urls')),
     url( r'^', include(router.urls)),
+    path('', include('browseandsorting.urls')),
     #path('cart/', include( 'cart.api.urls'))
 
 ] + static( settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )

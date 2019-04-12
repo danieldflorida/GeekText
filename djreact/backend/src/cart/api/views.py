@@ -1,10 +1,9 @@
-#from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
-from cart.models import ShoppingCart, CartItem, SavedItem
-from books.models import Book
-from .serializers import CartSerializer 
+from parent.models import Book, ShoppingCart, CartItem, SavedItem
+from parent.serializers import CartSerializer 
+
 
 class CartListView( viewsets.ModelViewSet ):
     queryset = ShoppingCart.objects.all() 

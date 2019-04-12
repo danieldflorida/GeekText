@@ -1,59 +1,3 @@
-/*
-import React from 'react' 
-import axios from 'axios'
-
-class BookDetail extends React.Component {
-
-    state = { 
-        book: {},
-        currentUser: 7
-    }
-
-    componentDidMount() {
-        const bookID = this.props.match.params.bookID ;
-        axios.get( `http://127.0.0.1:8000/api/${bookID}` )
-            .then( res => {
-                this.setState({
-                    book: res.data
-                });
-            })
-    }
-
-    handleClickCart() { 
-        axios.put(`http://127.0.0.1:8000/carts/${this.state.currentUser}/add_to_cart/`, `{"book_id":${this.state.book.bookID}}`,{headers: {"Content-Type": "application/json"}}  )
-        alert( "Item had been added to your cart." )
-    }
-
-    handleClickSave() { 
-        axios.put(`http://127.0.0.1:8000/carts/${this.state.currentUser}/save_later/`, `{"book_id":${this.state.book.bookID}}`,{headers: {"Content-Type": "application/json"}}  )
-        alert( "Item had been saved for later. View it in your cart." )
-    }
-
-    render( ) {
-        
-        return( 
-            <div>
-                <b>Book Title</b>:<br/>{this.state.book.title}
-                <br/><br/>
-                <p>
-                <b>Description</b>:<br/>{this.state.book.content} 
-                </p>
-                <p>
-                <b>Price</b>:<br/>{this.state.book.price} 
-                </p>
-                <br/><br/>
-                <button onClick={ () => this.handleClickCart() }>Add this Book To Your Cart</button>
-                <br/><br/>
-                <button onClick={ () => this.handleClickSave() }>Save this Book for Later</button>
-            </div>
-        )
-    } 
-
-}
-
-export default BookDetail ;
-*/
-
 import React from 'react' 
 import axios from 'axios'
 import MyVerticallyCenteredModal from '../components/EnlargedCover'
@@ -94,6 +38,9 @@ class BookDetail extends React.Component {
                     isLoaded: true
                 });
             })
+            .catch(error => {
+                console.log(error);
+            });
 
 //////////////////
             /*
@@ -137,7 +84,7 @@ class BookDetail extends React.Component {
 
         let modalClose = () => this.setState({ modalShow: false });
 
-        var { isLoaded } = this.state
+        var { isLoaded } = this.state;
 
         if (!isLoaded ){
         return <div>Loading...</div>
@@ -181,7 +128,7 @@ class BookDetail extends React.Component {
 
                <div className="right-column-container">
                   <h3>{this.state.book.title}</h3>
-                  <span>Genre: {this.state.book.genre}</span>
+                  <span>Genre: {this.state.book.category}</span>
                   <br></br>
                   <br></br>
                   <br></br>
@@ -215,8 +162,10 @@ class BookDetail extends React.Component {
           <h5>About the Author</h5>
           <br></br>
           <ul>
-          {this.state.book.authors.map(author => (
-
+          {this.state.book.authors.map(author => {
+            console.log("inside a mess");
+            return (
+            
             <div key={author.id}>
                 <li>
                     <div className="author-name">
@@ -239,7 +188,8 @@ class BookDetail extends React.Component {
                 </li>
             </div>
 
-           ))}
+           );
+          })}
        </ul>
 
 

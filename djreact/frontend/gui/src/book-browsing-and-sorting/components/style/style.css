@@ -1,0 +1,276 @@
+/* Fonts */
+.main-font{
+    font-size: 17px !important;
+}
+
+.second-font{
+    font-size: 13px !important;
+}
+
+.main-container{
+    margin: 0;
+    padding: 0;
+}
+
+.content-container{
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+.info-nav{
+    width: 100%;
+    background-color: rgba(217,223,215,.33);
+}
+
+.info-nav span{
+    font-weight: bold;
+}
+
+.sidebar-container{
+    /*border-right: 2px solid #ddd;*/
+}
+
+.sidebar-container, .info-nav{
+    padding: 20px;
+    padding-right: 0;
+}
+
+.search-results-container{
+    padding-left: 50px;
+}
+
+/* authors-list */
+.display-list{
+    margin-bottom: 20px;
+}
+
+.display-list .title h2{
+    color: #21282d;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.display-list .body{
+    font-size: 13px;
+}
+
+.display-list ul{
+    padding: 0;
+    margin: 0;
+    margin-top: 7px;
+}
+
+.display-list li{
+    list-style-type: none;
+    margin-bottom: 5px;
+}
+
+.display-list li button{
+    text-decoration: none;
+    color: #347d56;
+    background-color: transparent;
+    border: none;
+}
+
+.display-list li button small{
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.display-list li button:hover{
+    color: burlywood;
+    background-color: transparent;
+    border: none;
+}
+
+
+/*Sort options container */
+.sort-options-container{
+    padding-top: 10px;
+    padding-bottom: 2px;
+    color: #21282d;
+}
+
+.sort-options-container select{
+    background: #fafafa;
+    border-radius: 0;
+    color: #21282d;
+}
+
+.sort-options-container select:active{
+    background: #347d56;
+    color: black;
+}
+
+.view-icons-container{
+    display: flex;
+    align-items: center;
+}
+
+.view-icons-container > img{
+    width: 20px; 
+    height: auto; 
+    vertical-align: middle;
+    text-align: center;
+}
+
+.search-results h2{
+    font-size: 13px;
+    margin-left: 30px;
+    padding-top: 10px;
+}
+
+/* Grid product item */
+.grid-product-item{
+    display: inline-block;
+    height: 369.969px;
+    width: auto;
+    margin-top: 20px;
+    margin-right: 50px;
+    padding-bottom: 20px;
+}
+
+.grid-product-item .grid-product-description a{
+    color: black;
+}
+
+.grid-product-item .grid-product-description a:hover{
+    color: burlywood;
+    text-decoration: none;
+}
+
+.grid-product-item .grid-product-img img{
+    max-height: 200px !important;
+    width: auto;
+}
+
+.grid-product-item .grid-product-description .author span{
+    color: #555555;
+    margin-right: 5px;
+}
+
+.grid-product-item .grid-product-description .title,
+.grid-product-item .grid-product-description .author,
+.grid-product-item .grid-product-description .price{
+    margin-top: 10px;
+}
+
+.dollar-icon{
+    margin: 0;
+    padding: 0;
+    height: 14px; 
+    padding-bottom: 6px;
+}
+
+/* List product item */
+.list-product-item{
+    border-bottom: 1px solid #ddd;
+    margin-top: 40px; 
+    padding-bottom: 40px;
+}
+
+.list-product-item .list-product-img{
+    text-align: center;
+}
+
+.list-product-item .list-product-img img{
+    height: 220px; 
+    width: auto;
+}
+
+.list-product-item .list-product-description a{
+    color: black;
+}
+
+.list-product-item .list-product-description a:hover{
+    color: burlywood;
+    text-decoration: none;
+}
+
+.list-product-item .list-product-description .author span{
+    color: #555555;
+}
+
+.list-product-item .list-product-description .title,
+.list-product-item .list-product-description .author,
+.list-product-item .list-product-description .price{
+    margin-top: 10px;
+}
+
+/* Custom */
+.custom-select{
+    font-size: 10px;
+    height: 27px;
+}
+
+.arrow-left-icon{
+    height: 10px;
+    width: auto;
+}
+
+.display-list .title img{
+    margin-right: 10px;
+}
+
+.display-list .title button{
+    color: #347d56;
+    font-size: 13px;
+    background-color: transparent;
+    border: none;
+}
+
+.display-list .title button:hover{
+    color: burlywood;
+    background-color: transparent;
+    border: none;
+}
+
+
+#page-numbers {
+    list-style: none;
+    display: flex;
+}
+  
+#page-numbers > li {
+    margin-right: 0.3em;
+    color: blue;
+    user-select: none;
+    cursor: pointer;
+
+}
+
+/* Pagination */
+
+.pagination-container{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.pagination-item{
+    margin-right: 15px;
+}
+
+.pagination-item:hover{
+    color: #347d56;
+    text-decoration: none;
+}
+
+.pagination-current{
+    color: burlywood;
+}
+
+.pagination-current:hover{
+    color: burlywood;
+}
+
+.right-column{
+    border-left: 2px solid #ddd;
+    padding-left: 50px;
+}
+
+.star-img{
+    height: 10px;
+    width: auto;
+}

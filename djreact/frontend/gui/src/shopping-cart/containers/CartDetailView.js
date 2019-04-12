@@ -30,6 +30,7 @@ class CartDetail extends React.Component {
 
             var toSave = []
             for( let i = 0 ; i < res.data.length ; i++ ){
+                console.log(res.data[i].cover);
                 toSave.push( res.data[i].cover )
             }
 
@@ -63,7 +64,7 @@ class CartDetail extends React.Component {
     }
 
     handleNumberAdd( id, num ) {
-        if( num != 0 && num <= 30 ) {
+        if( num !== 0 && num <= 30 ) {
             axios.put( `http://127.0.0.1:8000/carts/${this.state.currentUser}/add_multiple_cart/`, `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
             alert( "The item(s) have been added." )
             window.location.reload() 
@@ -75,7 +76,7 @@ class CartDetail extends React.Component {
     }
 
     handleNumberDel( id, num ) {
-        if( num != 0 && num <= 30 ) {
+        if( num !== 0 && num <= 30 ) {
             axios.put( `http://127.0.0.1:8000/carts/${this.state.currentUser}/rem_multiple_cart/`, `{"book_id":${id},"quantity":${num}}`,{headers: {"Content-Type": "application/json"}}  )
             alert( "The item(s) have been removed." )
             window.location.reload() 

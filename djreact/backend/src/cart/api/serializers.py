@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from cart.models import ShoppingCart, CartItem, SavedItem
+from parent.models import ShoppingCart, CartItem, SavedItem
 from books.api.serializers import BookSerializer
 
 class CartSerializer( serializers.ModelSerializer ):
