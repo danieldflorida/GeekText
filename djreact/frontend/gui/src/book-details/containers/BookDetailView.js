@@ -7,6 +7,14 @@ import { Link } from "react-router-dom"
 //import { Card } from 'antd'
 
 
+import img0 from '../../static/stars/5_Star_Rating_System_0_stars.svg';
+import img1 from '../../static/stars/5_Star_Rating_System_1_star_T.png';
+import img2 from '../../static/stars/5_Star_Rating_System_2_stars_T.png';
+import img3 from '../../static/stars/5_Star_Rating_System_3_stars_T.png';
+import img4 from '../../static/stars/5_Star_Rating_System_4_stars_T.png';
+import img5 from '../../static/stars/5_Star_Rating_System_5_stars_T.png';
+
+
 class BookDetail extends React.Component {
 
     constructor(props) { //...args used to be here before props
@@ -18,14 +26,14 @@ class BookDetail extends React.Component {
           book: {}, 
           currentUser: 1
         };
-        
+        this.getReviews = this.getReviews.bind(this);
       }
-
+/*
       state = { 
         book: {},
         currentUser: 7
     }
-
+*/
 
       
 
@@ -66,6 +74,57 @@ class BookDetail extends React.Component {
 /////////////////////
 
     }
+
+
+
+    getReviews(){
+        let avg = 0;
+        //let avg = Number(this.state.book.rating_set[0].stars);
+        
+        
+        if(this.state.book.rating_set.length){
+            this.state.book.rating_set.map(val => {
+                avg += Number(val.stars);
+                return true;
+            });
+
+            avg = avg / this.state.book.rating_set.length;
+        }
+        
+        let imgSrc;
+        switch (avg) {
+            case 0:
+            imgSrc = img0;
+            break;
+
+            case 1:
+            imgSrc = img1;
+            break;
+
+            case 2:
+            imgSrc = img2;
+            break;
+            
+            case 3:
+            imgSrc = img3;
+            break;
+            
+            case 4:
+            imgSrc = img4;
+            break;
+
+            case 5:
+            imgSrc = img5;
+            break;
+        
+            default:
+            console.log("not found star")
+                break;
+        }
+
+        return (<img className="bookDetail-star-img" src={imgSrc} alt=""/>);
+    }
+
 
 
     handleClickCart() { 
@@ -130,6 +189,9 @@ class BookDetail extends React.Component {
                   <h3>{this.state.book.title}</h3>
                   <span>Genre: {this.state.book.category.name}</span>
                   <br></br>
+                  <br></br>
+                  <br></br>
+                  {this.getReviews()}
                   <br></br>
                   <br></br>
                   <span className="price-money-symbol">$ </span>
