@@ -83,6 +83,8 @@ class ProfileView extends React.Component
          .then((res) => {
            const data = res.data;
            
+           sessionStorage.setItem( "cart", data.cart )
+           
            this.setState({
                name : data.name,
                nickname: data.nickname

@@ -3,26 +3,24 @@ import axios from 'axios'
 import '../../styling/CartApp.css'
 
 class CartDetail extends React.Component {
-
-    state = { 
-        cart:{},
-        books:[], 
-        currentUser: 1
-    }
-
+    
     constructor( props ) {
         super(props);
         this.myRef = [] ;
-        //= React.createRef() ;
 
-        axios.get( `http://127.0.0.1:8000/carts/${this.state.currentUser}` )
+        this.state = { 
+            cart:{},
+            books:[], 
+            currentUser: sessionStorage.getItem("cart")
+        };
+       
+       console.log( "Cart Num:", this.state.currentUser )
+
+        axios.get( `http://127.0.0.1:8000/carts/${ this.state.currentUser }` )
             .then( res => {
                 this.setState({
                     cart: res.data
                 });
-                //console.log( "Res.Data: ")
-                //console.log( res.data ) ;
-
             })
 
         axios.get( 'http://127.0.0.1:8000/api/')
@@ -41,13 +39,16 @@ class CartDetail extends React.Component {
         })
     }
 
+    componentDidUpdate(){ 
+
+    }
+
     componentWillMount() {
         this.refs = {} 
-        
     }
 
     componentDidMount() {
-        
+
     }
     
     handleClickMove( value ) { 

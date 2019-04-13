@@ -16,7 +16,7 @@ class BookDetail extends React.Component {
           modalShow: false,
           isLoaded: false,
           book: {}, 
-          currentUser: 1
+          currentUser: sessionStorage.getItem("cart")
         };
         
       }

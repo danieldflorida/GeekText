@@ -8,6 +8,8 @@ import './styling/HomePageView.css'
 function resetUsername() 
 {
     sessionStorage.setItem("username", ""); //somehow change this to null
+    
+    sessionStorage.setItem( "cart", "" )
 }
 
 //can use props to display account name on Navbar
@@ -28,7 +30,7 @@ const NavbarView = (props) =>
                 Edit Profile
             </Dropdown.Item>
             <Dropdown.Divider/>
-            <Dropdown.Item href={"/" + props.username + "/cart"}>
+            <Dropdown.Item href="/carts">
                 Shopping Cart
             </Dropdown.Item>
             <Dropdown.Item href={"/" + props.username + "/orders"}>

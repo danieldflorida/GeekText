@@ -146,6 +146,7 @@ constructor (props)
     //Used in onClick
     createAccount(e)
     {
+        e.preventDefault();
         //console.log('Password verified: ' + this.verifyPassword())
         if(this.verifyPassword() === true)
         {
