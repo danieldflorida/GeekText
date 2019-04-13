@@ -173,7 +173,7 @@ class App extends Component{
                 <InfoNav title={this.state.infoNavTitle}/>
             </div>
 
-            <div className="col-sm-3">
+            <div className="col-sm-2">
                 <SideBar 
                 ratingHandler={this.ratingHandler}
                 backBtnHandler={this.backBtnHandler}
@@ -185,7 +185,7 @@ class App extends Component{
                 />
             </div>
 
-            <div className="col-sm-9 right-column">
+            <div className="col-sm-10 right-column">
                 <SortView 
                 count={this.state.bookCount} 
                 gridHandler={this.gridButtonHandler} 
