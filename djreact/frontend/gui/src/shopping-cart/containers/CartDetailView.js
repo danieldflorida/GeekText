@@ -88,6 +88,15 @@ class CartDetail extends React.Component {
         }
     }
 
+    checkIfLoggedIn(){
+        if( ( sessionStorage.getItem( "username" ) !== '' ) && ( sessionStorage.getItem( "cart" ) !== '' ) ) 
+        {
+            return true ;
+        } else {
+            return false ;
+        }
+    }
+
     render( ) {
         
 	console.log( "Cart Items:", this.state.cart.items )
@@ -144,6 +153,7 @@ class CartDetail extends React.Component {
 
         console.log( "Books", finalSaved[0][2] ) ;
 
+        if( this.checkIfLoggedIn() === true ) {
         return( 
             <div>
                 <h3>Cart Number ID: { this.state.cart.id }</h3><br/>
@@ -212,7 +222,12 @@ class CartDetail extends React.Component {
                 <h7>Last Updated At: { this.state.cart.updated_at }</h7>
             </div>
         )
-    } 
+    } else {
+        return(
+        <div>Please Log In To View Cart</div>
+        )
+    }
+    }
 }
 
 export default CartDetail ;
