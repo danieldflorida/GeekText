@@ -40,9 +40,10 @@ const CustomLayout = ( props ) => {
         <div>
             <NavbarView username={props.username}/>
                 <div 
-                align="center"
+               // align="center"
                 style={{ background: '#fff', 
-                    marginTop: 100, 
+                   // marginTop: 100,
+                    marginTop: 70,
                     minHeight: 100,
                     alignContent: 'center' }}
                 >

@@ -18,6 +18,7 @@ class RatingSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class BookSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
     authors = AuthorSerializer(many=True, read_only=True)
     rating_set = RatingSerializer(many=True, read_only=True)
     photo_url = serializers.SerializerMethodField()
