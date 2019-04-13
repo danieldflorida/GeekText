@@ -141,7 +141,7 @@ class ProductView extends Component{
         
         this.state = {
             currentPage: 1,
-            todosPerPage: 10
+            todosPerPage: 12
         };
 
         this.mapFunction = this.mapFunction.bind(this);
