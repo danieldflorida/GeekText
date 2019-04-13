@@ -91,7 +91,7 @@ render()
                         className="submit-button"
                         variant="secondary"
                         type="submit"
-                        onClick={(e) => {this.cancelSubmit(e)}}>Cancel</Button>
+                        onClick={(e) => {this.cancelSubmit(e)}}>Back</Button>
                         <Button 
                         className="submit-button"
                         type="submit"

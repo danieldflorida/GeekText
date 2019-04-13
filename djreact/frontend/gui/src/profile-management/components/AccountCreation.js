@@ -166,7 +166,7 @@ constructor (props)
                 this.setState({
                     user: res.data
                 })
- 
+                window.location.href = "/home"
             })
             .catch(error => {
                 console.error(error)

@@ -140,6 +140,8 @@ class EditProfileView extends React.Component
         })
         .then((res)=>{
             console.log(res)
+            alert("Profile successfully updated.")
+            window.location.reload();
         })
         .catch((err) => {
             console.log(err);
@@ -147,9 +149,10 @@ class EditProfileView extends React.Component
      
     }
 
+    //Handles submission for updating the user settings
     handleSubmit (e)
     {
-        //e.preventDefault();
+        e.preventDefault();
         
         //Update user
         
@@ -162,7 +165,9 @@ class EditProfileView extends React.Component
             name: this.state.name
         })
         .then((res)=>{
-            console.log(res)
+            console.log(res);
+            alert("User settings successfully updated.")
+            window.location.reload();
         })
         .catch((err) => {
             console.log(err);
@@ -219,7 +224,7 @@ class EditProfileView extends React.Component
     //Save Credit cards button for updating cards
     saveCreditCard(e, i)
     {
-        //e.preventDefault();
+        e.preventDefault();
         const array = this.state.creditCards;
         const validate = this.validate(array[i]);
         if (validate)
@@ -235,12 +240,16 @@ class EditProfileView extends React.Component
                 seccode: array[i].seccode,
                 billing_address: array[i].billing_address
             })
+            .then(res => {
+                alert("Credit Card successfully updated.")
+                window.location.reload();
+            })
         }
     }
 
     createCreditCard(e)
     {
-        //e.preventDefault();
+        e.preventDefault();
         //New credit card
 
         //No fields must be empty if one field is filled out
@@ -273,7 +282,11 @@ class EditProfileView extends React.Component
                 seccode: code,
                 billing_address: billing
             })
-            .then(console.log("Credit Card POST success"))
+            .then(res => {
+                window.location.reload();
+                alert("Credit Card successfully added.")
+                console.log("Credit Card POST success");
+            })
             .catch(console.log("error"));
         }
     }
@@ -346,11 +359,13 @@ class EditProfileView extends React.Component
     }
     deleteCreditCard(e, index)
     {   
-        //e.preventDefault();
+        e.preventDefault();
         const array = this.state.creditCards;
         Axios.delete(`http://127.0.0.1:8000/creditcards/${array[index].id}`)
         .catch(err => {
-            console.log(err)
+            console.log(err);    
+            alert("Credit Card successfully deleted.")
+            window.location.reload();
         });
     }
     displayCreditCards()
@@ -580,7 +595,11 @@ class EditProfileView extends React.Component
                 name: this.state.shippingName,
                 address: this.state.newMailingAddress
             })
-            .then(console.log("Shipping Info POST success"))
+            .then(res => {
+                console.log("Shipping Info POST success")
+                alert("Shipping Information successfully added.")
+                window.location.reload();
+            })
             .catch(err=> {console.log(err)});
         }
         
@@ -598,6 +617,10 @@ class EditProfileView extends React.Component
             name: array[i].name,
             address: array[i].address
         })
+        .then(res => {
+            alert("Shipping Information successfully updated.")
+            window.location.reload();
+        })
     
     }
     deleteShippingInfo(e, index)
@@ -607,6 +630,8 @@ class EditProfileView extends React.Component
         Axios.delete(`http://127.0.0.1:8000/shippinginformation/${array[index].id}`)
         .catch(err => {
             console.log(err)
+            alert("Shipping Information successfully deleted.")
+            window.location.reload();
         });
     }
     displayShippingInfo()

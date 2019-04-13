@@ -182,8 +182,13 @@ handleSubmit(e)
                 id: this.state.userid,
                 password: this.state.newPassword
             })
+            .then(res => {
+                alert("Password changed.")
+                window.location.reload();
+            })
             .catch(err=>{
                 e.preventDefault();
+                alert(err);
                 console.log(err)
             })
         })
