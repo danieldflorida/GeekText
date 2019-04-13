@@ -132,6 +132,7 @@ class EditProfileView extends React.Component
     }
     submitProfile(e)
     {
+        e.preventDefault();
         Axios.put(`http://127.0.0.1:8000/profiles/${this.state.profile.id}/update_profile/`,
         {
             username: this.state.username,
@@ -582,7 +583,7 @@ class EditProfileView extends React.Component
     }
     createShippingInfo(e)
     {
-        //e.preventDefault();
+        e.preventDefault();
         const name = this.state.shippingName;
         const mailing = this.state.newMailingAddress;
         console.log(name);
@@ -606,7 +607,7 @@ class EditProfileView extends React.Component
     }
     saveShippingInfo(e, i)
     {
-        //e.preventDefault();
+        e.preventDefault();
         const array = this.state.shippingInfo;
         
         const id = array[i].id;
@@ -625,7 +626,7 @@ class EditProfileView extends React.Component
     }
     deleteShippingInfo(e, index)
     {
-        //e.preventDefault();
+        e.preventDefault();
         const array = this.state.shippingInfo;
         Axios.delete(`http://127.0.0.1:8000/shippinginformation/${array[index].id}`)
         .catch(err => {
