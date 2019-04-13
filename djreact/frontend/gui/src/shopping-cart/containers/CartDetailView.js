@@ -88,6 +88,12 @@ class CartDetail extends React.Component {
         }
     }
 
+    handleSaveAll( ){
+        axios.get(`http://127.0.0.1:8000/carts/${this.state.currentUser}/move_all_save/`, {headers: {"Content-Type": "application/json"}}  )
+        alert( "All Cart Items have been moved." )
+        window.location.reload() 
+    }
+
     checkIfLoggedIn(){
         if( ( sessionStorage.getItem( "username" ) !== '' ) && ( sessionStorage.getItem( "cart" ) !== '' ) ) 
         {
@@ -192,7 +198,7 @@ class CartDetail extends React.Component {
 
                         <tr>
                             <th className = "cart">Subtotal: <b>${this.state.cart.price}</b></th>
-                            <th className = "cart"><b>PURCHASE LINK TBD?</b></th>
+                            <th><button className = "cart" onClick = { () => this.handleSaveAll()}>Save Cart For Later</button></th>
                         </tr>
                     </table>
                     </div>

@@ -2,7 +2,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 from parent.models import Book, ShoppingCart, CartItem, SavedItem
-from parent.serializers import CartSerializer 
+from parent.serializers import CartSerializer, CartItemSerialize, SavedItemSerialize
+import logging
+logger = logging.getLogger( __name__ )
 
 
 class CartListView( viewsets.ModelViewSet ):
@@ -155,10 +157,43 @@ class CartListView( viewsets.ModelViewSet ):
         serializer = CartSerializer(cart)
         return Response(serializer.data)
 
+
+    @detail_route( methods = [ 'get' ] )
+    def move_all_save( self, request, pk = None ):
+        cart = self.get_object() 
+        objectCount = CartItem.objects.filter( cart = cart ).count()
+        logger.error( objectCount )
+        pkList = []
+
+        for x in range( 0, objectCount ) :
+            #logger.error( objectCount )
+            item = CartItem.objects.filter( cart = cart ).first()
+            pkList.append( item.itemsInCart.id )
+            #logger.error( item.itemsInCart.id )
+            item.delete()
+
+            bookChoice = Book.objects.get( 
+                pk = pkList[ x ]
+            )
+
+            if SavedItem.objects.filter( cart = cart, itemsSaved = bookChoice ).first():
+                x = x 
+            else:
+                new_saved_item = SavedItem( cart = cart, itemsSaved = bookChoice )
+                new_saved_item.save()
+
+            cart.price = cart.price - ( bookChoice.price * item.quantity )
+            if cart.price < 0:
+                    cart.price = 0 
+            cart.save()
+        
+        serializer = CartSerializer( cart ) 
+        return Response( serializer.data )
+
 class CartItemsView( viewsets.ModelViewSet ):
     queryset = CartItem.objects.all() 
-    serializer_class = CartSerializer
+    serializer_class = CartItemSerialize
 
 class SavedItemsView( viewsets.ModelViewSet ):
     queryset = SavedItem.objects.all() 
-    serializer_class = CartSerializer
+    serializer_class = SavedItemSerialize
