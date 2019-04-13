@@ -3,26 +3,24 @@ import axios from 'axios'
 import '../../styling/CartApp.css'
 
 class CartDetail extends React.Component {
-
-    state = { 
-        cart:{},
-        books:[], 
-        currentUser: 1
-    }
-
+    
     constructor( props ) {
         super(props);
         this.myRef = [] ;
-        //= React.createRef() ;
 
-        axios.get( `http://127.0.0.1:8000/carts/${this.state.currentUser}` )
+        this.state = { 
+            cart:{},
+            books:[], 
+            currentUser: sessionStorage.getItem("cart")
+        };
+       
+       //console.log( "Cart Num:", this.state.currentUser )
+
+        axios.get( `http://127.0.0.1:8000/carts/${ this.state.currentUser }` )
             .then( res => {
                 this.setState({
                     cart: res.data
                 });
-                //console.log( "Res.Data: ")
-                //console.log( res.data ) ;
-
             })
 
         axios.get( 'http://127.0.0.1:8000/api/')
@@ -41,13 +39,16 @@ class CartDetail extends React.Component {
         })
     }
 
+    componentDidUpdate(){ 
+
+    }
+
     componentWillMount() {
         this.refs = {} 
-        
     }
 
     componentDidMount() {
-        
+
     }
     
     handleClickMove( value ) { 
@@ -87,11 +88,26 @@ class CartDetail extends React.Component {
         }
     }
 
+    handleSaveAll( ){
+        axios.get(`http://127.0.0.1:8000/carts/${this.state.currentUser}/move_all_save/`, {headers: {"Content-Type": "application/json"}}  )
+        alert( "All Cart Items have been moved." )
+        window.location.reload() 
+    }
+
+    checkIfLoggedIn(){
+        if( ( sessionStorage.getItem( "username" ) !== '' ) && ( sessionStorage.getItem( "cart" ) !== '' ) ) 
+        {
+            return true ;
+        } else {
+            return false ;
+        }
+    }
+
     render( ) {
         
-	console.log( "Cart Items:", this.state.cart.items )
+	    //console.log( "Cart Items:", this.state.cart.items )
         var itemList = String( this.state.cart.items ).split( /,(?=(?:(?:[^"]*"){2})*[^"]*$)/ )
-	console.log( "ItemList: ", itemList )
+	    //console.log( "ItemList: ", itemList )
         itemList = String( itemList ).split(" | ")
         itemList = String( itemList ).split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
 
@@ -112,7 +128,7 @@ class CartDetail extends React.Component {
                 bookIDs.push( itemList[i] )
             }
         }
-        console.log( itemList )
+        //console.log( itemList )
 
         var finalList = [] 
         for( var i = 0 ; i < items.length ; i++ ) {
@@ -141,77 +157,83 @@ class CartDetail extends React.Component {
             finalSaved.push( [ sitems[i], sprices[i], sbooks[i] ] ) ; 
         }
 
-        console.log( "Books", finalSaved[0][2] ) ;
+        //console.log( "Books", finalSaved[0][2] ) ;
 
-        return( 
-            <div>
-                <h3>Cart Number ID: { this.state.cart.id }</h3><br/>
+        if( this.checkIfLoggedIn() === true ) {
+            return( 
                 <div>
-                <table class = "cart">
-                    <tr>
-                        
-                        <th class = "cart"><h6><b>Cover</b></h6></th>
-                        <th class = "cart"><h6><b>Title</b></h6></th>
-                        <th class = "cart"><h6><b>Quantity</b></h6></th>
-                        <th class = "cart"><h6><b>Unit Price</b></h6></th>
-                        <th class = "cart"><h6><b>Modify Units</b></h6></th>
-                    </tr>
+                    <h3 title = { "Cart ID: "+this.state.cart.id }  >{ sessionStorage.getItem( "username" ) }'s Cart</h3><br/>
+                    <div>
+                    <table className = "cart">
+                        <tr>
+                            
+                            <th className = "cart"><h6><b>Cover</b></h6></th>
+                            <th className = "cart"><h6><b>Title</b></h6></th>
+                            <th className = "cart"><h6><b>Quantity</b></h6></th>
+                            <th className = "cart"><h6><b>Unit Price</b></h6></th>
+                            <th className = "cart"><h6><b>Modify Units</b></h6></th>
+                        </tr>
 
-                    {finalList.map( (value, index, finalList ) => ( [ <tr>
-                        <th class = "cart"><img  class = "cart" width={75} alt = "" value = {String(finalList[index][2])} height = {100} src={ finalList[index][0] } /></th>
-                        <th class = "cart"><body class = "cart">{finalList[index][1]}</body></th>
-                        <th class = "cart"><body class = "cart">{finalList[index][2]}</body></th>
-                        <th class = "cart"><body class = "cart">{finalList[index][3]}</body></th>
-                        <th class = "cart">
-                            <body  class = "cart" value = {String(finalList[index][2])} >
-                                <input  class = "cart" Title="The maximum to modify at once is 30."
-                                    type="number" 
-                                    id = "quantity"
-                                    ref={(ref) => this.myRef[index] = ref} 
-                                    min="1" max="30" 
-                                    placeholder="     # to Add or Remove"/>
-                                <br/>
-                                <input  class = "cart" type="submit" value="Add Units" onClick = { () => this.handleNumberAdd( finalList[index][4], this.myRef[index].value ) }/>
-                                <input  class = "cart" type="submit" value="Remove Units" 
-                                    Title="Attempting to remove more than the quantity in the cart will remove all of the item."
-                                    onClick = { () => this.handleNumberDel( finalList[index][4], this.myRef[index].value ) }/>
-                            </body>
-                        </th>
-                    </tr> ] ) )  }
+                        {finalList.map( (value, index, finalList ) => ( [ <tr>
+                            <th className = "cart"><img  className = "cart" width={75} alt = "" value = {String(finalList[index][2])} height = {100} src={ finalList[index][0] } /></th>
+                            <th className = "cart"><body className = "cart">{finalList[index][1]}</body></th>
+                            <th className = "cart"><body className = "cart">{finalList[index][2]}</body></th>
+                            <th className = "cart"><body className = "cart">{finalList[index][3]}</body></th>
+                            <th className = "cart">
+                                <body  className = "cart" value = {String(finalList[index][2])} >
+                                    <input  className = "cart" Title="The maximum to modify at once is 30."
+                                        type="number" 
+                                        id = "quantity"
+                                        ref={(ref) => this.myRef[index] = ref} 
+                                        min="1" max="30" 
+                                        placeholder="     # to Add or Remove"/>
+                                    <br/>
+                                    <input  className = "cart" type="submit" value="Add Units" onClick = { () => this.handleNumberAdd( finalList[index][4], this.myRef[index].value ) }/>
+                                    <input  className = "cart" type="submit" value="Remove Units" 
+                                        Title="Attempting to remove more than the quantity in the cart will remove all of the item."
+                                        onClick = { () => this.handleNumberDel( finalList[index][4], this.myRef[index].value ) }/>
+                                </body>
+                            </th>
+                        </tr> ] ) )  }
 
-                    <tr>
-                        <th class = "cart">Subtotal: <b>${this.state.cart.price}</b></th>
-                        <th class = "cart"><b>PURCHASE LINK TBD?</b></th>
-                    </tr>
-                </table>
+                        <tr>
+                            <th className = "cart">Subtotal: <b>${this.state.cart.price}</b></th>
+                            <th><button className = "cart" onClick = { () => this.handleSaveAll()}>Save Cart For Later</button></th>
+                        </tr>
+                    </table>
+                    </div>
+                    <br/><br/>
+
+                    <h5>Items Saved for Later</h5>
+
+                    <div>
+                    <table className = "cart" >
+                        <tr>
+                            <th className = "cart"><h6><b>Title</b></h6></th> 
+                            <th className = "cart"><h6><b>Price</b></h6></th>
+                            <th className = "cart"><h6><b>Move To Cart</b></h6></th>
+                            <th className = "cart"><h6><b>Remove From List</b></h6></th>
+                        </tr>
+                        {finalSaved.map( (value, index, finalSaved ) => ( [ <tr>
+                            <th className = "cart"><body>{finalSaved[index][0]}</body></th>
+                            <th className = "cart"><body>{finalSaved[index][1]}</body></th>
+                            <th className = "cart"><button className = "cart" value = {String(finalSaved[index][2])} onClick = { () => this.handleClickMove( finalSaved[index][2] )}>Move Item to Cart</button></th>
+                            <th className = "cart"><button className = "cart" value = {String(finalSaved[index][2])} onClick = { () => this.handleClickRemove( finalSaved[index][2] )}>Remove Item from List</button></th>
+                        </tr> ] ) ) }
+                    </table>
+                    </div>
+                    
+                    <br/><br/>
+                    
+                    <h7>Last Updated At: { this.state.cart.updated_at }</h7>
                 </div>
-                <br/><br/>
-
-                <h5>Items Saved for Later</h5>
-
-                <div>
-                <table class = "cart" >
-                    <tr>
-                        <th class = "cart"><h6><b>Title</b></h6></th> 
-                        <th class = "cart"><h6><b>Price</b></h6></th>
-                        <th class = "cart"><h6><b>Move To Cart</b></h6></th>
-                        <th class = "cart"><h6><b>Remove From List</b></h6></th>
-                    </tr>
-                    {finalSaved.map( (value, index, finalSaved ) => ( [ <tr>
-                        <th class = "cart"><body>{finalSaved[index][0]}</body></th>
-                        <th class = "cart"><body>{finalSaved[index][1]}</body></th>
-                        <th class = "cart"><button class = "cart" value = {String(finalSaved[index][2])} onClick = { () => this.handleClickMove( finalSaved[index][2] )}>Move Item to Cart</button></th>
-                        <th class = "cart"><button class = "cart" value = {String(finalSaved[index][2])} onClick = { () => this.handleClickRemove( finalSaved[index][2] )}>Remove Item from List</button></th>
-                    </tr> ] ) ) }
-                </table>
-                </div>
-                
-                <br/><br/>
-                
-                <h7>Last Updated At: { this.state.cart.updated_at }</h7>
-            </div>
-        )
-    } 
+            )
+        } else {
+            return(
+                <div>Please Log In To View Cart</div>
+            )
+        }
+    }
 }
 
 export default CartDetail ;
