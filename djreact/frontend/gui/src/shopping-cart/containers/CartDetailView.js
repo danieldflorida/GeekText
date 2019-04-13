@@ -231,7 +231,7 @@ class CartDetail extends React.Component {
             )
         } else {
             return(
-                <div align="center">Please Log In To View Cart</div>
+                <div align="center" class = "cart margin" >Please Log In To View Cart</div>
             )
         }
     }
