@@ -38,8 +38,12 @@ class Pagination extends Component {
         let test;
         if(this.props.gridView){
             test = (
-            <div className="row">
-                {currentBooks}
+            <div className="row items-row">
+                <div className="col-md-12">
+                    <div className="items-body">
+                        {currentBooks}
+                    </div>
+                </div>
             </div>
             );
         }else{
