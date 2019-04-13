@@ -69,7 +69,17 @@ class App extends Component{
             for(let i = 0; i < response.data.length; ++i){
                 for(let x = 0; x < response.data[i].authors.length; ++x){
                     if(response.data[i].authors[x]){
-                        authors.push(response.data[i].authors[x]);
+                        let found = false;
+                        if(authors.length){
+                            for(let y = 0; y < authors.length; ++y){
+                                if(authors[y].id === response.data[i].authors[x].id){
+                                    found = true;
+                                }
+                            }
+                        }
+                        if(!found){
+                            authors.push(response.data[i].authors[x]);
+                        }
                     }
                 }
             }
