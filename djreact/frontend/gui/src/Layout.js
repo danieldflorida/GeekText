@@ -43,7 +43,7 @@ const CustomLayout = ( props ) => {
                // align="center"
                 style={{ background: '#fff', 
                    // marginTop: 100,
-                    marginTop: 70,
+                    marginTop: 100,
                     minHeight: 100,
                     alignContent: 'center' }}
                 >

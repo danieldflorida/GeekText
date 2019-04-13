@@ -7,6 +7,10 @@ table.cart, th.cart, td.cart {
     padding:10px;
 }
 
+.cart.margin{
+    margin-top:150px;
+}
+
 .hide.cart{
     display:none;     
 }

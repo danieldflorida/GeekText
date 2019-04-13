@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import '../../styling/CartApp.css'
+import {Button} from 'react-bootstrap' 
 
 class CartDetail extends React.Component {
     
@@ -95,7 +96,7 @@ class CartDetail extends React.Component {
     }
 
     checkIfLoggedIn(){
-        if( ( sessionStorage.getItem( "username" ) !== '' ) && ( sessionStorage.getItem( "cart" ) !== '' ) ) 
+        if( ( sessionStorage.getItem( "username" ) !== '' ) && ( sessionStorage.getItem( "cart" ) !== '' ) && ( sessionStorage.getItem( "cart" ) !== null )) 
         {
             return true ;
         } else {
@@ -161,7 +162,7 @@ class CartDetail extends React.Component {
 
         if( this.checkIfLoggedIn() === true ) {
             return( 
-                <div>
+                <div align="center" class="cart margin">
                     <h3 title = { "Cart ID: "+this.state.cart.id }  >{ sessionStorage.getItem( "username" ) }'s Cart</h3><br/>
                     <div>
                     <table className = "cart">
@@ -198,7 +199,7 @@ class CartDetail extends React.Component {
 
                         <tr>
                             <th className = "cart">Subtotal: <b>${this.state.cart.price}</b></th>
-                            <th><button className = "cart" onClick = { () => this.handleSaveAll()}>Save Cart For Later</button></th>
+                            <th><Button className = "cart" onClick = { () => this.handleSaveAll()}>Save Cart For Later</Button></th>
                         </tr>
                     </table>
                     </div>
@@ -217,8 +218,8 @@ class CartDetail extends React.Component {
                         {finalSaved.map( (value, index, finalSaved ) => ( [ <tr>
                             <th className = "cart"><body>{finalSaved[index][0]}</body></th>
                             <th className = "cart"><body>{finalSaved[index][1]}</body></th>
-                            <th className = "cart"><button className = "cart" value = {String(finalSaved[index][2])} onClick = { () => this.handleClickMove( finalSaved[index][2] )}>Move Item to Cart</button></th>
-                            <th className = "cart"><button className = "cart" value = {String(finalSaved[index][2])} onClick = { () => this.handleClickRemove( finalSaved[index][2] )}>Remove Item from List</button></th>
+                            <th className = "cart"><Button className = "cart" value = {String(finalSaved[index][2])} onClick = { () => this.handleClickMove( finalSaved[index][2] )}>Move Item to Cart</Button></th>
+                            <th className = "cart"><Button className = "cart" value = {String(finalSaved[index][2])} onClick = { () => this.handleClickRemove( finalSaved[index][2] )}>Remove Item from List</Button></th>
                         </tr> ] ) ) }
                     </table>
                     </div>
@@ -230,7 +231,7 @@ class CartDetail extends React.Component {
             )
         } else {
             return(
-                <div>Please Log In To View Cart</div>
+                <div align="center">Please Log In To View Cart</div>
             )
         }
     }
