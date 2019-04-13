@@ -53,3 +53,8 @@
 .author-name{
     font-weight: bold;
 }
+
+.bookDetail-star-img{
+    height: 20px;
+    width: 120px;
+}

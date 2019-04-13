@@ -2,10 +2,15 @@ import React from 'react'
 import axios from 'axios'
 import MyVerticallyCenteredModal from '../components/EnlargedCover'
 import '../components/BookDetail.css'
-//import AuthorBooks from './AuthorBooks'
 import { Link } from "react-router-dom"
-//import { Card } from 'antd'
 
+
+import img0 from '../../static/stars/5_Star_Rating_System_0_stars.svg';
+import img1 from '../../static/stars/5_Star_Rating_System_1_star_T.png';
+import img2 from '../../static/stars/5_Star_Rating_System_2_stars_T.png';
+import img3 from '../../static/stars/5_Star_Rating_System_3_stars_T.png';
+import img4 from '../../static/stars/5_Star_Rating_System_4_stars_T.png';
+import img5 from '../../static/stars/5_Star_Rating_System_5_stars_T.png';
 
 class BookDetail extends React.Component {
 
@@ -18,14 +23,14 @@ class BookDetail extends React.Component {
           book: {}, 
           currentUser: sessionStorage.getItem("cart")
         };
-        
+        this.getReviews = this.getReviews.bind(this);
       }
-
+/*
       state = { 
         book: {},
         currentUser: 7
     }
-
+*/
 
       
 
@@ -41,30 +46,53 @@ class BookDetail extends React.Component {
             .catch(error => {
                 console.log(error);
             });
-
-//////////////////
-            /*
-            axios.get( `http://127.0.0.1:8000/api/` )
-            .then( res => {
-                this.setState({
-                    allDataFromApi: res.data
-                });
-            })
-            */
-
-            /*
-            fetch('http://127.0.0.1:8000/api/')
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    allDataFromApi: json
-                })
-            })
-            */
+    }
 
 
-/////////////////////
 
+    getReviews(){
+        let avg = 0;
+         if(this.state.book.rating_set.length){
+            this.state.book.rating_set.map(val => {
+                avg += Number(val.stars);
+                return true;
+            });
+
+             avg = avg / this.state.book.rating_set.length;
+        }
+
+         let imgSrc;
+        switch (avg) {
+            case 0:
+            imgSrc = img0;
+            break;
+
+             case 1:
+            imgSrc = img1;
+            break;
+
+             case 2:
+            imgSrc = img2;
+            break;
+
+             case 3:
+            imgSrc = img3;
+            break;
+
+             case 4:
+            imgSrc = img4;
+            break;
+
+             case 5:
+            imgSrc = img5;
+            break;
+
+             default:
+            console.log("not found star")
+                break;
+        }
+
+         return (<img className="bookDetail-star-img" src={imgSrc} alt=""/>);
     }
 
 
@@ -93,7 +121,7 @@ class BookDetail extends React.Component {
 
 
 
-            <div>
+        <div>
 
 
             <MyVerticallyCenteredModal
@@ -132,6 +160,9 @@ class BookDetail extends React.Component {
                   <br></br>
                   <br></br>
                   <br></br>
+                  {this.getReviews()}
+                  <br></br>
+                  <br></br>
                   <span className="price-money-symbol">$ </span>
                   <span className="price">{this.state.book.price}</span>
                   <br></br>
@@ -163,7 +194,6 @@ class BookDetail extends React.Component {
           <br></br>
           <ul>
           {this.state.book.authors.map(author => {
-            console.log("inside a mess");
             return (
             
             <div key={author.id}>
@@ -195,20 +225,7 @@ class BookDetail extends React.Component {
 
 
 
-
-            {/*<AuthorBooks />*/}
-
-
-                        {/* //////////////////Seans render() Stuff start:*/}
-
-              
-
-
-                        {/* //////////////////Seans render() Stuff ends:*/}
-
-
-
-            </div>
+        </div>
 
 
 
