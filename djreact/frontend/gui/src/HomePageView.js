@@ -47,6 +47,7 @@ class HomePage extends React.Component {
         //console.log(this.displayLogin());
         console.log("Home Page View: " + this.state.username);
         return(
+            <div align="center">
             <div 
             className="loginBlock" 
             style={{
@@ -67,6 +68,7 @@ class HomePage extends React.Component {
                     </Tab>
                 </Tabs>
                 </div>
+            </div>
             </div>
         )
     } 
