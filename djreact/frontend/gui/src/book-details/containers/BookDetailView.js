@@ -223,6 +223,15 @@ class BookDetail extends React.Component {
        </ul>
 
 
+       <br></br>
+       <br></br>
+       <h3>Customer Reviews</h3>
+       {this.getReviews()}
+       <br></br>
+       <br></br>
+        <h5>0 comments</h5>
+
+
 
 
         </div>
