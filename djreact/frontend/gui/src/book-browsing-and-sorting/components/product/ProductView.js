@@ -7,7 +7,6 @@ import img3 from '../../../static/stars/5_Star_Rating_System_3_stars_T.png';
 import img4 from '../../../static/stars/5_Star_Rating_System_4_stars_T.png';
 import img5 from '../../../static/stars/5_Star_Rating_System_5_stars_T.png';
 
-
 class ProductItem extends Component{
     constructor(props){
         super(props);
@@ -142,7 +141,7 @@ class ProductView extends Component{
         
         this.state = {
             currentPage: 1,
-            todosPerPage: 3
+            todosPerPage: 10
         };
 
         this.mapFunction = this.mapFunction.bind(this);
@@ -164,7 +163,7 @@ class ProductView extends Component{
         id={book.id} 
         title={book.title} 
         authors={book.authors} 
-        releaseDate={book.created_at} 
+        releaseDate={book.publicationDate} 
         price={book.price} 
         rating={book.rating_set}
         img={book.cover}
@@ -173,10 +172,9 @@ class ProductView extends Component{
     }
 
     render(){
-        let books = [];
-
-        if(this.props.books !== undefined && this.props.books.length){
-            books = this.props.books.map(this.mapFunction);
+        let books = this.props.books;
+        if(books !== undefined && books.length){
+            books = books.map(this.mapFunction);
         }
 
         return (
@@ -191,6 +189,5 @@ class ProductView extends Component{
 
     }
 }
-
 
 export default ProductView;

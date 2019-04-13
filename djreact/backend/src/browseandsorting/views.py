@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
 
-from parent.models import Book, Category, Author, BookSold
-from parent.serializers import BookSerializer, AuthorSerializer, CategorySerializer, BookSoldSerializer
+from parent.models import Book, Category, Author, BookSold, Rating
+from parent.serializers import BookSerializer, AuthorSerializer, CategorySerializer, BookSoldSerializer, RatingSerializer
 
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -112,4 +112,29 @@ class BookSoldList(APIView):
             bookSoldList = bookSoldList[:limit]
 
         serializer = BookSoldSerializer(bookSoldList, many=True)
+        return Response(serializer.data)
+
+
+class RatingList(APIView):
+    def get(self, request, value):
+
+        if isinstance(value, int) and value >= 0 and value <= 5:
+            books = Book.objects.all()
+            arr = []
+
+            for book in books:
+                ratings = Rating.objects.filter(book=book)
+                avg = 0
+                count = 0
+                for rating in ratings:
+                    avg += rating.stars
+                    count += 1
+
+                if count:
+                    avg = avg / count
+                
+                if avg == value or (count == 0 and value == 0):
+                    arr.append(book)
+                    
+        serializer = BookSerializer(arr, many=True, context={"request": request})
         return Response(serializer.data)

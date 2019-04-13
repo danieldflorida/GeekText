@@ -7,7 +7,6 @@ import AuthorBooks from './book-details/containers/AuthorBooks';
 import CartDetail from './shopping-cart/containers/CartDetailView';
 import App from './book-browsing-and-sorting/components/App';
 import HomePage from './HomePageView'
-import BookList from './book-browsing-and-sorting/containers/BookListView' ;
 import EditProfileView from './profile-management/containers/EditProfileView';
 import ProfileView from './profile-management/containers/ProfileView';
 import ResetPassword from './profile-management/components/ResetPassword';
@@ -33,9 +32,6 @@ const BaseRouter = (props) => {
         <Route exact path='/' component = {App} />
         
         </Switch>
-        
-       
-        
        {/*<Route path='/AuthorBooks' render = {() => AuthorBooks} />*/}
     </div>
     )

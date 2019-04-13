@@ -3,10 +3,6 @@ import React, { Component } from "react";
 class Pagination extends Component {
     constructor(props) {
       super(props);
-      this.state = {
-        currentPage: 1,
-        todosPerPage: 3
-      };
       this.handleClick = this.handleClick.bind(this);
     }
   

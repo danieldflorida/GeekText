@@ -18,6 +18,7 @@ class App extends Component{
         this.backBtnHandler = this.backBtnHandler.bind(this);
         this.setDefaultData = this.setDefaultData.bind(this);
         this.sortHandler = this.sortHandler.bind(this);
+        this.ratingHandler = this.ratingHandler.bind(this);
 
         this.sortOperations = new SortOperations();
         this.dataProvider = new DataProvider();
@@ -59,6 +60,35 @@ class App extends Component{
         this.setDefaultData();
     }
 
+    ratingHandler(value, e){
+        e.preventDefault();
+        this.dataProvider.getRatings(value)
+        .then(response => {
+            const authors = [];
+
+            for(let i = 0; i < response.data.length; ++i){
+                for(let x = 0; x < response.data[i].authors.length; ++x){
+                    if(response.data[i].authors[x]){
+                        authors.push(response.data[i].authors[x]);
+                    }
+                }
+            }
+
+            this.setState({
+                authors: authors,
+                books: response.data,
+                bookCount: response.data.length,
+                showBackBtn: true,
+                infoNavTitle: 'Rating',
+            });
+
+            console.log(authors);
+
+            console.log(response);
+        })
+        .catch(console.error);
+    }
+
     categoryHandler(id, name, e){
         e.preventDefault();
 
@@ -67,6 +97,7 @@ class App extends Component{
             this.setState({
                 authors: authors.data,
                 books: books.data,
+                bookCount: books.data.length,
                 showBackBtn: true,
                 infoNavTitle: name,
             });
@@ -110,27 +141,22 @@ class App extends Component{
     sortHandler(event){
         let books = this.state.books;
 
-        if(Number(event.target.value )=== Number(SortOperations.BOOK_PRICE_LOW_TO_HIGH)){
+        if(Number(event.target.value)=== Number(SortOperations.BOOK_PRICE_LOW_TO_HIGH)){
             books = this.sortOperations.sortLowestBookByPrice(books);
-        }else if(Number(event.target.value )=== Number(SortOperations.BOOK_PRICE_HIGH_TO_LOW)){
+        }else if(Number(event.target.value)=== Number(SortOperations.BOOK_PRICE_HIGH_TO_LOW)){
             books = this.sortOperations.sortHighestBookByPrice(books);
-
-        }else if(Number(event.target.value )=== Number(SortOperations.RELEASE_DATE)){
+        }else if(Number(event.target.value)=== Number(SortOperations.RELEASE_DATE)){
             books = this.sortOperations.sortRelease(books);
-
-        }else if(Number(event.target.value )=== Number(SortOperations.A_TO_Z)){
+        }else if(Number(event.target.value)=== Number(SortOperations.A_TO_Z)){
             books = this.sortOperations.sortAtoZ(books);
-
-        }else if(Number(event.target.value )=== Number(SortOperations.Z_TO_A)){
+        }else if(Number(event.target.value)=== Number(SortOperations.Z_TO_A)){
             books = this.sortOperations.sortZtoA(books);
-
-        }else if(Number(event.target.value )=== Number(SortOperations.BOOK_RATING_LOW_TO_HIGH)){
+        }else if(Number(event.target.value)=== Number(SortOperations.BOOK_RATING_LOW_TO_HIGH)){
             books = this.sortOperations.sortLowestBookByRating(books);
-
-        }else if(Number(event.target.value )=== Number(SortOperations.BOOK_RATING_HIGH_TO_LOW)){
+        }else if(Number(event.target.value)=== Number(SortOperations.BOOK_RATING_HIGH_TO_LOW)){
             books = this.sortOperations.sortHighBookByRating(books);
-
-        }else{
+        }else if(Number(event.target.value)=== Number(SortOperations.OLDEST_RELEASE_DATE)){
+            books = this.sortOperations.sortOldestRelease(books);
         }
 
         if(books.length){
@@ -149,6 +175,7 @@ class App extends Component{
 
             <div className="col-sm-3">
                 <SideBar 
+                ratingHandler={this.ratingHandler}
                 backBtnHandler={this.backBtnHandler}
                 showBackBtn={this.state.showBackBtn}
                 authors={this.state.authors} 
@@ -179,6 +206,3 @@ class App extends Component{
 }
 
 export default App;
-
-//const wrapper = document.getElementById("app");
-//ReactDOM.render(<App />, wrapper);

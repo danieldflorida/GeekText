@@ -35,4 +35,8 @@ urlpatterns = [
     path('api/list/bestseller/<int:limit>', views.BookSoldList.as_view()),
     path('api/list/bestseller/author/<int:author>', views.BookSoldList.as_view()),
     path('api/list/bestseller/category/<int:category>', views.BookSoldList.as_view()),
+
+    #Rating
+    path('api/list/rating/<int:value>', views.RatingList.as_view()),
+
 ]

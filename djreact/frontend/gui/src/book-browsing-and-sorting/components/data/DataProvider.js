@@ -4,6 +4,11 @@ const API_URL = 'http://127.0.0.1:8000/api/';
 
 class DataProvider{
 
+    getRatings(rating){
+        let url = 'list/rating/' + rating;
+        return this.getData(url);
+    }
+
     getAuthors(categoryId=undefined){
         let url = 'list/author';
         

@@ -5,7 +5,8 @@ const
     A_TO_Z = 4,
     Z_TO_A = 5,
     BOOK_RATING_LOW_TO_HIGH = 6,
-    BOOK_RATING_HIGH_TO_LOW = 7;
+    BOOK_RATING_HIGH_TO_LOW = 7,
+    OLDEST_RELEASE_DATE = 8;
 
 class SortOperations{
     constructor(){
@@ -15,6 +16,7 @@ class SortOperations{
         this.sortLowestBookByRating = this.sortLowestBookByRating.bind(this);
         this.sortLowestBookByPrice = this.sortLowestBookByPrice.bind(this);
         this.sortAtoZ = this.sortAtoZ.bind(this);
+        this.sortOldestRelease = this.sortOldestRelease.bind(this);
     }
 
     static get BOOK_PRICE_LOW_TO_HIGH(){ return BOOK_PRICE_LOW_TO_HIGH; }
@@ -24,6 +26,7 @@ class SortOperations{
     static get Z_TO_A(){ return Z_TO_A; }
     static get BOOK_RATING_LOW_TO_HIGH(){ return BOOK_RATING_LOW_TO_HIGH; }
     static get BOOK_RATING_HIGH_TO_LOW(){ return BOOK_RATING_HIGH_TO_LOW; }
+    static get OLDEST_RELEASE_DATE(){ return OLDEST_RELEASE_DATE; }
 
     isLow(a, b){
         if(a > b) return 1;
@@ -79,8 +82,8 @@ class SortOperations{
 
     sortRelease(books){
         let sort = function(a, b){
-            let a_arr = a.created_at.split('-');
-            let b_arr = b.created_at.split('-');
+            let a_arr = a.publicationDate.split('-');
+            let b_arr = b.publicationDate.split('-');
 
             if(a_arr[0] > b_arr[0]) return 1;
             if(a_arr[0] < b_arr[0]) return -1;
@@ -96,7 +99,12 @@ class SortOperations{
 
         };
         
+        console.log(books);
         return books.sort(sort).reverse();
+    }
+
+    sortOldestRelease(books){
+        return this.sortRelease(books).reverse();
     }
 
     printBooks(books){

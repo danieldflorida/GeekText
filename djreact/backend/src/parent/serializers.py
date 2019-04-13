@@ -29,7 +29,8 @@ class BookSerializer(serializers.ModelSerializer):
     def get_photo_url(self, book):
         request = self.context.get('request')
         photo_url = book.cover.url
-        return request.build_absolute_uri(photo_url)
+        ret = request.build_absolute_uri(photo_url) 
+        return ret
 
 class CartSerializer(serializers.ModelSerializer):
     items = serializers.StringRelatedField(many = True) 

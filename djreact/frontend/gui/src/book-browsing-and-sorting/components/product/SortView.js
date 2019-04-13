@@ -9,7 +9,8 @@ class SortSelect extends Component{
             <option value="0">Book Title</option>
             <option value="1">Price - Low to High</option>
             <option value="2">Price - High to Low</option>
-            <option value="3">Release Date</option>
+            <option value="3">Latest Release</option>
+            <option value="8">Oldest Release</option>
             <option value="4">Title - A to Z</option>
             <option value="5">Title - Z to A</option>
             <option value="6">Rating - Low to High</option>
