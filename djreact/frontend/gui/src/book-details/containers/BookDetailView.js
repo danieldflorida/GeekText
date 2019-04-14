@@ -4,12 +4,30 @@ import MyVerticallyCenteredModal from '../components/EnlargedCover'
 import '../components/BookDetail.css'
 import { Link } from "react-router-dom"
 
-
+/*
 import img0 from '../../static/stars/5_Star_Rating_System_0_stars.svg';
 import img1 from '../../static/stars/5_Star_Rating_System_1_star_T.png';
 import img2 from '../../static/stars/5_Star_Rating_System_2_stars_T.png';
 import img3 from '../../static/stars/5_Star_Rating_System_3_stars_T.png';
 import img4 from '../../static/stars/5_Star_Rating_System_4_stars_T.png';
+import img5 from '../../static/stars/5_Star_Rating_System_5_stars_T.png';
+*/
+
+import img0 from '../../static/stars/5_Star_Rating_System_0_stars.svg';
+import img0AndHalf from '../../static/stars/5_Star_Rating_System_0_and_half_star_T.png';
+
+import img1 from '../../static/stars/5_Star_Rating_System_1_star_T.png';
+import img1AndHalf from '../../static/stars/5_Star_Rating_System_1_and_a_half_stars_T.png';
+
+import img2 from '../../static/stars/5_Star_Rating_System_2_stars_T.png';
+import img2AndHalf from '../../static/stars/5_Star_Rating_System_2_and_a_half_stars_T.png';
+
+import img3 from '../../static/stars/5_Star_Rating_System_3_stars_T.png';
+import img3AndHalf from '../../static/stars/5_Star_Rating_System_3_and_a_half_stars_T.png';
+
+import img4 from '../../static/stars/5_Star_Rating_System_4_stars_T.png';
+import img4AndHalf from '../../static/stars/5_Star_Rating_System_4_and_a_half_stars_T.png';
+
 import img5 from '../../static/stars/5_Star_Rating_System_5_stars_T.png';
 
 class BookDetail extends React.Component {
@@ -59,40 +77,64 @@ class BookDetail extends React.Component {
             });
 
              avg = avg / this.state.book.rating_set.length;
+             console.log("length is: "+this.state.book.rating_set.length)
+        console.log("avg is: " + avg)
         }
 
          let imgSrc;
-        switch (avg) {
-            case 0:
-            imgSrc = img0;
+        switch (true) {
+
+            case (avg >= 0 && avg <= 0.2):
+            imgSrc = img0; 
             break;
 
-             case 1:
+            case (avg >= 0.3 && avg <= 0.7):
+            imgSrc = img0AndHalf;
+            break;
+
+            case (avg >= 0.8 && avg <= 1.2):
             imgSrc = img1;
             break;
 
-             case 2:
+            case (avg >= 1.3 && avg <= 1.7):
+            imgSrc = img1AndHalf;
+            break;
+
+            case (avg >= 1.8 && avg <= 2.2):
             imgSrc = img2;
             break;
 
-             case 3:
+            case (avg >= 2.3 && avg <= 2.7):
+            imgSrc = img2AndHalf;
+            break;
+
+            case (avg >= 2.8 && avg <= 3.2):
             imgSrc = img3;
             break;
 
-             case 4:
+            case (avg >= 3.3 && avg <= 3.7):
+            imgSrc = img3AndHalf;
+            break;
+
+            case (avg >= 3.8 && avg <= 4.2):
             imgSrc = img4;
             break;
 
-             case 5:
+            case (avg >= 4.3 && avg <= 4.7):
+            imgSrc = img4AndHalf;
+            break;
+
+            case (avg >= 4.8 && avg <= 5):
             imgSrc = img5;
             break;
+    
 
              default:
             console.log("not found star")
                 break;
         }
 
-         return (<img className="bookDetail-star-img" src={imgSrc} alt=""/>);
+         return (<div><img className="bookDetail-star-img" src={imgSrc} alt=""/> </div>);
     }
 
 
@@ -226,10 +268,9 @@ class BookDetail extends React.Component {
        <br></br>
        <br></br>
        <h3>Customer Reviews</h3>
-       {this.getReviews()}
+       {this.getReviews()} 
        <br></br>
-       <br></br>
-        <h5>0 comments</h5>
+       <h5>0 comments</h5>
 
 
 
